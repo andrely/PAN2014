@@ -37,7 +37,7 @@ public class PlagiarismWorker extends Thread {
 		ConfigService cs = new ConfigService();
 		this.resultsDir = cs.getResultsDir();
 		this.mergeDist = cs.getMergeDist();
-		this.dir = "plagthreshold_"+cs.getPlagiarismThreshold();
+		this.dir = "plagthreshold_"+cs.getPlagiarismThreshold()+"/";
 	}
 
 	@Override
@@ -50,7 +50,6 @@ public class PlagiarismWorker extends Thread {
 					running = false;
 					break;
 				}
-				new File(dir).mkdirs();
 				List<PlagiarismReference> plagReferences = plagFinder.findPlagiarism(job);
 				XMLUtils.writeResults(resultsDir+dir, job.getFile().getFileName().toString(), PassageMerger.mergePassages(plagReferences, mergeDist));
 				concurrencyService.plagJobDone(this, "queue: "+queue.size());
