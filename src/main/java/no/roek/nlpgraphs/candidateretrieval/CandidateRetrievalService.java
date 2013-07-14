@@ -10,12 +10,8 @@ import java.util.List;
 
 import no.roek.nlpgraphs.document.NLPSentence;
 import no.roek.nlpgraphs.document.PlagiarismPassage;
-import no.roek.nlpgraphs.graph.Graph;
 import no.roek.nlpgraphs.misc.ConfigService;
 import no.roek.nlpgraphs.misc.DatabaseService;
-import no.roek.nlpgraphs.misc.GraphUtils;
-import no.roek.nlpgraphs.misc.SentenceUtils;
-
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -117,34 +113,34 @@ public class CandidateRetrievalService {
 	
 	
 	
-//	public void addDocument(List<NLPSentence> sentences) {
-//		/**
-//		 * Adds all sentences from a list to the index.
-//		 * Should be thread safe and can be called from multiple threads simultaneously.
-//		 */
-//		for (NLPSentence nlpSentence : sentences) {
-//			if(nlpSentence.getLength() > 80) {
-//				Document doc = getSentence(nlpSentence);
-//				try {
-//					writer.addDocument(doc);
-//				} catch (CorruptIndexException e) {
-//					e.printStackTrace();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//	}
+	public void addDocument(List<NLPSentence> sentences) {
+		/**
+		 * Adds all sentences from a list to the index.
+		 * Should be thread safe and can be called from multiple threads simultaneously.
+		 */
+		for (NLPSentence nlpSentence : sentences) {
+			if(nlpSentence.getLength() > 80) {
+				Document doc = getSentence(nlpSentence);
+				try {
+					writer.addDocument(doc);
+				} catch (CorruptIndexException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
-//	public Document getSentence(NLPSentence sentence) {
-//		Document doc = new Document();
-//		doc.add(new Field("LEMMAS", sentence.getLemmas(), org.apache.lucene.document.Field.Store.NO, 
-//				org.apache.lucene.document.Field.Index.ANALYZED, org.apache.lucene.document.Field.TermVector.YES));
-//		doc.add(new Field("FILENAME", sentence.getFilename(), org.apache.lucene.document.Field.Store.YES, org.apache.lucene.document.Field.Index.NO));
-//		doc.add(new Field("SENTENCE_NUMBER", Integer.toString(sentence.getNumber()), org.apache.lucene.document.Field.Store.YES, org.apache.lucene.document.Field.Index.NO));
-//
-//		return doc;
-//	}
+	public Document getSentence(NLPSentence sentence) {
+		Document doc = new Document();
+		doc.add(new Field("LEMMAS", sentence.getLemmas(), org.apache.lucene.document.Field.Store.NO, 
+				org.apache.lucene.document.Field.Index.ANALYZED, org.apache.lucene.document.Field.TermVector.YES));
+		doc.add(new Field("FILENAME", sentence.getFilename(), org.apache.lucene.document.Field.Store.YES, org.apache.lucene.document.Field.Index.NO));
+		doc.add(new Field("SENTENCE_NUMBER", Integer.toString(sentence.getNumber()), org.apache.lucene.document.Field.Store.YES, org.apache.lucene.document.Field.Index.NO));
+
+		return doc;
+	}
 
 	public List<PlagiarismPassage> getSimilarSentences(String filename, int retrievalCount, DatabaseService db) throws CorruptIndexException, IOException {
 		/**

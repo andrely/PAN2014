@@ -12,13 +12,17 @@ public class App {
 
 		int choice = getChoice();
 		if(choice==1) {
+			args = new String[]{};
 			GED.main(args);
 		}else if(choice==2) {
+			//p
 			ps.preprocess();			
 		}else if(choice==3) {
+			//needed for the retrieval phase
 			ps.createIndex();
 		}else if(choice==4) {
 			ps.startCandidateRetrieval();
+			//jump to this step without doing the candidate retrieval
 		}else if(choice==5) {
 			ps.startPlagiarismSearchWithoutCandret();
 		}

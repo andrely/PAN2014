@@ -18,8 +18,13 @@ import edu.stanford.nlp.ling.WordLemmaTag;
 
 public class NLPSentence {
 
-	protected int number, start, length;
-	protected String filename, text;
+	protected int number;
+	protected int start;
+	protected int length;
+	
+	protected String filename;
+	protected String text;
+	
 	private String[] postags;
 	protected List<WordToken> words;
 

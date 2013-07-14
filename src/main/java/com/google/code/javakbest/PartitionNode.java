@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 public class PartitionNode {
 
     public static List<Node> partitionNode(Node node_in, double[][] costMat) {
+    	
         List<Node> nodes_out = new ArrayList<Node>();
         int u = node_in.unspecified.size();
 

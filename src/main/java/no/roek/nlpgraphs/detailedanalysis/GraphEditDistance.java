@@ -90,13 +90,15 @@ public class GraphEditDistance {
 		int n = g1.getNodes().size();
 		int m = g2.getNodes().size();
 		double[][] costMatrix = new double[n+m][n+m];
-
+		
+        //upper left part or the matrix
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < m; j++) {
 				costMatrix[i][j] = getSubstituteCost(g1.getNode(i), g2.getNode(j));
 			}
 		}
-
+        
+		
 		for (int i = 0; i < m; i++) {
 			for (int j = 0; j < m; j++) {
 				costMatrix[i+n][j] = getInsertCost(i, j);

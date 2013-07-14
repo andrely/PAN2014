@@ -41,6 +41,10 @@ public class ConfigService {
 	public String getTrainDir() {
 		return configFile.getProperty("TRAIN_DIR");
 	}
+	//erisa
+	public String getPairsDir(){
+		return configFile.getProperty("PAIRS");
+	}
 
 	public String getAnnotationsDir() {
 		return configFile.getProperty("ANNOTATIONS_DIR");

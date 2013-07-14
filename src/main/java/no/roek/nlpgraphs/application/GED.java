@@ -84,10 +84,10 @@ public class GED {
 
 
 			try {
-				System.out.println("Please enter the first sentence: ");
+				System.out.println("Enter the first sentence: ");
 				text1 = in.readLine();
 
-				System.out.println("Please enter the second sentence: ");
+				System.out.println("Enter the second sentence: ");
 				text2 = in.readLine();
 			} catch (IOException e) {
 				e.printStackTrace();

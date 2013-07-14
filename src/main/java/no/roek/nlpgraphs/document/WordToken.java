@@ -7,6 +7,7 @@ public class WordToken {
 	private String word, lemma, pos;
 	private String rel, deprel;
 	private String[] synonyms;
+	
 	public WordToken(String word, String lemma, String pos) {
 		this.word = word;
 		this.lemma = lemma;

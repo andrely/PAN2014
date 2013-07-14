@@ -1,0 +1,1600 @@
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Transition system    : Projective
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Parser configuration : Stack
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Feature model        : eng-liblinear.xml
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Classifier           : liblinear
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
+  Data Format          : /engmalt.linear-1.7/conllx.xml
