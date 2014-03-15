@@ -21,6 +21,7 @@ public class Node {
 	}
 	
 	public Node(String id, String index, String label, List<String> attributes) {
+		
 		this(id, label);
 		this.attributes = attributes;
 	}

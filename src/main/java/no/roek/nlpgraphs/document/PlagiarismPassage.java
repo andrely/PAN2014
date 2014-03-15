@@ -1,9 +1,5 @@
 package no.roek.nlpgraphs.document;
 
-import no.roek.nlpgraphs.graph.Graph;
-import no.roek.nlpgraphs.misc.ConfigService;
-import no.roek.nlpgraphs.misc.GraphUtils;
-
 public class PlagiarismPassage {
 
 	private String sourceFile, suspiciousFile;

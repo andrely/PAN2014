@@ -39,7 +39,7 @@ public class SentenceRetrievalWorker extends Thread {
 					db.addCandidatePassage(job.toDBObject());
 					searcher.candretJobDone("");
 				}
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				running = false;
 			}

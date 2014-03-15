@@ -38,6 +38,7 @@ public class PlagiarismReference {
 		this(filename, name, Integer.toString(offset), Integer.toString(length), sourceReference, Integer.toString(sourceOffset), Integer.toString(sourceLength));
 	}
 
+	
 //	public String getType() {
 //		return type;
 //	}

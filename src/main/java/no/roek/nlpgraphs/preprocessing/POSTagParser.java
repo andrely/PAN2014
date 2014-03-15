@@ -1,7 +1,7 @@
 package no.roek.nlpgraphs.preprocessing;
 
 import java.io.BufferedReader;
-import java.io.File;
+//import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 
 import no.roek.nlpgraphs.document.NLPSentence;
-import no.roek.nlpgraphs.document.WordToken;
+//import no.roek.nlpgraphs.document.WordToken;
 import no.roek.nlpgraphs.misc.ConfigService;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.ling.HasWord;
@@ -21,7 +21,7 @@ import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.ling.WordLemmaTag;
 import edu.stanford.nlp.ling.WordTag;
 import edu.stanford.nlp.objectbank.TokenizerFactory;
-import edu.stanford.nlp.process.CoreLabelTokenFactory;
+//import edu.stanford.nlp.process.CoreLabelTokenFactory;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.process.Morphology;
 import edu.stanford.nlp.process.PTBTokenizer;
@@ -31,6 +31,7 @@ public class POSTagParser {
 
 	private MaxentTagger tagger;
 	private Morphology lemmatiser;
+	
 
 	public POSTagParser() {
 		ConfigService cs = new ConfigService();
@@ -49,16 +50,24 @@ public class POSTagParser {
 			ParseJob parseJob = new ParseJob(file);
 
 			reader = new BufferedReader(new InputStreamReader(new FileInputStream(file.toFile())));
+			
 			DocumentPreprocessor dp = new DocumentPreprocessor(reader);
+			
 
 			//TODO: somehow keep original text? PTBTokenizer documentation mentions invertible flag in options, but how to get original text?
 			TokenizerFactory<CoreLabel> ptbTokenizerFactory = PTBTokenizer.PTBTokenizerFactory.newCoreLabelTokenizerFactory("untokenizable=noneKeep");
+			
 			//			TokenizerFactory<CoreLabel> ptbTokenizerFactory = PTBTokenizer.factory(new CoreLabelTokenFactory(), "untokenizable=noneKeep, invertible=true");
 			dp.setTokenizerFactory(ptbTokenizerFactory);
+			
 
 			for(NLPSentence sentence : getSentences(dp, file.getFileName().toString())) {
+				
 				parseJob.addSentence(sentence);
+				
 			}
+			
+		
 
 			return parseJob;
 		} catch (FileNotFoundException e) {
@@ -68,8 +77,36 @@ public class POSTagParser {
 		}
 		return null;
 	}
+	
+	
+	public String[] postagSentenceNew(String sentence){
+				
+		
+		String taggedSentence = tagger.tagString(sentence);
+		
+				
+		List<String> tokens = new ArrayList<>();
+		
+		for(String token: taggedSentence.split(" ")){	
 
+			String[] temp = token.split("_");
+		    String lemma= lemmatiser.lemma(temp[0], temp[1]);
+		    		    
+		    
+			tokens.add(lemma);
+					
+		}		
+		
+	    System.out.println("The tagged sentence is "+ tokens.toArray(new String[0]));
+		return tokens.toArray(new String[0]);
+		
+		
+	}
+	
+
+	
 	public String[] postagSentence(String sentence) {
+		
 		String taggedSentence = tagger.tagString(sentence);
 
 		List<String> tokens = new ArrayList<>();
@@ -80,7 +117,8 @@ public class POSTagParser {
 			tokens.add(i+"\t"+temp[0]+"\t"+lemma+"\t"+temp[1]+"\t"+temp[1]+"\t_");
 			i++;
 		}
-
+        
+		System.out.println("The lemmatised sentence is" + tokens.toArray(new String[0]).toString());
 		return tokens.toArray(new String[0]);
 	}
 

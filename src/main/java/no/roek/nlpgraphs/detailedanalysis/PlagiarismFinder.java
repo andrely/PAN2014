@@ -27,14 +27,17 @@ public class PlagiarismFinder {
 		trainDir = cs.getTrainDir();
 		resultsDir = cs.getResultsDir();
 		plagiarismThreshold = cs.getPlagiarismThreshold();
-		posEditWeights = EditWeightService.getEditWeights(cs.getPosSubFile(), cs.getPosInsdelFile());
-		deprelEditWeights = EditWeightService.getInsDelCosts(cs.getDeprelInsdelFile());
+		posEditWeights = EditWeightService.getPosEditWeights(cs.getPosSubFile(), cs.getPosInsdelFile());
+		//deprelEditWeights = EditWeightService.getInsDelCosts(cs.getDeprelInsdelFile());
+		deprelEditWeights = EditWeightService.getDeprelEditWeights(cs.getDeprelSubFile(), cs.getDeprelInsdelFile());
 	}
-
+	
+//job definerer hva som skal gjøres
 	public List<PlagiarismReference> findPlagiarism(PlagiarismJob job) {
 		List<PlagiarismReference> plagReferences = new ArrayList<>();
 
 		for(PlagiarismPassage passage : job.getTextPairs()) {
+			//job.getTextPairs() returnerer en liste med source-suspicious sentences (dvs en plagiarism passage)
 			PlagiarismReference ref = getPlagiarism(passage.getTrainFile(), passage.getTrainSentence(), passage.getTestFile(), passage.getTestSentence());
 			if(ref != null) {
 //				findAdjacentPlagiarism(ref, passage.getTrainSentence(), passage.getTestSentence(), false);
@@ -52,15 +55,18 @@ public class PlagiarismFinder {
 		 */
 		try {
 			Graph source = GraphUtils.getGraph(db.getSentence(sourceFile, sourceSentence));
+			
 			Graph suspicious = GraphUtils.getGraph(db.getSentence(suspiciousFile, suspiciousSentence));
+			
 			if(source.getSize() > 80 || suspicious.getSize() > 80) {
 				return null;
 			}
 			
 			GraphEditDistance ged = new GraphEditDistance(suspicious, source, posEditWeights, deprelEditWeights);
 			double dist = ged.getNormalizedDistance();
+			System.out.println("DISTANCE BETWEEN SENTENCE FROM FILE :"+ suspicious.getFilename() + " AND SENTENCE FROM FILE : "+ source.getFilename() +"IS :" + dist);
 			if(dist < plagiarismThreshold) {
-				return XMLUtils.getPlagiarismReference(source, suspicious, true);
+				return XMLUtils.getPlagiarismReference(source, suspicious,dist,true);
 			}else {
 				return null;
 			}

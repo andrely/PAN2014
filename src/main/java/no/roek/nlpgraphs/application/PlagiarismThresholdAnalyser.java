@@ -24,8 +24,9 @@ public class PlagiarismThresholdAnalyser {
 
 		POSTagParser postagger = new POSTagParser();
 		DependencyParser depParser = new DependencyParser();
-		Map<String, Double> posEditWeights = EditWeightService.getEditWeights(cs.getPosSubFile(), cs.getPosInsdelFile());
-		Map<String, Double> deprelEditWeights = EditWeightService.getInsDelCosts(cs.getDeprelInsdelFile());
+		Map<String, Double> posEditWeights = EditWeightService.getPosEditWeights(cs.getPosSubFile(), cs.getPosInsdelFile());
+		//Map<String, Double> deprelEditWeights = EditWeightService.getInsDelCosts(cs.getDeprelInsdelFile());
+		Map<String, Double> deprelEditWeights = EditWeightService.getDeprelEditWeights(cs.getDeprelSubFile(), cs.getDeprelInsdelFile());
 
 		List<Double> plagiarised= getDistances("resources/plagiarised_passages/", postagger, depParser, posEditWeights, deprelEditWeights);
 		List<Double> notPlagiarised = getDistances("resources/not_plagiarised_passages/", postagger, depParser, posEditWeights, deprelEditWeights);

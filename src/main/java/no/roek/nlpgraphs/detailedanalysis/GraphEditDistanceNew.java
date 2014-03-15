@@ -13,7 +13,7 @@ import no.roek.nlpgraphs.graph.Node;
 import com.google.code.javakbest.JVC;
 import com.konstantinosnedas.HungarianAlgorithm;
 
-public class GraphEditDistance {
+public class GraphEditDistanceNew {
 
 	private double[][] costMatrix;
 	protected final double SUBSTITUTE_COST;
@@ -22,7 +22,7 @@ public class GraphEditDistance {
 	private Graph g1, g2;
 	private Map<String, Double> posEditWeights, deprelEditWeights;
 
-	public GraphEditDistance(Graph g1, Graph g2, double subCost,
+	public GraphEditDistanceNew(Graph g1, Graph g2, double subCost,
 			double insCost, double delCost, Map<String, Double> posEditWeights,
 			Map<String, Double> deprelEditWeights) {
 		this.SUBSTITUTE_COST = subCost;
@@ -35,7 +35,7 @@ public class GraphEditDistance {
 		this.costMatrix = createCostMatrix();
 	}
 
-	public GraphEditDistance(Graph g1, Graph g2,
+	public GraphEditDistanceNew(Graph g1, Graph g2,
 			Map<String, Double> posEditWeights,
 			Map<String, Double> deprelEditWeights) {
 		this(g1, g2, 2, 1, 1, posEditWeights, deprelEditWeights);
@@ -145,26 +145,18 @@ public class GraphEditDistance {
 		return diff * SUBSTITUTE_COST;
 	}
 
+	
+	//original method
+	
 	public double getRelabelCost(Node node1, Node node2) {
-        
-		double sd_diff=0;
-		double pos_diff= 0;
-		if (!node1.equals(node2)) {
-			
-			try {
-
-				sd_diff = TestJiangConrath.getJiangConrath(node1.toString(),node2.toString());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			
-			//pos_diff = getPosWeight(node1, node2);
-
+		double diff = 0;
+		if(!node1.equals(node2)) {
+			diff = getPosWeight(node1, node2);
 		}
-		        
-		return sd_diff;
+
+		return diff ;
 	}
+
 
 	public double getPosWeight(Node node) {
 		return getPosWeight(node.getAttributes().get(0));

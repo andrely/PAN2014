@@ -26,36 +26,93 @@ import no.roek.nlpgraphs.preprocessing.DependencyParser;
 import no.roek.nlpgraphs.preprocessing.POSTagParser;
 
 public class GED {
-
+	
 	//TODO: move most of these classes to utility classes?
-	public static void main(String[] args) {
-		ConfigService cs = new ConfigService();
-
-		String[] texts = getInputTexts(args);
-		POSTagParser postagger = new POSTagParser();
+	
+	
+	public static double getGEDSimilarity(String [] text){
+		
+		
+		ConfigService cs = new ConfigService(); 
+        POSTagParser postagger = new POSTagParser(); //
+		
 		DependencyParser depParser = new DependencyParser();
 
-		Graph g1 = getGraph(texts[0], postagger, depParser);
-		Graph g2 = getGraph(texts[1], postagger, depParser);
+		Graph g1 = getGraph(text[0], postagger, depParser); 
+		Graph g2 = getGraph(text[1], postagger, depParser); 
+		
 		printNodes(g1);
 		printNodes(g2);
 
-		Map<String, Double> posEditWeights = EditWeightService.getEditWeights(cs.getPosSubFile(), cs.getPosInsdelFile());
-		Map<String, Double> deprelEditWeights = EditWeightService.getInsDelCosts(cs.getDeprelInsdelFile());
-		GraphEditDistance ged = new GraphEditDistance(g1, g2, posEditWeights, deprelEditWeights);
+		Map<String, Double> posEditWeights = EditWeightService.getPosEditWeights(cs.getPosSubFile(), cs.getPosInsdelFile());
+		Map<String, Double> deprelEditWeights = EditWeightService.getDeprelEditWeights(cs.getDeprelSubFile(),cs.getDeprelInsdelFile());
+		//Map<String, Double> deprelEditWeights = EditWeightService.getInsDelCosts(cs.getDeprelInsdelFile());
+		GraphEditDistance ged = new GraphEditDistance(g1, g2, posEditWeights, deprelEditWeights); 
 
-//						ged.printMatrix();
+					ged.printMatrix();
+		//kommentert ut (E.)
 		printLatexEditPath(g1, g2, ged.getCostMatrix());
-		printLatexMatrix(g1, g2, ged.getCostMatrix());
+		printLatexMatrix(g1, g2, ged.getCostMatrix()); 
 		System.out.println("GED for the two graphs: "+ged.getDistance()+". Normalised: "+ged.getNormalizedDistance());
+		double gedResult= ged.getNormalizedDistance();
 		System.out.println("Edit path:");
 		for(String editPath : getEditPath(g1, g2, ged.getCostMatrix(), true)) {
 			System.out.println(editPath);
+		} 
+		for(String freeEdit : getFreeEdits(g1, g2, ged.getCostMatrix())) {
+			System.out.print(freeEdit+", ");
 		}
-//		for(String freeEdit : getFreeEdits(g1, g2, ged.getCostMatrix())) {
-//			System.out.print(freeEdit+", ");
-//		}
+
+		
+		
+		return gedResult;
+		
+		
+		
+		
+		
 	}
+	public static void main(String[] args) {
+		
+		
+		ConfigService cs = new ConfigService(); 
+
+		String[] texts = getInputTexts(args); 
+		POSTagParser postagger = new POSTagParser(); 
+		
+		DependencyParser depParser = new DependencyParser();
+
+		Graph g1 = getGraph(texts[0], postagger, depParser); 
+		Graph g2 = getGraph(texts[1], postagger, depParser); 
+		
+		//kommentert ut (E.)
+		printNodes(g1);
+		printNodes(g2);
+
+		Map<String, Double> posEditWeights = EditWeightService.getPosEditWeights(cs.getPosSubFile(), cs.getPosInsdelFile());
+		//forandring. Sette inn cs.getDeprelSubFile
+		
+		//Map<String, Double> deprelEditWeights = EditWeightService.getInsDelCosts(cs.getDeprelInsdelFile());
+		
+		Map<String, Double> deprelEditWeights = EditWeightService.getDeprelEditWeights(cs.getDeprelSubFile(), cs.getPosInsdelFile());
+		
+		GraphEditDistance ged = new GraphEditDistance(g1, g2, posEditWeights, deprelEditWeights); 
+
+					ged.printMatrix();
+		//kommentert ut (E.)
+		printLatexEditPath(g1, g2, ged.getCostMatrix());
+		printLatexMatrix(g1, g2, ged.getCostMatrix()); 
+		System.out.println("GED for the two graphs: "+ged.getDistance()+". Normalised: "+ged.getNormalizedDistance());
+	
+		System.out.println("Edit path:");
+		for(String editPath : getEditPath(g1, g2, ged.getCostMatrix(), true)) {
+			System.out.println(editPath);
+		} 
+		for(String freeEdit : getFreeEdits(g1, g2, ged.getCostMatrix())) {
+			System.out.print(freeEdit+", ");
+		}
+	}
+
 
 	public static void printNodes(Graph g) {
 		for(Node n : g.getNodes()) {
@@ -64,6 +121,7 @@ public class GED {
 		System.out.println();
 	}
 
+	
 	public static void printEdges(Graph g) {
 		for(Node n : g.getNodes()) {
 			System.out.print(g.getEdges(n));
@@ -71,11 +129,15 @@ public class GED {
 		System.out.println();
 	}
 
+	
+	
 	public static Graph getGraph(String text, POSTagParser postagger, DependencyParser depParser) {
 		BasicDBObject dbObj = depParser.parseSentence(postagger.postagSentence(text), "test", 0,0,0);
 		return GraphUtils.getGraph(dbObj);
-	}
+	} 
 
+	
+	
 	public static String[] getInputTexts(String[] args)  {
 		String text1="", text2="";
 		if(args.length!=2) {
@@ -98,15 +160,18 @@ public class GED {
 
 		return new String[] {text1, text2};
 	}
-
+   
+	
 	public static List<String> getEditPath(Graph g1, Graph g2, double[][] costMatrix, boolean printCost) {
 		return getAssignment(g1, g2, costMatrix, true, printCost);
 	}
 	
+	
 	public static List<String> getFreeEdits(Graph g1, Graph g2, double[][] costMatrix) {
 		return getAssignment(g1, g2, costMatrix, false, false);
 	}
-
+	
+	 
 	public static List<String> getAssignment(Graph g1, Graph g2, double[][] costMatrix, boolean editPath, boolean printCost) {
 		List<String> editPaths = new ArrayList<>();
 		int[][] assignment = HungarianAlgorithm.hgAlgorithm(costMatrix, "min");
@@ -129,6 +194,7 @@ public class GED {
 
 	}
 
+	
 	private static void printLatexEditPath(Graph g1, Graph g2, double[][] costMatrix) {
 		int[][] assignment = HungarianAlgorithm.hgAlgorithm(costMatrix, "min");
 
@@ -138,9 +204,9 @@ public class GED {
 
 		for (int i = 0; i < assignment.length; i++) {
 			String from = getEditPathAttribute(assignment[i][0], g1);
-			from  = from.equals("ε") ? "\\epsilon" : from;
+			from  = from.equals("?") ? "\\epsilon" : from;
 			String to = getEditPathAttribute(assignment[i][1], g2);
-			to = to.equals("ε") ? "\\epsilon" : to;
+			to = to.equals("?") ? "\\epsilon" : to;
 
 			double cost = costMatrix[assignment[i][0]][assignment[i][1]];
 			String costString = String.format("%.2f", cost);
@@ -150,15 +216,19 @@ public class GED {
 		}
 	}
 
+	
+	
 	private static String getEditPathAttribute(int nodeNumber, Graph g) {
 		if(nodeNumber < g.getNodes().size()) {
 			Node n= g.getNode(nodeNumber);
 			return n.getLabel();
 		}else {
-			return "ε";
+			return "?";
 		}
 	}
 
+	
+	
 	public static void printLatexMatrix(Graph g1, Graph g2, double[][] costMatrix) {
 		int[][] assignment = HungarianAlgorithm.hgAlgorithm(costMatrix, "min");
 		System.out.println("-------------");
@@ -192,7 +262,8 @@ public class GED {
 		}
 	}
 
-	private static String getCostString(int i, int j, int[][] assignment, double[][] costMatrix) {
+
+	 static String getCostString(int i, int j, int[][] assignment, double[][] costMatrix) {
 		String temp = String.format("%.2f", costMatrix[i][j]);
 		for (int k = 0; k < assignment.length; k++) {
 			if(assignment[k][0] == i && assignment[k][1] == j) {

@@ -33,8 +33,11 @@ public class PosTagWorker extends Thread {
 			try {
 				String file = unparsedFiles.poll(20, TimeUnit.SECONDS);
 				if(file != null) {
+					
 					ParseJob parseJob = parser.posTagFile(getPath(file));
+					
 					queue.put(parseJob);
+					System.out.println("There are :" + unparsedFiles.size() + " files waiting to be parsed");
 				}else {
 					running = false;
 				}

@@ -3,6 +3,8 @@ package no.roek.nlpgraphs.candidateretrieval;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+//import edu.stanford.nlp.io.EncodingPrintWriter.out;
+
 import no.roek.nlpgraphs.application.PlagiarismSearch;
 import no.roek.nlpgraphs.misc.DatabaseService;
 
@@ -35,10 +37,14 @@ public class IndexBuilder extends Thread {
 				}else if(sentenceId.equals("die")) {
 					running = false;
 				}else {
+					
+					System.out.println("Adding sentence :"+ sentenceId);
 					crs.addSentence(db.getSentence(sentenceId));
+				
+					
 				}
 				concurrencyService.indexBuilderJobDone();
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

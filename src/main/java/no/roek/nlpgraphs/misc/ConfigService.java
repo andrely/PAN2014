@@ -41,7 +41,7 @@ public class ConfigService {
 	public String getTrainDir() {
 		return configFile.getProperty("TRAIN_DIR");
 	}
-	//erisa
+	//forandring
 	public String getPairsDir(){
 		return configFile.getProperty("PAIRS");
 	}
@@ -112,8 +112,13 @@ public class ConfigService {
 	
 	public String getDeprelInsdelFile() {
 		return configFile.getProperty("DEPREL_INSDEL_FILE");
-	}
+		}
 	
+	public String getDeprelSubFile() {
+		return configFile.getProperty("DEPREL_SUB_FILE");
+
+	}
+
 	public int getRetrievalCount() {
 		return Integer.parseInt(configFile.getProperty("RETRIEVAL_COUNT"));
 	}

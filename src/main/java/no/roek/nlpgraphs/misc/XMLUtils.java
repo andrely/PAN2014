@@ -1,6 +1,5 @@
 package no.roek.nlpgraphs.misc;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -71,6 +70,8 @@ public class XMLUtils {
 		String sourceOffset = Integer.toString(train.getOffset());
 		String sourceLength = Integer.toString(train.getLength());
 		String name = detectedPlagiarism ? "detected-plagiarism" : "candidate-passage";
+		System.out.println("FILE NAME IS :" +filename);
+		System.out.println("SOURCE REFERENCE IS: "+sourceReference);
 		return new PlagiarismReference(filename, name, offset, length, sourceReference, sourceOffset, sourceLength);
 	}
 	

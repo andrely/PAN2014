@@ -77,6 +77,7 @@ public class DatabaseService {
 	
 	
 	public BasicDBObject getSentence(String filename, int sentenceNumber) {
+		
 		return getSentence(filename, Integer.toString(sentenceNumber));
 	}
 	
@@ -90,7 +91,8 @@ public class DatabaseService {
 	public BasicDBObject getSentence(String filename, String sentenceNumber) {
 		DBCollection coll = getSentenceColl(filename);
 		BasicDBObject query = new BasicDBObject("id", filename+"-"+sentenceNumber);
-
+        
+		//System.out.println("File name, sentence number, collection name :" + filename + " "+ sentenceNumber +" "+ coll.getFullName());
 		//TODO: test if only one is returned
 		return (BasicDBObject)coll.findOne(query);
 	}

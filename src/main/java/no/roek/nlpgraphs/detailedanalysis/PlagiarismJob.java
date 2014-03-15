@@ -41,6 +41,7 @@ public class PlagiarismJob extends Job {
 
 	public void addTextPair(PlagiarismPassage textPair) {
 		this.textPairs.add(textPair);
+				
 	}
 
 	public String toJson() {

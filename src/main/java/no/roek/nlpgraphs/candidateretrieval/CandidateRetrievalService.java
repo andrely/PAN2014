@@ -3,10 +3,14 @@ package no.roek.nlpgraphs.candidateretrieval;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import no.roek.nlpgraphs.document.NLPSentence;
 import no.roek.nlpgraphs.document.PlagiarismPassage;
@@ -16,16 +20,25 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.FieldInvertState;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.ParallelReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.index.TermEnum;
+import org.apache.lucene.search.Explanation.IDFExplanation;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.similar.MoreLikeThis;
+import org.apache.lucene.search.Similarity;
+import org.apache.lucene.search.DefaultSimilarity;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.util.Version;
+import org.apache.lucene.search.*;
+
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -33,13 +46,15 @@ import com.mongodb.BasicDBObject;
 
 public class CandidateRetrievalService {
 
-	private FSDirectory index;
+	public  FSDirectory index;
 	private IndexWriterConfig indexWriterConfig;
 	private IndexWriter writer;
-	private String INDEX_DIR;
+	private static String INDEX_DIR;
 	private ConfigService cs;
 
+
 	public CandidateRetrievalService(Path dir)  {
+		
 		cs = new ConfigService();
 		INDEX_DIR = cs.getIndexDir();
 		indexWriterConfig = new IndexWriterConfig(Version.LUCENE_36, new StandardAnalyzer(Version.LUCENE_36));
@@ -57,8 +72,9 @@ public class CandidateRetrievalService {
 			e.printStackTrace();
 		}
 	}
+	 
 
-	private FSDirectory createIndex(Path dir) throws IOException {
+	private  FSDirectory createIndex(Path dir) throws IOException {
 		Path temp = Paths.get(INDEX_DIR+dir.getFileName().toString());
 		return new NIOFSDirectory(temp.toFile());
 	}
@@ -85,6 +101,7 @@ public class CandidateRetrievalService {
 		}
 		
 		addSentence(filename, sentenceNumber, sb.toString());
+		//System.out.println("why do we get NullPointerException here???");
 	}
 	
 	public void addSentence(String filename, String sentenceNumber, String lemmas) {
@@ -146,7 +163,8 @@ public class CandidateRetrievalService {
 		/**
 		 * Retrieves the n most similar sentences for every sentence in a file.
 		 */
-		IndexReader ir = IndexReader.open(index);
+		IndexReader ir = IndexReader.open(index);	
+		
 		IndexSearcher is = new IndexSearcher(ir);
 
 		MoreLikeThis mlt = new MoreLikeThis(ir);
@@ -202,4 +220,55 @@ public class CandidateRetrievalService {
 		}
 		return 0;
 	}
+	
+	//lage en metode som tar inn en streng og returnerer Idf verdi til strengen ved å bruke indexen
+	
+	public  double idfValueForString(String lemma) throws CorruptIndexException, IOException{
+		
+		double idf = 0;
+		
+		Term term1 = new Term(lemma);
+		Term term2= term1.createTerm(lemma);
+		String isitterm= term2.getClass().toString();
+		
+					
+		System.out.println("Preparing the index reader");
+		
+        IndexReader ir = IndexReader.open(index);	
+  
+		IndexSearcher is = new IndexSearcher(ir);
+		
+		int numDocs = ir.numDocs();
+		int docFreq = ir.docFreq(term2);
+		
+		idf= 1+ (Math.log(numDocs/(1+docFreq)));
+		
+		return idf;
+		
+	}
+	
+	//lage en metode som tar inn to ArrayLister og returnerer en HashMap med idf verdiene til lemmaene. 
+	
+    public HashMap<String,Double> getIdfMap(ArrayList<String> list1, ArrayList<String> list2) throws CorruptIndexException, IOException{
+		
+			
+		ArrayList<String> aggregatedArray= new ArrayList<String>();
+		aggregatedArray=list1;
+		
+		for(String string:list2){
+			if(!aggregatedArray.contains(string)){
+				aggregatedArray.add(string);
+			}
+		}
+				
+		HashMap<String,Double> map= new HashMap<String,Double>();	
+		
+		for(String string:aggregatedArray){
+            map.put(string, idfValueForString(string));
+		}
+		
+				
+		return map;
+	}
+	
 }

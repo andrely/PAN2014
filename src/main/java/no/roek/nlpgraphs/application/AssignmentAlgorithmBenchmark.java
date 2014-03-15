@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import no.roek.nlpgraphs.detailedanalysis.GraphEditDistance;
+import no.roek.nlpgraphs.detailedanalysis.GraphEditDistanceNew;
 import no.roek.nlpgraphs.graph.Graph;
 import no.roek.nlpgraphs.graph.Node;
 
@@ -85,7 +85,7 @@ public class AssignmentAlgorithmBenchmark {
 
 	public static double getMedianSpeed(int nodecount, boolean munkres) {
 		List<Double> speeds = new ArrayList<>();
-		GraphEditDistance ged = initGED(nodecount);
+		GraphEditDistanceNew ged = initGED(nodecount);
 		for (int i = 0; i < 1000; i++) {
 			if(munkres) {
 				speeds.add(getMunkresExecutionTime(ged.getCostMatrix()));
@@ -99,7 +99,7 @@ public class AssignmentAlgorithmBenchmark {
 	
 	public static double getMedianGEDSpeed(int nodecount, boolean munkres) {
 		List<Double> speeds = new ArrayList<>();
-		GraphEditDistance ged = initGED(nodecount);
+		GraphEditDistanceNew ged = initGED(nodecount);
 		for (int i = 0; i < 1000; i++) {
 			if(munkres) {
 				speeds.add(getMunkresGEDTime(ged));
@@ -117,7 +117,7 @@ public class AssignmentAlgorithmBenchmark {
 		return list.get(i);
 	}
 
-	public static double getMunkresGEDTime(GraphEditDistance ged) {
+	public static double getMunkresGEDTime(GraphEditDistanceNew ged) {
 		long start = System.currentTimeMillis();
 		ged.createCostMatrix();
 		ged.getDistance();
@@ -126,7 +126,7 @@ public class AssignmentAlgorithmBenchmark {
 		return end-start;
 	}
 	
-	public static double getVolgenantJonkerGEDTime(GraphEditDistance ged) {
+	public static double getVolgenantJonkerGEDTime(GraphEditDistanceNew ged) {
 		long start = System.currentTimeMillis();
 		ged.createCostMatrix();
 		ged.getVolgenantJonkerDistance();
@@ -166,7 +166,7 @@ public class AssignmentAlgorithmBenchmark {
 		return costMatrix;
 	}
 
-	public static GraphEditDistance initGED(int nodecount) {
+	public static GraphEditDistanceNew initGED(int nodecount) {
 		Graph g1 = new Graph();
 		Graph g2 = new Graph();
 		
@@ -175,7 +175,7 @@ public class AssignmentAlgorithmBenchmark {
 			g2.addNode(new Node(""+i, ""+Math.random(), new String[] {"lol"}));
 		}
 		
-		return new GraphEditDistance(g1, g2, new HashMap<String,Double>(), new HashMap<String,Double>());
+		return new GraphEditDistanceNew(g1, g2, new HashMap<String,Double>(), new HashMap<String,Double>());
 	}
 	
 

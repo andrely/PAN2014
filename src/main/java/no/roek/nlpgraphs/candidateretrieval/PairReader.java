@@ -1,7 +1,9 @@
 package no.roek.nlpgraphs.candidateretrieval;
 
 import java.io.*;
-import no.roek.nlpgraphs.misc.ConfigService;
+import java.util.ArrayList;
+
+//import no.roek.nlpgraphs.misc.ConfigService;
 
 
 public class PairReader {
@@ -13,7 +15,10 @@ public class PairReader {
 		
 	}
 	
-	public static void getPairs(String file){
+	public static ArrayList<String> getPairs(String file){
+		
+		
+		ArrayList<String> pairsList = new ArrayList<String>();
 		
 		try{
 		
@@ -25,7 +30,8 @@ public class PairReader {
 		
 		while((strLine= br.readLine())!= null){
 			
-			System.out.println(strLine);
+			pairsList.add(strLine);
+			
 		}
 		
 		in.close();
@@ -34,12 +40,8 @@ public class PairReader {
 	{
 		System.err.println("Error:" + e.getMessage());
 	}
+		return pairsList;
 	}
 	
-	
-	public static void main(){
-		
-		getPairs("pairs.txt");
-		
-	}
+
 }

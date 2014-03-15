@@ -1,18 +1,18 @@
-package no.roek.nlpgraphs.detailedanalysis;
+//package no.roek.nlpgraphs.detailedanalysis;
 //package no.roek.nlpgraphs.detailedretrieval;
-//
+
 //import java.util.Map;
 //import java.util.Set;
-//
+
 //import no.roek.nlpgraphs.graph.Graph;
 //import no.roek.nlpgraphs.graph.Node;
 //import no.roek.nlpgraphs.misc.SetUtils;
 //import no.roek.nlpgraphs.misc.SynonymService;
-//
+
 //public class SynonymGraphEditDistance extends GraphEditDistance {
-//
+
 //	private SynonymService synonymService;
-//	
+
 //	public SynonymGraphEditDistance(Graph g1, Graph g2, double subCost, double insCost, double delCost, Map<String, Double> posEditWeights) {
 //		super(g1, g2, subCost, insCost, delCost, posEditWeights);
 //		synonymService = new SynonymService();
