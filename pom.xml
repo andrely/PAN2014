@@ -42,9 +42,23 @@
 					<executable>${env.JAVA_7_HOME}</executable>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>
+					de.tudarmstadt.ukp.similarity.algorithms
+				</groupId>
+				<artifactId>
+					de.tudarmstadt.ukp.similarity.algorithms.api-asl
+				</artifactId>
+				<version>1.0.0</version>
+			</plugin>
 		</plugins>
 	</build>
-
+	<repositories>
+  <repository>
+    <id>ukp-oss-model-releases</id>
+    <url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-model-releases-local</url>
+   </repository>
+</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -132,5 +146,50 @@
 			<artifactId>jwi</artifactId>
 			<version>2.2.3</version>
 		</dependency>
+		<dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.1.1</version>
+        </dependency>  
+        <dependency>
+  		<groupId>de.tudarmstadt.ukp.similarity.algorithms</groupId>
+  		<artifactId>
+  			de.tudarmstadt.ukp.similarity.algorithms.api-asl
+  		</artifactId>
+  		<version>1.0.0</version>
+  	</dependency>
+  	 <dependency>
+                <groupId>de.tudarmstadt.ukp.similarity.algorithms</groupId>
+                <artifactId>
+                        de.tudarmstadt.ukp.similarity.algorithms.lsr-asl
+                </artifactId>
+                <version>1.0.0</version>
+        </dependency> 	 
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.maltparser</groupId>
+			<artifactId>maltparser</artifactId>
+			<version>1.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>         
+           
 	</dependencies>
-</project>
+	</project>
