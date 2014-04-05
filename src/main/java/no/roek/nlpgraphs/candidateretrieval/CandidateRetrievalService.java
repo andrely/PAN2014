@@ -1,17 +1,8 @@
 package no.roek.nlpgraphs.candidateretrieval;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+import no.roek.nlpgraphs.application.App;
 import no.roek.nlpgraphs.document.NLPSentence;
 import no.roek.nlpgraphs.document.PlagiarismPassage;
 import no.roek.nlpgraphs.misc.ConfigService;
@@ -19,29 +10,22 @@ import no.roek.nlpgraphs.misc.DatabaseService;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.index.FieldInvertState;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.ParallelReader;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.index.TermEnum;
-import org.apache.lucene.search.Explanation.IDFExplanation;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.index.*;
+import org.apache.lucene.search.*;
 import org.apache.lucene.search.similar.MoreLikeThis;
-import org.apache.lucene.search.Similarity;
-import org.apache.lucene.search.DefaultSimilarity;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.util.Version;
-import org.apache.lucene.search.*;
 
-
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class CandidateRetrievalService {
@@ -59,18 +43,23 @@ public class CandidateRetrievalService {
 		INDEX_DIR = cs.getIndexDir();
 		indexWriterConfig = new IndexWriterConfig(Version.LUCENE_36, new StandardAnalyzer(Version.LUCENE_36));
 		File indexDir = new File(INDEX_DIR+dir.getFileName().toString());
-		
 
 		try {
 			if(indexDir.exists()) {
 				index = FSDirectory.open(indexDir);
 			}else {
 				index = createIndex(dir);
-				writer = new IndexWriter(index, indexWriterConfig);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+            writer = new IndexWriter(index, indexWriterConfig);
+
+            // Make sure the index is on disk to avoid complications further on
+            writer.commit();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 	}
 	 
 
@@ -93,6 +82,13 @@ public class CandidateRetrievalService {
 	public void addSentence(BasicDBObject dbSentence) {
 		String filename = dbSentence.getString("filename");
 		String sentenceNumber = dbSentence.getString("sentenceNumber");
+
+        if (sentenceInIndex(filename, sentenceNumber)) {
+            App.getLogger().info(String.format("%s:%s already in index", filename, sentenceNumber));
+
+            return;
+        }
+
 		BasicDBList dbTokens = (BasicDBList) dbSentence.get("tokens");
 		StringBuilder sb = new StringBuilder();
 		for (Object temp : dbTokens) {
@@ -101,10 +97,38 @@ public class CandidateRetrievalService {
 		}
 		
 		addSentence(filename, sentenceNumber, sb.toString());
-		//System.out.println("why do we get NullPointerException here???");
 	}
-	
-	public void addSentence(String filename, String sentenceNumber, String lemmas) {
+
+    /**
+     * Check if a sentence is already in the Lucene index
+     *
+     * @param filename
+     * @param sentenceNumber
+     * @return true if the sentence is in the index
+     */
+    private boolean sentenceInIndex(String filename, String sentenceNumber) {
+        try {
+            IndexSearcher searcher = new IndexSearcher(IndexReader.open(index));
+            TermQuery fnQuery = new TermQuery(new Term("FILENAME", filename));
+            TermQuery snQuery = new TermQuery(new Term("SENTENCE_NUMBER", sentenceNumber));
+
+            BooleanQuery query = new BooleanQuery();
+            query.add(fnQuery, BooleanClause.Occur.MUST);
+            query.add(snQuery, BooleanClause.Occur.MUST);
+
+            TopDocs topDocs = searcher.search(query, 1);
+
+            searcher.close();
+
+            return topDocs.scoreDocs.length > 0;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void addSentence(String filename, String sentenceNumber, String lemmas) {
 		if(lemmas.length() > 80 && lemmas.length() < 1000) {
 			Document sentence = getSentence(filename, sentenceNumber, lemmas);
 			try{
@@ -120,10 +144,9 @@ public class CandidateRetrievalService {
 	public Document getSentence(String filename, String sentenceNumber, String lemmas) {
 		Document doc = new Document();
 		
-		doc.add(new Field("LEMMAS", lemmas, org.apache.lucene.document.Field.Store.NO, 
-				org.apache.lucene.document.Field.Index.ANALYZED, org.apache.lucene.document.Field.TermVector.YES));
-		doc.add(new Field("FILENAME", filename, org.apache.lucene.document.Field.Store.YES, org.apache.lucene.document.Field.Index.NO));
-		doc.add(new Field("SENTENCE_NUMBER", sentenceNumber, org.apache.lucene.document.Field.Store.YES, org.apache.lucene.document.Field.Index.NO));
+		doc.add(new Field("LEMMAS", lemmas, Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES));
+		doc.add(new Field("FILENAME", filename, Field.Store.YES, Field.Index.NO));
+		doc.add(new Field("SENTENCE_NUMBER", sentenceNumber, Field.Store.YES, Field.Index.NO));
 
 		return doc;
 	}
@@ -151,10 +174,10 @@ public class CandidateRetrievalService {
 
 	public Document getSentence(NLPSentence sentence) {
 		Document doc = new Document();
-		doc.add(new Field("LEMMAS", sentence.getLemmas(), org.apache.lucene.document.Field.Store.NO, 
-				org.apache.lucene.document.Field.Index.ANALYZED, org.apache.lucene.document.Field.TermVector.YES));
-		doc.add(new Field("FILENAME", sentence.getFilename(), org.apache.lucene.document.Field.Store.YES, org.apache.lucene.document.Field.Index.NO));
-		doc.add(new Field("SENTENCE_NUMBER", Integer.toString(sentence.getNumber()), org.apache.lucene.document.Field.Store.YES, org.apache.lucene.document.Field.Index.NO));
+		doc.add(new Field("LEMMAS", sentence.getLemmas(), Field.Store.NO, Field.Index.ANALYZED, Field.TermVector.YES));
+		doc.add(new Field("FILENAME", sentence.getFilename(), Field.Store.YES, Field.Index.NO));
+		doc.add(new Field("SENTENCE_NUMBER", Integer.toString(sentence.getNumber()),
+                Field.Store.YES, Field.Index.NO));
 
 		return doc;
 	}
