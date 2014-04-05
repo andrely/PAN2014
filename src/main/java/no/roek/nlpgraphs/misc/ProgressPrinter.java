@@ -4,6 +4,7 @@ public class ProgressPrinter {
 	
 	private final int total;
 	private volatile int current;
+    private boolean printOutput = false;
 	
 	public ProgressPrinter(int total) {
 		this.total = total;
@@ -30,7 +31,10 @@ public class ProgressPrinter {
 	        }
 	    }
 	    bar.append("]  " + percent + "% files done: "+current+"/"+total);
-	    System.out.print("\r" + bar.toString()+" | "+text);
+
+        if (printOutput) {
+            System.out.print("\r" + bar.toString()+" | "+text);
+        }
 	}
 	
 	public synchronized boolean isDone() {
