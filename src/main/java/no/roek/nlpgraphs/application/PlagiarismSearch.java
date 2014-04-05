@@ -1,19 +1,6 @@
 package no.roek.nlpgraphs.application;
 
-import java.util.List;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import no.roek.nlpgraphs.candidateretrieval.*;
-
 import com.mongodb.DBCursor;
-
 import no.roek.nlpgraphs.candidateretrieval.CandidateRetrievalService;
 import no.roek.nlpgraphs.candidateretrieval.IndexBuilder;
 import no.roek.nlpgraphs.candidateretrieval.PairReader;
@@ -29,6 +16,17 @@ import no.roek.nlpgraphs.misc.ProgressPrinter;
 import no.roek.nlpgraphs.preprocessing.DependencyParserWorker;
 import no.roek.nlpgraphs.preprocessing.ParseJob;
 import no.roek.nlpgraphs.preprocessing.PosTagWorker;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class PlagiarismSearch {
 
@@ -49,47 +47,55 @@ public class PlagiarismSearch {
 
 	public PlagiarismSearch() {
 		cs = new ConfigService();		
-		String [] texts = getInputTexts();		
-		dataDir= texts[0];
-		//dataDir = cs.getDataDir();
-		trainDir= texts[1];
-		//trainDir = cs.getTrainDir();
-		testDir= texts[2];
-		//testDir = cs.getTestDir();
-		db = new DatabaseService(cs.getDBName(), cs.getDBLocation());
+
+		dataDir = cs.getDataDir();
+
+        if (dataDir == null) {
+            dataDir =askForInput("Enter the DATA_DIR: ");
+        }
+
+		trainDir = cs.getTrainDir();
+
+        if (trainDir == null) {
+            trainDir = askForInput("Enter the TRAIN_DIR: ");
+        }
+
+		testDir = cs.getTestDir();
+
+        if (testDir == null) {
+            testDir = askForInput("Enter the TEST_DIR: ");
+        }
+
+        db = new DatabaseService(cs.getDBName(), cs.getDBLocation());
 	}
-	
-	
-	public static String[] getInputTexts()  {
-		String text1="", text2="",text3="";
-		
-			InputStreamReader converter = new InputStreamReader(System.in);
-			BufferedReader in = new BufferedReader(converter);
+
+    private static String askForInput(String prompt) {
+        InputStreamReader converter = new InputStreamReader(System.in);
+        BufferedReader in = new BufferedReader(converter);
+
+        String input = "";
+
+        System.out.println(prompt);
+
+        try {
+            input = in.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return input;
+    }
 
 
-			try {
-				System.out.println("Enter the DATA_DIR: ");
-				text1 = in.readLine();
-
-				System.out.println("Enter the TRAIN_DIR: ");
-				text2 = in.readLine();
-				
-				System.out.println("Enter the TEST_DIR:");
-				text3= in.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		return new String[] {text1, text2,text3};
-	}
-   
-	
-	public void preprocess() throws InterruptedException {
+    public void preprocess() throws InterruptedException {
 		Set<String> files = db.getUnparsedFiles(Fileutils.getFileNames(dataDir));
-		if(files.size() == 0) {
+
+        if(files.size() == 0) {
 			System.out.println("All files are parsed. Exiting");
-			System.exit(0);
+
+            return;
 		}
+
 		System.out.println("Starting preprocessing of "+files.size()+" files.");
 
 		BlockingQueue<String> posTagQueue = new LinkedBlockingQueue<>();
