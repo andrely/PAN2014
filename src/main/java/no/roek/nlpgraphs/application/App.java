@@ -1,28 +1,26 @@
 package no.roek.nlpgraphs.application;
 
 import java.io.BufferedReader;
-import no.roek.nlpgraphs.candidateretrieval.*;
-import no.roek.nlpgraphs.detailedanalysis.SemanticDistance;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import similarity.algorithms.TestJiangConrath;
-import similarity.algorithms.TestLin;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class App {
+    public static Logger logger = Logger.getLogger(App.class.getName());
 
 	public static void main(String[] args) throws Exception {
-		
-		
-			PlagiarismSearch ps = new PlagiarismSearch();
+        logger.setLevel(Level.INFO);
+
+        logger.info(String.format("Running with maximum %d MB heap space.",
+                Runtime.getRuntime().maxMemory() / (1024*1024)));
+
+        PlagiarismSearch ps = new PlagiarismSearch();
 			
-			ps.preprocess();
-			ps.createIndex();
-			ps.startPlagiarismSearchWithoutCandret();
-			
-			
+        ps.preprocess();
+        ps.createIndex();
+        ps.startPlagiarismSearchWithoutCandret();
 	}
 	
 	
