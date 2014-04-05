@@ -8,13 +8,17 @@ import java.util.logging.Logger;
 
 
 public class App {
-    public static Logger logger = Logger.getLogger(App.class.getName());
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    private static Logger logger = Logger.getLogger(App.class.getName());
 
 	public static void main(String[] args) throws Exception {
-        logger.setLevel(Level.INFO);
+        getLogger().setLevel(Level.INFO);
 
-        logger.info(String.format("Running with maximum %d MB heap space.",
-                Runtime.getRuntime().maxMemory() / (1024*1024)));
+        getLogger().info(String.format("Running with maximum %d MB heap space.",
+                Runtime.getRuntime().maxMemory() / (1024 * 1024)));
 
         PlagiarismSearch ps = new PlagiarismSearch();
 			
