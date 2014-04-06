@@ -83,7 +83,7 @@ public class EditWeightService {
 
 		for (int i = 1; i < lines.size()-3; i++) {
 			String[] temp = lines.get(i).split(" "); 
-			pos2[i] = temp[0];			
+			pos2[i-1] = temp[0];
 			System.out.println("The POS/DEPREL entity is:  "+ temp[0]);
 			for (int j = 0; j < temp.length-1; j++) {
 				costs[i-1][j] =  Double.parseDouble(temp[j+1]);
