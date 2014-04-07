@@ -1,5 +1,7 @@
 package no.roek.nlpgraphs.misc;
 
+import no.roek.nlpgraphs.application.App;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -45,24 +47,25 @@ public class EditWeightService {
 	
 	private static Map<String, Double> getSubCostsForPos(String filename, Map<String, Double> editCostWeights) throws IOException {
 		List<String> lines = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
-		System.out.println("The file being read is"+ filename);
+
+        App.getLogger().info(String.format("Reading POS subcosts from %s", filename));
+
 		String[] pos1 = lines.get(0).split(" ");
 		String[] pos2 = new String[pos1.length];
 		double[][] costs = new double[pos1.length][pos2.length];
-		System.out.println("");
 
-		for (int i = 1; i < lines.size()-1; i++) {
+        // TODO sensitive to empty lines in file
+		for (int i = 1; i < lines.size(); i++) {
 			String[] temp = lines.get(i).split(" "); 
-			pos2[i] = temp[0];			
-			System.out.println("The POS/DEPREL entity is:  "+ temp[0]);
-			for (int j = 0; j < temp.length-1; j++) {
+			pos2[i-1] = temp[0];
+
+            App.getLogger().fine(String.format("Reading POS/DEPREL entities for %s", temp[0]));
+
+            for (int j = 0; j < temp.length-1; j++) {
 				costs[i-1][j] =  Double.parseDouble(temp[j+1]);
-				//System.out.println("Inside the for-loop"+ " "+ temp[j+1].toString());
 			}
-			
 		}
-		System.out.println("The size of lines is: "+ " "+lines.size());
-		
+
 		for (int i = 0; i < pos1.length; i++) {
 			for (int j = 0; j < pos2.length; j++) {
 				editCostWeights.put(pos1[i]+","+pos2[j], costs[i][j]);
@@ -75,24 +78,26 @@ public class EditWeightService {
 	//lagt til . E.
 	private static Map<String, Double> getSubCostsForDeprel(String filename, Map<String, Double> editCostWeights) throws IOException {
 		List<String> lines = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
-		System.out.println("The file being read is"+ filename);
-		String[] pos1 = lines.get(0).split(" ");
+
+        App.getLogger().info(String.format("Reading DEPREL subcosts from %s", filename));
+
+        String[] pos1 = lines.get(0).split(" ");
 		String[] pos2 = new String[pos1.length];
 		double[][] costs = new double[pos1.length][pos2.length];
-		System.out.println("");
 
+        // TODO sensitive to empty lines in file
 		for (int i = 1; i < lines.size()-3; i++) {
 			String[] temp = lines.get(i).split(" "); 
 			pos2[i-1] = temp[0];
-			System.out.println("The POS/DEPREL entity is:  "+ temp[0]);
+
+            App.getLogger().fine(String.format("Reading POS/DEPREL entities for %s", temp[0]));
+
 			for (int j = 0; j < temp.length-1; j++) {
 				costs[i-1][j] =  Double.parseDouble(temp[j+1]);
-				//System.out.println("Inside the for-loop"+ " "+ temp[j+1].toString());
 			}
 			
 		}
-		System.out.println("The size of lines is: "+ " "+lines.size());
-		
+
 		for (int i = 0; i < pos1.length; i++) {
 			for (int j = 0; j < pos2.length; j++) {
 				editCostWeights.put(pos1[i]+","+pos2[j], costs[i][j]);
