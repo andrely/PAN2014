@@ -33,13 +33,12 @@ public class PlagiarismFinder {
 	public List<PlagiarismReference> findPlagiarism(PlagiarismJob job) {
 		List<PlagiarismReference> plagReferences = new ArrayList<>();
 
-		for(PlagiarismPassage passage : job.getTextPairs()) {
-			//job.getTextPairs() returnerer en liste med source-suspicious sentences (dvs en plagiarism passage)
+        App.getLogger().info(String.format("Finding plagiarism in %s", job.getFilename()));
+
+        for (PlagiarismPassage passage : job.getTextPairs()) {
 			PlagiarismReference ref = getPlagiarism(passage.getTrainFile(), passage.getTrainSentence(), passage.getTestFile(), passage.getTestSentence());
 			if(ref != null) {
-//				findAdjacentPlagiarism(ref, passage.getTrainSentence(), passage.getTestSentence(), false);
-//				findAdjacentPlagiarism(ref, passage.getTrainSentence(), passage.getTestSentence(), true);
-				plagReferences.add(ref);
+                plagReferences.add(ref);
 			}
 		}
 

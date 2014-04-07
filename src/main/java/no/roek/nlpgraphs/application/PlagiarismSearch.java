@@ -299,6 +299,8 @@ public class PlagiarismSearch {
         ArrayList<String> pairs = PairReader.getPairs(pairsFile);
 		
         for (String pair: pairs) {
+            int textPairCount = 0;
+
             String suspFilename = pair.split("\\s+")[0];
             String sourceFilename = pair.split("\\s+")[1];
 
@@ -312,8 +314,12 @@ public class PlagiarismSearch {
                 for (NLPSentence sourceSent : sentencesSource) {
                     PlagiarismPassage passage = returnPassage(sourceSent, suspSent);
                     job.addTextPair(passage);
+
+                    textPairCount++;
                 }
             }
+
+            App.getLogger().info(String.format("Scheduled %d sentence pairs for %s", textPairCount, pair));
         }
     }
 	
@@ -333,15 +339,18 @@ public class PlagiarismSearch {
 	
 	
 	public void startPlagiarismSearchWithoutCandret() {
-		System.out.println("starting plagiarism detection by analyzing the sentence-pairs from the database..");
-		BlockingQueue<PlagiarismJob> plagQueue = new LinkedBlockingQueue<>();
-		String dir = "plagthreshold_"+cs.getPlagiarismThreshold()+"/";
+		App.getLogger().info("Starting plagiarism detection on evaluation documents.");
+
+        BlockingQueue<PlagiarismJob> plagQueue = new LinkedBlockingQueue<>();
+
+        String dir = "plagthreshold_"+cs.getPlagiarismThreshold()+"/";
 		new File(cs.getResultsDir()+dir).mkdirs();
 		Set<String> filesDone = Fileutils.getFileNames(cs.getResultsDir()+dir, "txt");
 
-		System.out.println(filesDone.size()+" files already done.");
-		//db.retrieveAllPassages(plagQueue, filesDone); Kommentert ut
-		getSentencesFromPairs(plagQueue); //lagt til
+        App.getLogger().info(String.format("%d result files already generated.", filesDone.size()));
+
+        // get sentence pairs from evaluation corpus pairs.txt
+        getSentencesFromPairs(plagQueue);
 		
 		progressPrinter = new ProgressPrinter(plagQueue.size());
 		startPlagiarismSearch(plagQueue);
@@ -350,8 +359,12 @@ public class PlagiarismSearch {
 	private void startPlagiarismSearch(BlockingQueue<PlagiarismJob> plagQueue) {
 		plagThreadCount = cs.getPlagiarismThreads();
 		new File(cs.getResultsDir()).mkdirs();
+
+        App.getLogger().info(String.format("Scheduling %d plagiarism detection threads", plagThreadCount));
+
 		plagThreads = new PlagiarismWorker[plagThreadCount];
-		for (int i = 0; i < plagThreadCount; i++) {
+
+        for (int i = 0; i < plagThreadCount; i++) {
 			plagThreads[i] = new PlagiarismWorker(plagQueue, this, db);
 			plagThreads[i].setName("Plagiarism-thread-"+i);
 			plagThreads[i].start();
@@ -365,8 +378,9 @@ public class PlagiarismSearch {
 				plagWorker.kill();
 			}
 
-			System.out.println("\nPlagiarism search done. exiting");
-			System.exit(0);
+            App.getLogger().info("Plagiarism search done.");
+
+            System.exit(0);
 		}
 	}
 }

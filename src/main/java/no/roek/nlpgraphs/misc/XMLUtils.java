@@ -1,21 +1,20 @@
 package no.roek.nlpgraphs.misc;
 
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import no.roek.nlpgraphs.detailedanalysis.PlagiarismReference;
 import no.roek.nlpgraphs.graph.Graph;
-
 import org.apache.commons.io.IOUtils;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
+
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class XMLUtils {
 
@@ -70,8 +69,7 @@ public class XMLUtils {
 		String sourceOffset = Integer.toString(train.getOffset());
 		String sourceLength = Integer.toString(train.getLength());
 		String name = detectedPlagiarism ? "detected-plagiarism" : "candidate-passage";
-		System.out.println("FILE NAME IS :" +filename);
-		System.out.println("SOURCE REFERENCE IS: "+sourceReference);
+
 		return new PlagiarismReference(filename, name, offset, length, sourceReference, sourceOffset, sourceLength);
 	}
 	
