@@ -1,15 +1,16 @@
 package no.roek.nlpgraphs.candidateretrieval;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermEnum;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.FSDirectory;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class IdfBuilder {
 
@@ -48,6 +49,10 @@ public class IdfBuilder {
 		double idfValue = 1 + Math.log((totaldocs) / (frequency + 1));
 		
         System.out.println("Idf value for "+ lemma + " "+  "is :"+ " "+ idfValue);
+
+        ir.close();
+        index.close();
+
 		return idfValue;
 
 	}

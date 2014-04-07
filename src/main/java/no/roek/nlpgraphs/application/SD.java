@@ -1,26 +1,19 @@
 package no.roek.nlpgraphs.application;
 
-import java.io.BufferedReader;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
+import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
+import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.MCS06AggregateComparator;
+import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.JiangConrathComparator;
+import no.roek.nlpgraphs.candidateretrieval.IdfBuilder;
+import no.roek.nlpgraphs.preprocessing.POSTagParser;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-
-import similarity.algorithms.TestJiangConrath;
-
-import no.roek.nlpgraphs.preprocessing.POSTagParser;
-import no.roek.nlpgraphs.candidateretrieval.CandidateRetrievalService;
-import no.roek.nlpgraphs.candidateretrieval.IdfBuilder;
-
-import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.core.ResourceFactory;
-import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
-import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.*;
-import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.JiangConrathComparator;
-import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.LinComparator;
 
 public class SD {
 	
@@ -60,7 +53,7 @@ public class SD {
 
 		HashMap<String, Double> hm = IdfBuilder.getIdfHashMap(agrList);
 
-		LexicalSemanticResource semResource = getResource();
+		LexicalSemanticResource semResource = App.getResource();
 		Entity root = semResource.getRoot();
 		TextSimilarityMeasure measure = new JiangConrathComparator(semResource,
 				root);
@@ -80,15 +73,6 @@ public class SD {
 		return result;
 		
 		
-	}
-
-		public static LexicalSemanticResource getResource() throws Exception {
-
-		ResourceFactory loader = new ResourceFactory("resources.xml");
-		LexicalSemanticResource wordnetEn = loader.get("wordnet", "en");
-
-		return wordnetEn;
-
 	}
 
 	// trengs fortsatt E.

@@ -1,12 +1,13 @@
 package no.roek.nlpgraphs.candidateretrieval;
 
+import no.roek.nlpgraphs.application.App;
+import no.roek.nlpgraphs.application.PlagiarismSearch;
+import no.roek.nlpgraphs.misc.DatabaseService;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 //import edu.stanford.nlp.io.EncodingPrintWriter.out;
-
-import no.roek.nlpgraphs.application.PlagiarismSearch;
-import no.roek.nlpgraphs.misc.DatabaseService;
 
 public class IndexBuilder extends Thread {
 
@@ -25,26 +26,29 @@ public class IndexBuilder extends Thread {
 
 	@Override
 	public void run() {
-		running = true;
-		while(running) {
+
+        running = true;
+
+        while(running) {
 			try {
 				String sentenceId = documentQueue.poll(100, TimeUnit.SECONDS);
-				
 				
 				if(sentenceId == null) {
 					concurrencyService.indexBuilderDone();
 					running = false;
-				}else if(sentenceId.equals("die")) {
-					running = false;
-				}else {
-					
-					System.out.println("Adding sentence :"+ sentenceId);
-					crs.addSentence(db.getSentence(sentenceId));
-				
-					
 				}
-				concurrencyService.indexBuilderJobDone();
-			} catch (Exception e) {
+                else if(sentenceId.equals("die")) {
+					running = false;
+				}
+                else {
+                    App.getLogger().fine(String.format("Adding sentence %s", sentenceId));
+                    crs.addSentence(db.getSentence(sentenceId));
+				}
+
+				concurrencyService.indexBuilderJobDone(getName());
+			}
+
+            catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

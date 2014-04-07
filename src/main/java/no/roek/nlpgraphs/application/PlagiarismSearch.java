@@ -42,8 +42,6 @@ public class PlagiarismSearch {
 	private ProgressPrinter progressPrinter;
 	public static String dataDir, trainDir, testDir;
 	private CandidateRetrievalService  crs;
-	
-	
 
 	public PlagiarismSearch() {
 		cs = new ConfigService();		
@@ -91,7 +89,7 @@ public class PlagiarismSearch {
 		Set<String> files = db.getUnparsedFiles(Fileutils.getFileNames(dataDir));
 
         if(files.size() == 0) {
-			System.out.println("All files are parsed. Exiting");
+            App.getLogger().info("All files are parsed. Exiting");
 
             return;
 		}
@@ -163,23 +161,34 @@ public class PlagiarismSearch {
 		BlockingQueue<String> documentQueue = new LinkedBlockingQueue<>();
 		
 		DBCursor cursor = db.getSourceSentencesCursor();
-		System.out.println("Does the cursor get the source sentences?");
-		progressPrinter = new ProgressPrinter(cursor.count());
-		crs = new CandidateRetrievalService(Paths.get(trainDir));
-		System.out.println("The candidate retrieval service - object is created");
-		
-//flyttet hit. var under neste for-løkke		
+
+        if (cursor.count() == 0) {
+            App.getLogger().warning("No source sentences in db");
+        }
+
+        progressPrinter = new ProgressPrinter(cursor.count());
+
+        crs = new CandidateRetrievalService(Paths.get(trainDir));
+
+        App.getLogger().info("Queuing source documents for indexing");
+
         while(cursor.hasNext()) {
-			try{
-				documentQueue.put(cursor.next().get("id").toString());
-			}catch(InterruptedException e) {
-				e.printStackTrace();
+            String sourceDocId = cursor.next().get("id").toString();
+
+            try{
+                documentQueue.put(sourceDocId);
+			}
+            catch(InterruptedException e) {
+				App.getLogger().warning(String.format("Failed to queue source document %s", sourceDocId));
 			}
 		}
 		
 		cursor.close();
-		
-		indexBuilderThreads = new IndexBuilder[cs.getIndexBuilderThreads()];
+
+        int indexBuilderNumThreads = cs.getIndexBuilderThreads();
+        App.getLogger().info(String.format("Scheduling %d index builder threads", indexBuilderNumThreads));
+
+        indexBuilderThreads = new IndexBuilder[indexBuilderNumThreads];
 		for (int i = 0; i < indexBuilderThreads.length; i++) {
 			indexBuilderThreads[i] = new IndexBuilder(documentQueue, crs, this, db);
 			indexBuilderThreads[i].setName("IndexBuilder-"+i);
@@ -187,11 +196,9 @@ public class PlagiarismSearch {
 		}
 		
 		//lagt til E.
-		for( int i =0; i < indexBuilderThreads.length; i++){
-			
-			indexBuilderThreads[i].join();
-		}
-		
+        for (IndexBuilder indexBuilderThread : indexBuilderThreads) {
+            indexBuilderThread.join();
+        }
 	}
 
 	public void indexBuilderDone() throws Exception {
@@ -199,23 +206,23 @@ public class PlagiarismSearch {
 			thread.kill();
 		}
 
+        App.getLogger().info("Closing Lucene index");
 		crs.closeWriter();
 
-		System.out.println("Index building done.. ");
-		App.main(null);
+        App.getLogger().info("Finished building index");
 	}
 	
-	public void indexBuilderJobDone() throws Exception {
+	public void indexBuilderJobDone(String threadName) throws Exception {
 		progressPrinter.printProgressbar("");
 		if(progressPrinter.isDone()) {
 			for(IndexBuilder thread : indexBuilderThreads) {
 				thread.kill();
 			}
 
+            App.getLogger().info("Closing Lucene index");
 			crs.closeWriter();
 
-			System.out.println("Index building done.. ");
-			App.main(null);
+            App.getLogger().info(String.format("Index builder thread %s finished", threadName));
 		}
 
 	}
@@ -248,13 +255,13 @@ public class PlagiarismSearch {
 	public void candretJobDone(String text) throws Exception {
 		progressPrinter.printProgressbar(text);
 		if(progressPrinter.isDone()) {
-	
+
 			for (SentenceRetrievalWorker thread : candretThreads) {
 				thread.kill();
 			}
-			
+
 			System.out.println("\nCandidate retrieval search done. ");
-			App.main(null);
+			// App.main(null);
 		}
 	}
 	//	public void startPlagiarismSearch() {
@@ -286,32 +293,29 @@ public class PlagiarismSearch {
 
 	//lagt til  E. TESTET.POSITIV
 	private void getSentencesFromPairs(BlockingQueue<PlagiarismJob> queue){
+        String pairsFile = "pairs.txt";
+        App.getLogger().info(String.format("Reading evaluation document pairs from %s", pairsFile));
+
+        ArrayList<String> pairs = PairReader.getPairs(pairsFile);
 		
-	    ArrayList<String> pairs= PairReader.getPairs("pairs.txt");
-		
-		for(String pair: pairs){
-			
-			//test
-			List<NLPSentence> sentencesSuspicious=  db.getAllSentences(pair.split("\\s+")[0]);			
-			List<NLPSentence> sentencesSource=  db.getAllSentences(pair.split("\\s+")[1]);
-						
-		    PlagiarismJob job= new PlagiarismJob(pair.split("\\s+")[0]);
-		    queue.add(job);
-			
-				for(NLPSentence sentence1: sentencesSuspicious){
-					
-					for(NLPSentence sentence2: sentencesSource){
-						
-						PlagiarismPassage passage = returnPassage(sentence2,sentence1);
-						//System.out.println("SENTENCE 1 IS FROM :"+sentence1.getFilename());
-						//System.out.println("SENTENCE 2 IS FROM : "+	sentence2.getFilename());
-						job.addTextPair(passage);
-										
-					}
-				}
-			
-			}
-		}
+        for (String pair: pairs) {
+            String suspFilename = pair.split("\\s+")[0];
+            String sourceFilename = pair.split("\\s+")[1];
+
+            List<NLPSentence> sentencesSuspicious=  db.getAllSentences(suspFilename);
+            List<NLPSentence> sentencesSource=  db.getAllSentences(sourceFilename);
+
+            PlagiarismJob job = new PlagiarismJob(suspFilename);
+            queue.add(job);
+
+            for (NLPSentence suspSent : sentencesSuspicious) {
+                for (NLPSentence sourceSent : sentencesSource) {
+                    PlagiarismPassage passage = returnPassage(sourceSent, suspSent);
+                    job.addTextPair(passage);
+                }
+            }
+        }
+    }
 	
 	//lagt til E. 
 	private PlagiarismPassage returnPassage(NLPSentence sent1, NLPSentence sent2){

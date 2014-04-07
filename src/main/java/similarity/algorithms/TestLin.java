@@ -6,9 +6,9 @@ package similarity.algorithms;
 
 import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
 import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.core.ResourceFactory;
 import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.JiangConrathComparator;
 import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.LinComparator;
+import no.roek.nlpgraphs.application.App;
 
 
 public class TestLin {
@@ -17,19 +17,10 @@ public class TestLin {
 	public TestLin(){
 		
 	}
-	
-	public static LexicalSemanticResource getResource() throws Exception {
 
-		ResourceFactory loader = new ResourceFactory("resources.xml");
-		LexicalSemanticResource wordnetEn = loader.get("wordnet", "en");
-
-		return wordnetEn;
-
-	}
-	
 	public static double getLin(String s1, String s2) throws Exception{
 		
-		LexicalSemanticResource semResource = getResource();
+		LexicalSemanticResource semResource = App.getResource();
 		
 		Entity e1 = semResource.getMostFrequentEntity(s1);
 		Entity e2 = semResource.getMostFrequentEntity(s2);
@@ -47,7 +38,7 @@ public class TestLin {
 	
 	public static void main(String[] args) throws Exception {
 
-		LexicalSemanticResource semResource = getResource();
+		LexicalSemanticResource semResource = App.getResource();
 
 		Entity e1 = semResource.getMostFrequentEntity("kill");
 

@@ -1,47 +1,45 @@
 package no.roek.nlpgraphs.candidateretrieval;
 
-import java.io.*;
+import no.roek.nlpgraphs.application.App;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 //import no.roek.nlpgraphs.misc.ConfigService;
 
 
 public class PairReader {
-	
-	
-	public void altforsmart(String suspicious,String source){
+    public static ArrayList<String> getPairs(String filename){
+        ArrayList<String> pairsList = new ArrayList<>();
 		
-		System.out.println("SUSPICIOUS:" + suspicious + "SOURCE:"+ source);
+        try{
 		
-	}
-	
-	public static ArrayList<String> getPairs(String file){
+            FileInputStream fstream = new FileInputStream(filename);
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		
+            String strLine;
 		
-		ArrayList<String> pairsList = new ArrayList<String>();
-		
-		try{
-		
-		FileInputStream fstream = new FileInputStream("pairs.txt");
-		DataInputStream in = new DataInputStream(fstream);
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		
-		String strLine;
-		
-		while((strLine= br.readLine())!= null){
+            while((strLine= br.readLine())!= null){
 			
-			pairsList.add(strLine);
+                pairsList.add(strLine);
 			
-		}
+            }
 		
-		in.close();
+            in.close();
 		
-	} catch (Exception e)
-	{
-		System.err.println("Error:" + e.getMessage());
-	}
-		return pairsList;
-	}
+        }
+        catch (Exception e)
+        {
+            App.getLogger().warning(String.format("Error %s reading evaluation pairs from %s",
+                    e.getMessage(), filename));
+        }
+
+        return pairsList;
+    }
 	
 
 }

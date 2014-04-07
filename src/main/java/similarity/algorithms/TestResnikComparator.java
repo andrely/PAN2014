@@ -7,8 +7,8 @@ package similarity.algorithms;
 
 import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
 import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.core.ResourceFactory;
 import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.ResnikComparator;
+import no.roek.nlpgraphs.application.App;
 
 public class TestResnikComparator {
 
@@ -16,18 +16,9 @@ public class TestResnikComparator {
 
 	}
 
-	public static LexicalSemanticResource getResource() throws Exception {
-
-		ResourceFactory loader = new ResourceFactory("resources.xml");
-		LexicalSemanticResource wordnetEn = loader.get("wordnet", "en");
-
-		return wordnetEn;
-
-	}
-
 	public static void main(String[] args) throws Exception {
 
-		LexicalSemanticResource semResource = getResource();
+		LexicalSemanticResource semResource = App.getResource();
 
 		Entity e1 = semResource.getMostFrequentEntity("cat");
 

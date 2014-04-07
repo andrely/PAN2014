@@ -1,26 +1,20 @@
 package no.roek.nlpgraphs.detailedanalysis;
 
+import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
+import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
+import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.MCS06AggregateComparator;
+import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.JiangConrathComparator;
+import no.roek.nlpgraphs.application.App;
 import no.roek.nlpgraphs.candidateretrieval.CandidateRetrievalService;
 import no.roek.nlpgraphs.preprocessing.POSTagParser;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-
-import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.core.ResourceFactory;
-import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
-import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.*;
-import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.JiangConrathComparator;
-
-import edu.stanford.nlp.process.Morphology;
 
 
 
@@ -30,16 +24,7 @@ public class SemanticDistance{
 	public SemanticDistance(){
 		
 	}
-	
-	public static LexicalSemanticResource getResource() throws Exception {
 
-		ResourceFactory loader = new ResourceFactory("resources.xml");
-		LexicalSemanticResource wordnetEn = loader.get("wordnet", "en");
-		return wordnetEn;
-
-	}
-	
-	
 	public static void main(String[] args) throws Exception {
 		
 		String[] texts = getInputTexts_Semantic(args);
@@ -74,7 +59,7 @@ public class SemanticDistance{
 	
 		
 		
-		LexicalSemanticResource semResource = getResource();
+		LexicalSemanticResource semResource = App.getResource();
 		Entity root = semResource.getRoot();		
 		TextSimilarityMeasure measure = new JiangConrathComparator(semResource,root);
 		MCS06AggregateComparator aggregateComp = new MCS06AggregateComparator(measure,hm);

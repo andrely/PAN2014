@@ -1,15 +1,15 @@
 package similarity.algorithms;
 
+import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
+import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
+import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.MCS06AggregateComparator;
+import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.JiangConrathComparator;
+import no.roek.nlpgraphs.application.App;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.core.ResourceFactory;
-import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
-import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.*;
-import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.JiangConrathComparator;
-
 
 
 public class AggregationTest{
@@ -30,16 +30,7 @@ public static ArrayList<String> stringList2 = new ArrayList<String>();
 		
 		return (HashMap<String, Double>) hashmap;
 	}
-	
-	public static LexicalSemanticResource getResource() throws Exception {
 
-		ResourceFactory loader = new ResourceFactory("resources.xml");
-		LexicalSemanticResource wordnetEn = loader.get("wordnet", "en");
-
-		return wordnetEn;
-
-	}
-	
 	//lage en metode som tar inn two lister med ord og returnerer semantisk likhet
 	
 //	public static 
@@ -76,7 +67,7 @@ public static ArrayList<String> stringList2 = new ArrayList<String>();
 //		hm.put("morning",0.0);
 		
 		
-		LexicalSemanticResource semResource = getResource();
+		LexicalSemanticResource semResource = App.getResource();
 		Entity root = semResource.getRoot();		
 		TextSimilarityMeasure measure = new JiangConrathComparator(semResource,root);
 		MCS06AggregateComparator aggregateComp = new MCS06AggregateComparator(measure,hm);

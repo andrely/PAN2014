@@ -1,16 +1,13 @@
 package no.roek.nlpgraphs.detailedanalysis;
 
+import no.roek.nlpgraphs.application.App;
+import no.roek.nlpgraphs.document.PlagiarismPassage;
+import no.roek.nlpgraphs.graph.Graph;
+import no.roek.nlpgraphs.misc.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import no.roek.nlpgraphs.document.PlagiarismPassage;
-import no.roek.nlpgraphs.graph.Graph;
-import no.roek.nlpgraphs.misc.ConfigService;
-import no.roek.nlpgraphs.misc.DatabaseService;
-import no.roek.nlpgraphs.misc.EditWeightService;
-import no.roek.nlpgraphs.misc.GraphUtils;
-import no.roek.nlpgraphs.misc.XMLUtils;
 
 public class PlagiarismFinder {
 
@@ -64,13 +61,17 @@ public class PlagiarismFinder {
 			
 			GraphEditDistance ged = new GraphEditDistance(suspicious, source, posEditWeights, deprelEditWeights);
 			double dist = ged.getNormalizedDistance();
-			System.out.println("DISTANCE BETWEEN SENTENCE FROM FILE :"+ suspicious.getFilename() + " AND SENTENCE FROM FILE : "+ source.getFilename() +"IS :" + dist);
-			if(dist < plagiarismThreshold) {
+
+            App.getLogger().fine(String.format("Dist between sentence %s:%d and sentence %s:%d is %.04f",
+                    suspicious.getFilename(), sourceSentence, source.getFilename(), sourceSentence, dist));
+
+            if(dist < plagiarismThreshold) {
 				return XMLUtils.getPlagiarismReference(source, suspicious,dist,true);
 			}else {
 				return null;
 			}
-		}catch(NullPointerException e) {
+		}
+        catch(NullPointerException e) {
 			return null;
 		}
 	}

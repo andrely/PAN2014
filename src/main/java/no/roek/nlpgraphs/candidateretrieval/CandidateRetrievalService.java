@@ -41,6 +41,9 @@ public class CandidateRetrievalService {
 		
 		cs = new ConfigService();
 		INDEX_DIR = cs.getIndexDir();
+
+        App.getLogger().info(String.format("Opening/creating Lucene index in %s", INDEX_DIR));
+
 		indexWriterConfig = new IndexWriterConfig(Version.LUCENE_36, new StandardAnalyzer(Version.LUCENE_36));
 		File indexDir = new File(INDEX_DIR+dir.getFileName().toString());
 
@@ -57,11 +60,10 @@ public class CandidateRetrievalService {
             writer.commit();
 
         } catch (IOException e) {
+            App.getLogger().warning(String.format("Failed to open Lucen index in %s", INDEX_DIR));
             e.printStackTrace();
         }
-
 	}
-	 
 
 	private  FSDirectory createIndex(Path dir) throws IOException {
 		Path temp = Paths.get(INDEX_DIR+dir.getFileName().toString());
@@ -72,6 +74,7 @@ public class CandidateRetrievalService {
 	public synchronized void closeWriter() {
 		try {
 			writer.close();
+            index.close();
 		} catch (CorruptIndexException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -84,7 +87,7 @@ public class CandidateRetrievalService {
 		String sentenceNumber = dbSentence.getString("sentenceNumber");
 
         if (sentenceInIndex(filename, sentenceNumber)) {
-            App.getLogger().info(String.format("%s:%s already in index", filename, sentenceNumber));
+            App.getLogger().fine(String.format("%s:%s already in index", filename, sentenceNumber));
 
             return;
         }
@@ -102,13 +105,14 @@ public class CandidateRetrievalService {
     /**
      * Check if a sentence is already in the Lucene index
      *
-     * @param filename
-     * @param sentenceNumber
+     * @param filename Source document filename.
+     * @param sentenceNumber Sentence index in document.
      * @return true if the sentence is in the index
      */
     private boolean sentenceInIndex(String filename, String sentenceNumber) {
         try {
-            IndexSearcher searcher = new IndexSearcher(IndexReader.open(index));
+            IndexReader reader = IndexReader.open(index);
+            IndexSearcher searcher = new IndexSearcher(reader);
             TermQuery fnQuery = new TermQuery(new Term("FILENAME", filename));
             TermQuery snQuery = new TermQuery(new Term("SENTENCE_NUMBER", sentenceNumber));
 
@@ -119,6 +123,7 @@ public class CandidateRetrievalService {
             TopDocs topDocs = searcher.search(query, 1);
 
             searcher.close();
+            reader.close();
 
             return topDocs.scoreDocs.length > 0;
 
@@ -223,6 +228,7 @@ public class CandidateRetrievalService {
 			}
 		}
 		is.close();
+        ir.close();
 
 		return simDocs;
 	}
@@ -265,6 +271,9 @@ public class CandidateRetrievalService {
 		int docFreq = ir.docFreq(term2);
 		
 		idf= 1+ (Math.log(numDocs/(1+docFreq)));
+
+        is.close();
+        ir.close();
 		
 		return idf;
 		
