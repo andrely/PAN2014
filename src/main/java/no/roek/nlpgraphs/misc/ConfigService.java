@@ -1,21 +1,32 @@
 package no.roek.nlpgraphs.misc;
 
+import no.roek.nlpgraphs.application.App;
+import no.roek.nlpgraphs.application.AppOptions;
+import org.apache.commons.io.IOUtils;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
-import org.apache.commons.io.IOUtils;
 
 
 public class ConfigService {
 
 	private Properties configFile;
 	private InputStream is;
+    private AppOptions options;
 
-	public ConfigService() {
-		configFile = new Properties();
-		try{
+    private String dataDir;
+    private String sourceDir;
+    private String suspDir;
+    private String pairsFn;
+
+    public ConfigService(AppOptions options) {
+        this.options = options;
+
+        configFile = new Properties();
+
+        try{
 			is = new FileInputStream("app.properties");
 			configFile.load(is);
 			is.close();
@@ -24,30 +35,78 @@ public class ConfigService {
 		} finally {
 			IOUtils.closeQuietly(is);
 		}
-	}
+
+
+        if (options.getDataDir() != null) {
+            dataDir = options.getDataDir();
+        }
+        else if (configFile.getProperty("DATA_DIR") != null) {
+            dataDir = configFile.getProperty("DATA_DIR");
+        }
+        else {
+            App.getLogger().warning("Data directory is not set.");
+        }
+
+        if (options.getSourceDir() != null) {
+            sourceDir = options.getSourceDir();
+        }
+        else if (configFile.getProperty("SOURCE_DIR") != null) {
+            sourceDir = configFile.getProperty("SOURCE_DIR");
+        }
+        else {
+            App.getLogger().warning("No source directory set. Using \"source\".");
+            sourceDir = "source";
+        }
+
+        if (options.getSuspDir() != null) {
+            suspDir = options.getSourceDir();
+        }
+        else if (configFile.getProperty("SUSP_DIR") != null) {
+            suspDir = configFile.getProperty("SUSP_DIR");
+        }
+        else {
+            App.getLogger().warning("No suspicious directory set. Using \"suspicious\".");
+            suspDir = "suspicious";
+        }
+
+        if (options.getPairsFn() != null) {
+            pairsFn = options.getPairsFn();
+        }
+        else if (configFile.getProperty("PAIRS") != null) {
+            pairsFn = configFile.getProperty("PAIRS");
+        }
+        else {
+            App.getLogger().warning("No evaluationpairs file set. Using pairs.txt");
+            pairsFn = "pairs.txt";
+        }
+    }
 
 	public String getParsedFilesDir() {
 		return configFile.getProperty("PARSED_DIR");
 	}
 
 	public String getDataDir() {
-              System.out.println("Data dir is being read from ConfigService");
-		return configFile.getProperty("DATA_DIR");
-	}
+        return dataDir;
+    }
 
-	public String getTestDir() {
+    public String getSuspDir() {
+        return suspDir;
+    }
+
+
+    public String getTestDir() {
 		return configFile.getProperty("TEST_DIR");
 	}
 
 	public String getTrainDir() {
 		return configFile.getProperty("TRAIN_DIR");
 	}
-	//forandring
-	public String getPairsDir(){
-		return configFile.getProperty("PAIRS");
-	}
 
-	public String getAnnotationsDir() {
+    public String getPairsDir(){
+        return pairsFn;
+    }
+
+    public String getAnnotationsDir() {
 		return configFile.getProperty("ANNOTATIONS_DIR");
 	}
 
@@ -135,4 +194,21 @@ public class ConfigService {
 	public int getMergeDist() {
 		return Integer.parseInt(configFile.getProperty("MERGE_DISTANCE"));
 	}
+
+    public boolean doPreprocessing() {
+        return !(options.isDetectOnly() || options.isIndexOnly());
+    }
+
+    public boolean doIndexing() {
+        return !(options.isDetectOnly() || options.isPreprocessOnly());
+    }
+
+    public boolean doDetection() {
+        return !(options.isIndexOnly() || options.isPreprocessOnly());
+    }
+
+    public String getSourceDir() {
+        return sourceDir;
+    }
+
 }

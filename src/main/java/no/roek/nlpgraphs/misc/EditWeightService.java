@@ -29,9 +29,6 @@ public class EditWeightService {
 	
 	//lagt til for å sette inn deprel substitusjonsvekter
 	public static Map<String,Double> getDeprelEditWeights(String subWeightFile, String insdelWeightFile){
-		
-		System.out.println("Kjører metoden som regner deprel substitusjonsvekter");
-		
 		Map<String,Double> editCostWeights = new HashMap<>();
 
 		try{

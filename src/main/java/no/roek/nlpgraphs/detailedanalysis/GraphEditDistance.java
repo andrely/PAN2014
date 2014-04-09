@@ -1,17 +1,13 @@
 package no.roek.nlpgraphs.detailedanalysis;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import similarity.algorithms.TestJiangConrath;
-import similarity.algorithms.TestLin;
+import com.google.code.javakbest.JVC;
+import com.konstantinosnedas.HungarianAlgorithm;
 import no.roek.nlpgraphs.graph.Edge;
 import no.roek.nlpgraphs.graph.Graph;
 import no.roek.nlpgraphs.graph.Node;
 
-import com.google.code.javakbest.JVC;
-import com.konstantinosnedas.HungarianAlgorithm;
+import java.util.List;
+import java.util.Map;
 
 public class GraphEditDistance {
 
@@ -146,24 +142,13 @@ public class GraphEditDistance {
 	}
 
 	public double getRelabelCost(Node node1, Node node2) {
-        
-		double sd_diff=0;
-		double pos_diff= 0;
-		if (!node1.equals(node2)) {
-			
-			try {
+        double diff = 0;
 
-				sd_diff = TestJiangConrath.getJiangConrath(node1.toString(),node2.toString());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+        if(!node1.equals(node2)) {
+            diff = getPosWeight(node1, node2);
+        }
 
-			
-			//pos_diff = getPosWeight(node1, node2);
-
-		}
-		        
-		return sd_diff;
+        return diff ;
 	}
 
 	public double getPosWeight(Node node) {

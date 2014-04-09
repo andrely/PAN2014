@@ -1,14 +1,6 @@
 package no.roek.nlpgraphs.application;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import com.mongodb.BasicDBObject;
-
 import no.roek.nlpgraphs.detailedanalysis.GraphEditDistance;
 import no.roek.nlpgraphs.graph.Graph;
 import no.roek.nlpgraphs.misc.ConfigService;
@@ -18,9 +10,15 @@ import no.roek.nlpgraphs.misc.GraphUtils;
 import no.roek.nlpgraphs.preprocessing.DependencyParser;
 import no.roek.nlpgraphs.preprocessing.POSTagParser;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 public class PlagiarismThresholdAnalyser {
 	public static void main(String[] args) {
-		ConfigService cs = new ConfigService();
+		ConfigService cs = App.getGlobalConfig();
 
 		POSTagParser postagger = new POSTagParser();
 		DependencyParser depParser = new DependencyParser();

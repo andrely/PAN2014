@@ -38,7 +38,7 @@ public class PlagiarismSearch {
 	private PlagiarismWorker[] plagThreads;
 	private IndexBuilder[] indexBuilderThreads;
 	private SentenceRetrievalWorker[] candretThreads;
-	private int dependencyParserCount, posTagCount, plagThreadCount;
+	private int depParseThreadCount, posTagCount, plagThreadCount;
 	private ProgressPrinter progressPrinter;
 	public static String dataDir, trainDir, testDir;
 	private CandidateRetrievalService  crs;
@@ -46,21 +46,20 @@ public class PlagiarismSearch {
 	
 
 	public PlagiarismSearch() {
-		cs = new ConfigService();		
-
-		dataDir = cs.getDataDir();
+        cs = App.getGlobalConfig();
+        dataDir =  cs.getDataDir();
 
         if (dataDir == null) {
             dataDir =askForInput("Enter the DATA_DIR: ");
         }
 
-		trainDir = cs.getTrainDir();
+		trainDir =  cs.getTrainDir();
 
         if (trainDir == null) {
             trainDir = askForInput("Enter the TRAIN_DIR: ");
         }
 
-		testDir = cs.getTestDir();
+		testDir =  cs.getTestDir();
 
         if (testDir == null) {
             testDir = askForInput("Enter the TEST_DIR: ");
@@ -96,7 +95,7 @@ public class PlagiarismSearch {
             return;
 		}
 
-		System.out.println("Starting preprocessing of "+files.size()+" files.");
+        App.getLogger().info(String.format("Starting preprocessing of %d files.", files.size()));
 
 		BlockingQueue<String> posTagQueue = new LinkedBlockingQueue<>();
 
@@ -113,6 +112,8 @@ public class PlagiarismSearch {
 		parseQueue = new LinkedBlockingQueue<>();
 		posTagThreads = new PosTagWorker[posTagCount];
 
+        App.getLogger().info(String.format("Starting %d POS tagging threads.", posTagThreads));
+
 		for (int i = 0; i < posTagCount; i++) {
 			posTagThreads[i] = new PosTagWorker(posTagQueue, parseQueue);
 			posTagThreads[i].setName("Postag-thread-"+i);
@@ -123,24 +124,28 @@ public class PlagiarismSearch {
 			
 			posTagThreads[i].join();
 		}
-		
-		System.out.println("PosTagging er ferdig");
-		
-		dependencyParserCount = cs.getMaltParserThreadCount();
+
+        App.getLogger().info("Finished POS tagging.");
+
+		depParseThreadCount = cs.getMaltParserThreadCount();
 		progressPrinter = new ProgressPrinter(files.size());
-		dependencyParserThreads = new DependencyParserWorker[dependencyParserCount];
-		for (int i = 0; i < dependencyParserCount; i++) {
+		dependencyParserThreads = new DependencyParserWorker[depParseThreadCount];
+
+        App.getLogger().info(String.format("Starting %d dependency parsing threads", depParseThreadCount));
+
+        for (int i = 0; i < depParseThreadCount; i++) {
 			dependencyParserThreads[i] =  new DependencyParserWorker(parseQueue, cs.getMaltParams(), this, db);
 			dependencyParserThreads[i].setName("Dependency-parser-"+i);
 			dependencyParserThreads[i].start();
 		}
 		
-		for (int i= 0; i< dependencyParserCount; i++){
+		for (int i= 0; i< depParseThreadCount; i++){
 			
 			dependencyParserThreads[i].join();
 			
 		}
-		System.out.println("Dependency parsing er ferdig");
+
+        App.getLogger().info("Finished dependency parsing.");
 	}
 
 	public ProgressPrinter getProgressPrinter() {

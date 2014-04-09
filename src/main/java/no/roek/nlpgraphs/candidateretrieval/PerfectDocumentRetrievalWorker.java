@@ -1,18 +1,18 @@
 package no.roek.nlpgraphs.candidateretrieval;
 //package no.roek.nlpgraphs.search;
 
+import no.roek.nlpgraphs.application.App;
+import no.roek.nlpgraphs.detailedanalysis.PlagiarismReference;
+import no.roek.nlpgraphs.misc.ConfigService;
+import no.roek.nlpgraphs.misc.Fileutils;
+import no.roek.nlpgraphs.misc.XMLUtils;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
-
-import no.roek.nlpgraphs.candidateretrieval.SentenceRetrievalJob;
-import no.roek.nlpgraphs.detailedanalysis.PlagiarismReference;
-import no.roek.nlpgraphs.misc.ConfigService;
-import no.roek.nlpgraphs.misc.Fileutils;
-import no.roek.nlpgraphs.misc.XMLUtils;
 
 public class PerfectDocumentRetrievalWorker extends Thread {
 
@@ -23,8 +23,8 @@ public class PerfectDocumentRetrievalWorker extends Thread {
 		this.queue = queue;
 		this.testDir = testDir;
 		this.dataDir = dataDir;
-		ConfigService cs = new ConfigService();
-		annotationsDir = cs.getAnnotationsDir();
+		ConfigService cs = App.getGlobalConfig();
+        annotationsDir = cs.getAnnotationsDir();
 		trainDir = cs.getTrainDir();
 	}
 

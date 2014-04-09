@@ -1,31 +1,20 @@
 package no.roek.nlpgraphs.preprocessing;
 
-import java.io.BufferedReader;
-//import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.io.IOUtils;
-
-import no.roek.nlpgraphs.document.NLPSentence;
-//import no.roek.nlpgraphs.document.WordToken;
-import no.roek.nlpgraphs.misc.ConfigService;
-import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.ling.HasWord;
-import edu.stanford.nlp.ling.TaggedWord;
-import edu.stanford.nlp.ling.WordLemmaTag;
-import edu.stanford.nlp.ling.WordTag;
+import edu.stanford.nlp.ling.*;
 import edu.stanford.nlp.objectbank.TokenizerFactory;
-//import edu.stanford.nlp.process.CoreLabelTokenFactory;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.process.Morphology;
 import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+import no.roek.nlpgraphs.application.App;
+import no.roek.nlpgraphs.document.NLPSentence;
+import no.roek.nlpgraphs.misc.ConfigService;
+import org.apache.commons.io.IOUtils;
+
+import java.io.*;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class POSTagParser {
 
@@ -34,9 +23,11 @@ public class POSTagParser {
 	
 
 	public POSTagParser() {
-		ConfigService cs = new ConfigService();
-		lemmatiser = new Morphology();
-		try {
+		ConfigService cs = App.getGlobalConfig();
+
+        lemmatiser = new Morphology();
+
+        try {
 			this.tagger = new MaxentTagger(cs.getPOSTaggerParams());
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
@@ -119,11 +110,7 @@ public class POSTagParser {
 			tokens.add(i+"\t"+temp[0]+"\t"+lemma+"\t"+temp[1]+"\t"+temp[1]+"\t_");
 			i++;
 		}
-        
-<<<<<<< Updated upstream
-		System.out.println("The lemmatised sentence is" + tokens.toArray(new String[0]).toString());
-=======
->>>>>>> Stashed changes
+
 		return tokens.toArray(new String[0]);
 	}
 

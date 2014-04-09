@@ -9,18 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 //import com.google.gson.JsonObject;
 //import com.mongodb.DBObject;
-
 //import no.roek.nlpgraphs.document.NLPSentence;
-import no.roek.nlpgraphs.document.PlagiarismPassage;
-import no.roek.nlpgraphs.graph.Graph;
-import no.roek.nlpgraphs.misc.ConfigService;
-import no.roek.nlpgraphs.misc.DatabaseService;
-import no.roek.nlpgraphs.misc.EditWeightService;
-import no.roek.nlpgraphs.misc.GraphUtils;
-import no.roek.nlpgraphs.misc.XMLUtils;
 //import no.roek.nlpgraphs.misc.SentenceUtils;
 
 
@@ -33,7 +24,7 @@ public class PlagiarismFinder {
 
 	public PlagiarismFinder(DatabaseService db) {
 		this.db = db;
-		ConfigService cs = new ConfigService();
+		ConfigService cs = App.getGlobalConfig();
 		parsedDir = cs.getParsedFilesDir();
 		testDir =cs.getTestDir();
 		trainDir = cs.getTrainDir();

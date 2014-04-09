@@ -1,5 +1,11 @@
 package no.roek.nlpgraphs.misc;
 
+/*
+ * This class no longer produces output, but we can't get rid of it yet since it apparantly
+ * also has some role in the job scheduling.
+ *
+ * TODO refactor this into something more in line with it's actual role.
+ */
 public class ProgressPrinter {
 	
 	private final int total;

@@ -1,14 +1,12 @@
 package no.roek.nlpgraphs.preprocessing;
 
-import java.io.File;
-import java.io.IOException;
+import no.roek.nlpgraphs.application.App;
+import no.roek.nlpgraphs.misc.ConfigService;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-
-import no.roek.nlpgraphs.misc.ConfigService;
-import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 public class PosTagWorker extends Thread {
 
@@ -22,8 +20,8 @@ public class PosTagWorker extends Thread {
 		this.queue = queue;
 		this.unparsedFiles = unparsedFiles;
 		this.parser = new POSTagParser();
-		ConfigService cs = new ConfigService();
-		dataDir = cs.getDataDir();
+		ConfigService cs = App.getGlobalConfig();
+        dataDir = cs.getDataDir();
 	}
 
 	@Override
@@ -52,11 +50,9 @@ public class PosTagWorker extends Thread {
 	private Path getPath(String filename) {
 		String folder = "";
 		if(filename.startsWith("source-document")) {
-			//ble forandret fra "source-documents/ til src/
-			folder = "src/";
+			folder = App.getGlobalConfig().getSourceDir();
 		}else if(filename.startsWith("suspicious-document")) {
-			//forandret fra suspicious-documents/ til susp/
-			folder = "susp/";
+			folder = App.getGlobalConfig().getSuspDir();
 		}
 		
 		return Paths.get(dataDir + folder + filename);

@@ -1,12 +1,14 @@
 package no.roek.nlpgraphs.detailedanalysis;
 
 
-import java.util.List;
-import java.util.concurrent.BlockingQueue;
+import no.roek.nlpgraphs.application.App;
 import no.roek.nlpgraphs.application.PlagiarismSearch;
 import no.roek.nlpgraphs.misc.ConfigService;
 import no.roek.nlpgraphs.misc.DatabaseService;
 import no.roek.nlpgraphs.misc.XMLUtils;
+
+import java.util.List;
+import java.util.concurrent.BlockingQueue;
 
 
 public class PlagiarismWorker extends Thread {
@@ -22,11 +24,10 @@ public class PlagiarismWorker extends Thread {
 		this.queue = queue;
 		this.plagFinder = new PlagiarismFinder(db);
 		this.concurrencyService = concurrencyService;
-		ConfigService cs = new ConfigService();
-		this.resultsDir = cs.getResultsDir();
+		ConfigService cs = App.getGlobalConfig();
+        this.resultsDir = cs.getResultsDir();
 		this.mergeDist = cs.getMergeDist();
 		this.dir = "plagthreshold_"+cs.getPlagiarismThreshold()+"/";
-		
 	}
 
 	@Override
@@ -41,7 +42,6 @@ public class PlagiarismWorker extends Thread {
 				}
 				List<PlagiarismReference> plagReferences = plagFinder.findPlagiarism(job);
 				XMLUtils.writeResults(resultsDir+dir, job.getFile().getFileName().toString(), PassageMerger.mergePassages(plagReferences, mergeDist));
-				//XMLUtils.writeResults(resultsDir+dir, job.getFile().getFileName().toString(), plagReferences);
 				concurrencyService.plagJobDone(this, "queue: "+queue.size());
 			} catch (InterruptedException e) {
 				e.printStackTrace();

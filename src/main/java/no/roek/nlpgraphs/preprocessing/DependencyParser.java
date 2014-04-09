@@ -1,14 +1,14 @@
 package no.roek.nlpgraphs.preprocessing;
 
 
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+import no.roek.nlpgraphs.application.App;
 import no.roek.nlpgraphs.document.NLPSentence;
 import no.roek.nlpgraphs.misc.ConfigService;
 import no.roek.nlpgraphs.misc.DatabaseService;
 import org.maltparser.MaltParserService;
 import org.maltparser.core.exception.MaltChainedException;
-
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
 
 
 public class DependencyParser {
@@ -16,8 +16,9 @@ public class DependencyParser {
 	private MaltParserService maltService;
 
 	public DependencyParser() {
-		ConfigService cs = new ConfigService();
-		try {
+		ConfigService cs = App.getGlobalConfig();
+
+        try {
 			this.maltService = new MaltParserService();
 			maltService.initializeParserModel(cs.getMaltParams());
 		} catch (MaltChainedException e) {
