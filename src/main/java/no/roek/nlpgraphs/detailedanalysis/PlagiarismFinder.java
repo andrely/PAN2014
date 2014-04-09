@@ -45,19 +45,24 @@ public class PlagiarismFinder {
 		for(PlagiarismPassage passage : job.getTextPairs()) {
 			//job.getTextPairs() returnerer en liste med source-suspicious sentences (dvs en plagiarism passage)
 			PlagiarismReference ref = getPlagiarism(passage.getTrainFile(), passage.getTrainSentence(), passage.getTestFile(), passage.getTestSentence());
-			if(ref != null) {				
-				//lagt til 
-		    PlagiarismReference adj1= getAdjacentPlagiarism(ref, passage.getTrainSentence(), passage.getTestSentence(), false);
-		        //lagt til 
-			PlagiarismReference adj2 = getAdjacentPlagiarism(ref, passage.getTrainSentence(), passage.getTestSentence(), true);
-			
-			PlagiarismReference result_reference = mergeAdjacentReferences(ref,adj2);
-			
-				//plagReferences.add(result_reference);
-				plagReferences.add(ref);
-				
-			}
-		}
+
+
+            if(ref != null) {
+                /*
+                //lagt til
+                PlagiarismReference adj1= getAdjacentPlagiarism(ref, passage.getTrainSentence(), passage.getTestSentence(), false);
+                //lagt til
+                PlagiarismReference adj2 = getAdjacentPlagiarism(ref, passage.getTrainSentence(), passage.getTestSentence(), true);
+
+                PlagiarismReference result_reference = mergeAdjacentReferences(ref,adj2);
+
+                //plagReferences.add(result_reference);
+                */
+
+                plagReferences.add(ref);
+            }
+
+        }
 
 		return plagReferences;
 	}

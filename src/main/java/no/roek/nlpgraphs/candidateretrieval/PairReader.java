@@ -30,10 +30,6 @@ public class PairReader {
                 pairsList.add(strLine);
 			
             }
-			pairsList.add(strLine);
-			
-		
-
 		
             in.close();
 

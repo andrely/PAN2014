@@ -17,10 +17,7 @@ import no.roek.nlpgraphs.preprocessing.DependencyParserWorker;
 import no.roek.nlpgraphs.preprocessing.ParseJob;
 import no.roek.nlpgraphs.preprocessing.PosTagWorker;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,42 +46,8 @@ public class PlagiarismSearch {
         cs = App.getGlobalConfig();
         dataDir =  cs.getDataDir();
 
-        if (dataDir == null) {
-            dataDir =askForInput("Enter the DATA_DIR: ");
-        }
-
-		trainDir =  cs.getTrainDir();
-
-        if (trainDir == null) {
-            trainDir = askForInput("Enter the TRAIN_DIR: ");
-        }
-
-		testDir =  cs.getTestDir();
-
-        if (testDir == null) {
-            testDir = askForInput("Enter the TEST_DIR: ");
-        }
-
         db = new DatabaseService(cs.getDBName(), cs.getDBLocation());
 	}
-	
-	private static String askForInput(String prompt) {
-        InputStreamReader converter = new InputStreamReader(System.in);
-        BufferedReader in = new BufferedReader(converter);
-
-        String input = "";
-
-        System.out.println(prompt);
-
-        try {
-            input = in.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return input;
-    }
-
 
     public void preprocess() throws InterruptedException {
 		Set<String> files = db.getUnparsedFiles(Fileutils.getFileNames(dataDir));
@@ -176,7 +139,7 @@ public class PlagiarismSearch {
 
         progressPrinter = new ProgressPrinter(cursor.count());
 
-        crs = new CandidateRetrievalService(Paths.get(trainDir));
+        crs = new CandidateRetrievalService(Paths.get(App.getGlobalConfig().getSourceDir()));
 
         App.getLogger().info("Queuing source documents for indexing");
 
