@@ -4,14 +4,12 @@ package similarity.algorithms;
  * Klasse for å teste JianConrath algoritmen
  */
 
-import no.roek.nlpgraphs.application.App;
 import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
 import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.core.ResourceFactory;
 import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.LexicalSemanticResourceException;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.ResourceLoaderException;
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.JiangConrathComparator;
+import no.roek.nlpgraphs.application.App;
 
 
 public class TestJiangConrath {
@@ -24,10 +22,15 @@ public class TestJiangConrath {
 
 	
 	public static double getJiangConrath(String s1, String s2){
-		
-		LexicalSemanticResource semResource = App.getResource();
-		
-		//System.out.println("getting the most frequent entity for node 1");
+
+        LexicalSemanticResource semResource = null;
+        try {
+            semResource = App.getResource();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //System.out.println("getting the most frequent entity for node 1");
 		Entity e1 = null;
 		try {
 			e1 = semResource.getMostFrequentEntity(s1);

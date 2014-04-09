@@ -1,15 +1,16 @@
 package similarity.algorithms;
 
 
+import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
+import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
+import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.MCS06AggregateComparator;
+import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.JiangConrathComparator;
+import no.roek.nlpgraphs.application.App;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.core.ResourceFactory;
-import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
-import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.*;
-import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.JiangConrathComparator;
 
 
 public class AggregationTest{
@@ -56,9 +57,9 @@ public static ArrayList<String> stringList2 = new ArrayList<String>();
 		
 		Map <String, Double> hm = new HashMap<String, Double>();
 		
-		hm.put("john",600.0);
-		hm.put("kill",900000.0);
-		hm.put("kiss",900000.0);
+		hm.put("john", 600.0);
+		hm.put("kill", 900000.0);
+		hm.put("kiss", 900000.0);
 		hm.put("mary",600.0);
 		/*hm.put("cat",0.0);
 		hm.put("the",0.0);
