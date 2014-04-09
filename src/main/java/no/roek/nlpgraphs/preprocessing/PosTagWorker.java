@@ -52,9 +52,11 @@ public class PosTagWorker extends Thread {
 	private Path getPath(String filename) {
 		String folder = "";
 		if(filename.startsWith("source-document")) {
-			folder = "source-documents/";
+			//ble forandret fra "source-documents/ til src/
+			folder = "src/";
 		}else if(filename.startsWith("suspicious-document")) {
-			folder = "suspicious-documents/";
+			//forandret fra suspicious-documents/ til susp/
+			folder = "susp/";
 		}
 		
 		return Paths.get(dataDir + folder + filename);

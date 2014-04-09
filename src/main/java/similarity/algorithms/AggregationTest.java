@@ -1,25 +1,25 @@
 package similarity.algorithms;
 
-import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
-import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
-import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.MCS06AggregateComparator;
-import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.JiangConrathComparator;
-import no.roek.nlpgraphs.application.App;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.core.ResourceFactory;
+import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
+import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.*;
+import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.JiangConrathComparator;
 
 
 public class AggregationTest{
 	
 			
 public static ArrayList<String> stringList1 = new ArrayList<String>();
-public static ArrayList<String> stringList2 = new ArrayList<String>();	
 
-	
-	
+public static ArrayList<String> stringList2 = new ArrayList<String>();
+
+		
 	public AggregationTest(){
 		
 	}
@@ -39,32 +39,33 @@ public static ArrayList<String> stringList2 = new ArrayList<String>();
 		
 		
 		stringList1.add("john");
-		stringList1.add("hit");
-		stringList1.add("the");
-		stringList1.add("ball");
-		//stringList1.add("cat");
+
+		stringList1.add("kill");
+		stringList1.add("mary");
+		/*stringList1.add("little");
+		stringList1.add("cat");*/
 		
-		stringList2.add("The");
-		stringList2.add("ball");
-		stringList2.add("was");
-		stringList2.add("kick");
-		stringList2.add("by");
-		stringList2.add("the");
-		stringList2.add("boy");
+		stringList2.add("john");
+		stringList2.add("kiss");
+		stringList2.add("mary");
+		/*stringList2.add("shining");
+		stringList2.add("bright");
+		stringList2.add("this");
+		stringList2.add("morning");*/
 		
 		
 		Map <String, Double> hm = new HashMap<String, Double>();
 		
 		hm.put("john",600.0);
-		hm.put("hit",900000.0);
-		hm.put("the",400.0);
-		hm.put("ball",600.0);
-		hm.put("kick",900000.0);
-		hm.put("the",400.0);
-		hm.put("boy",700000.0);
-//		hm.put("shining",0.0);
-//		hm.put("bright",0.0);
-//		hm.put("morning",0.0);
+		hm.put("kill",900000.0);
+		hm.put("kiss",900000.0);
+		hm.put("mary",600.0);
+		/*hm.put("cat",0.0);
+		hm.put("the",0.0);
+		hm.put("sun",0.0);
+		hm.put("shining",0.0);
+		hm.put("bright",0.0);
+		hm.put("morning",0.0);*/
 		
 		
 		LexicalSemanticResource semResource = App.getResource();

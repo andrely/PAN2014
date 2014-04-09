@@ -42,6 +42,8 @@ public class PlagiarismSearch {
 	private ProgressPrinter progressPrinter;
 	public static String dataDir, trainDir, testDir;
 	private CandidateRetrievalService  crs;
+	
+	
 
 	public PlagiarismSearch() {
 		cs = new ConfigService();		
@@ -66,8 +68,8 @@ public class PlagiarismSearch {
 
         db = new DatabaseService(cs.getDBName(), cs.getDBLocation());
 	}
-
-    private static String askForInput(String prompt) {
+	
+	private static String askForInput(String prompt) {
         InputStreamReader converter = new InputStreamReader(System.in);
         BufferedReader in = new BufferedReader(converter);
 
@@ -101,6 +103,7 @@ public class PlagiarismSearch {
 		for (String file : files) {
 			try {
 				posTagQueue.put(file);
+				System.out.println("Putting the "+ file + "file in the queue for pos-tagging");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -336,7 +339,6 @@ public class PlagiarismSearch {
 		return passage;
 	}
 
-	
 	
 	public void startPlagiarismSearchWithoutCandret() {
 		App.getLogger().info("Starting plagiarism detection on evaluation documents.");

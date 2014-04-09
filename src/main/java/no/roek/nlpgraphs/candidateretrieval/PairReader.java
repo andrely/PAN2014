@@ -1,5 +1,6 @@
 package no.roek.nlpgraphs.candidateretrieval;
 
+
 import no.roek.nlpgraphs.application.App;
 
 import java.io.BufferedReader;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public class PairReader {
     public static ArrayList<String> getPairs(String filename){
         ArrayList<String> pairsList = new ArrayList<>();
+
 		
         try{
 		
@@ -28,9 +30,13 @@ public class PairReader {
                 pairsList.add(strLine);
 			
             }
+			pairsList.add(strLine);
+			
+		
+
 		
             in.close();
-		
+
         }
         catch (Exception e)
         {
@@ -40,6 +46,7 @@ public class PairReader {
 
         return pairsList;
     }
+
 	
 
 }

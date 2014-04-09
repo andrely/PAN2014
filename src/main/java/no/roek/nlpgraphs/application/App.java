@@ -1,4 +1,4 @@
-package no.roek.nlpgraphs.application;
+package no.roek.nlpgraphs.application
 
 import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
 import de.tudarmstadt.ukp.dkpro.lexsemresource.core.ResourceFactory;
@@ -6,9 +6,7 @@ import de.tudarmstadt.ukp.dkpro.lexsemresource.core.ResourceFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class App {
-
     private static LexicalSemanticResource wordnetEn;
 
     public static synchronized Logger getLogger() {

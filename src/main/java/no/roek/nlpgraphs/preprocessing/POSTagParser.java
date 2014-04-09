@@ -44,6 +44,8 @@ public class POSTagParser {
 	}
 
 	public ParseJob posTagFile(Path file) {
+		
+		System.out.println("Starting the posTagFile method");
 
 		BufferedReader reader = null;
 		try {
@@ -118,7 +120,10 @@ public class POSTagParser {
 			i++;
 		}
         
+<<<<<<< Updated upstream
 		System.out.println("The lemmatised sentence is" + tokens.toArray(new String[0]).toString());
+=======
+>>>>>>> Stashed changes
 		return tokens.toArray(new String[0]);
 	}
 

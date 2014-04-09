@@ -53,17 +53,22 @@ public class EditWeightService {
 		String[] pos1 = lines.get(0).split(" ");
 		String[] pos2 = new String[pos1.length];
 		double[][] costs = new double[pos1.length][pos2.length];
+		System.out.println("");
 
         // TODO sensitive to empty lines in file
 		for (int i = 1; i < lines.size(); i++) {
 			String[] temp = lines.get(i).split(" "); 
+
 			pos2[i-1] = temp[0];
 
             App.getLogger().fine(String.format("Reading POS/DEPREL entities for %s", temp[0]));
 
             for (int j = 0; j < temp.length-1; j++) {
+
 				costs[i-1][j] =  Double.parseDouble(temp[j+1]);
+				//System.out.println("Inside the for-loop"+ " "+ temp[j+1].toString());
 			}
+			
 		}
 
 		for (int i = 0; i < pos1.length; i++) {

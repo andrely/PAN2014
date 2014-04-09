@@ -15,6 +15,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 
 public class SentenceUtils {
 
@@ -60,7 +62,22 @@ public class SentenceUtils {
 
 		return new NLPSentence(filename, number, offset, length, tokens);
 	}
+	
+	
+	//lage en metode som tar inn en databaseobjekt og returnerer en arraylist av Strings (lemmas) E. 
+	public static ArrayList<String> getSentence(BasicDBObject dbObject) {
 
+		ArrayList<String> list = new ArrayList<String>();
+		for (Object temp : (BasicDBList) dbObject.get("tokens")) {
+			BasicDBObject token = (BasicDBObject) temp;
+			String word = token.getString("lemma");
+			list.add(word);
+		}
+		return list;
+
+	}
+	
+	
 	public static WordToken getToken(JsonObject jsonToken) {
 		String word = jsonToken.get("word").getAsString();
 		String lemma = jsonToken.get("lemma").getAsString();

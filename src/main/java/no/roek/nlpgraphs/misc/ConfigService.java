@@ -31,6 +31,7 @@ public class ConfigService {
 	}
 
 	public String getDataDir() {
+              System.out.println("Data dir is being read from ConfigService");
 		return configFile.getProperty("DATA_DIR");
 	}
 

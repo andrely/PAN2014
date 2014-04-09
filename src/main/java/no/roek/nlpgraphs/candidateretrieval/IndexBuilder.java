@@ -7,7 +7,9 @@ import no.roek.nlpgraphs.misc.DatabaseService;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+
 //import edu.stanford.nlp.io.EncodingPrintWriter.out;
+
 
 public class IndexBuilder extends Thread {
 
@@ -39,6 +41,7 @@ public class IndexBuilder extends Thread {
 				}
                 else if(sentenceId.equals("die")) {
 					running = false;
+
 				}
                 else {
                     App.getLogger().fine(String.format("Adding sentence %s", sentenceId));
@@ -49,6 +52,7 @@ public class IndexBuilder extends Thread {
 			}
 
             catch (Exception e) {
+
 				e.printStackTrace();
 			}
 		}

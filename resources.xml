@@ -8,8 +8,9 @@
 	
 	<bean id="wordnet-en" lazy-init="true"
 		class="de.tudarmstadt.ukp.dkpro.lexsemresource.wordnet.WordNetResource">
-		<constructor-arg value="/Users/stinky/Work/PAN2014/WordNet_3x/wordnet_properties.xml"/>
-	</bean>
 
+		<constructor-arg value="/home/perleka14/dkprohome/LexSemResources/wordnet/WordNet_3x/wordnet_properties.xml"/>
+	</bean>
+		
 </beans>
 
