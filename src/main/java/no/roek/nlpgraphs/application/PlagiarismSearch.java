@@ -65,7 +65,7 @@ public class PlagiarismSearch {
 		for (String file : files) {
 			try {
 				posTagQueue.put(file);
-				System.out.println("Putting the "+ file + "file in the queue for pos-tagging");
+                App.getLogger().fine(String.format("Putting the %s file in the queue for pos-tagging", file));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -75,7 +75,7 @@ public class PlagiarismSearch {
 		parseQueue = new LinkedBlockingQueue<>();
 		posTagThreads = new PosTagWorker[posTagCount];
 
-        App.getLogger().info(String.format("Starting %d POS tagging threads.", posTagThreads));
+        App.getLogger().info(String.format("Starting %d POS tagging threads.", posTagCount));
 
 		for (int i = 0; i < posTagCount; i++) {
 			posTagThreads[i] = new PosTagWorker(posTagQueue, parseQueue);
@@ -123,9 +123,8 @@ public class PlagiarismSearch {
 				thread.kill();
 			}
 
-			System.out.println("Preprocessing done. Exiting)");
-
-		}
+            App.getLogger().info("Finished preprocessing.");
+        }
 	}
 
 	public void createIndex() throws InterruptedException {

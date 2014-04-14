@@ -35,11 +35,9 @@ public class POSTagParser {
 	}
 
 	public ParseJob posTagFile(Path file) {
-		
-		System.out.println("Starting the posTagFile method");
-
 		BufferedReader reader = null;
-		try {
+
+        try {
 			ParseJob parseJob = new ParseJob(file);
 
 			reader = new BufferedReader(new InputStreamReader(new FileInputStream(file.toFile())));

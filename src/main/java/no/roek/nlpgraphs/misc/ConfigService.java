@@ -59,7 +59,7 @@ public class ConfigService {
         }
 
         if (options.getSuspDir() != null) {
-            suspDir = options.getSourceDir();
+            suspDir = options.getSuspDir();
         }
         else if (configFile.getProperty("SUSP_DIR") != null) {
             suspDir = configFile.getProperty("SUSP_DIR");

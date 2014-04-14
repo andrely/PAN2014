@@ -35,7 +35,8 @@ public class PosTagWorker extends Thread {
 					ParseJob parseJob = parser.posTagFile(getPath(file));
 					
 					queue.put(parseJob);
-					System.out.println("There are :" + unparsedFiles.size() + " files waiting to be parsed");
+                    App.getLogger().fine(String.format("There are %d files waiting to be parsed",
+                            unparsedFiles.size()));
 				}else {
 					running = false;
 				}
@@ -43,8 +44,8 @@ public class PosTagWorker extends Thread {
 				e.printStackTrace();
 			}
 		}
-		
-		System.out.println("stopping postagger thread: "+Thread.currentThread().getName());
+
+        App.getLogger().info(String.format("stopping postagger thread %s", Thread.currentThread().getName()));
 	}
 	
 	private Path getPath(String filename) {
@@ -55,7 +56,7 @@ public class PosTagWorker extends Thread {
 			folder = App.getGlobalConfig().getSuspDir();
 		}
 		
-		return Paths.get(dataDir + folder + filename);
+		return Paths.get(dataDir, folder, filename);
 		
 	}
 }

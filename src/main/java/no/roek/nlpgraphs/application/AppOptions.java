@@ -3,7 +3,7 @@ package no.roek.nlpgraphs.application;
 import org.kohsuke.args4j.Option;
 
 public class AppOptions {
-    @Option(name = "-p")
+    @Option(name = "-data-dir")
     private String dataDir;
 
     @Option(name = "-source-dir")
