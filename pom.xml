@@ -165,28 +165,6 @@
             <version>0.8.0</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>de.tudarmstadt.ukp.similarity.algorithms</groupId>-->
-            <!--<artifactId>de.tudarmstadt.ukp.similarity.algorithms.core-asl</artifactId>-->
-            <!--<version>1.0.0</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>de.tudarmstadt.ukp.similarity.algorithms</groupId>-->
-            <!--<artifactId>-->
-                <!--de.tudarmstadt.ukp.similarity.algorithms.lsr-asl-->
-            <!--</artifactId>-->
-            <!--<version>1.0.0</version>-->
-        <!--</dependency>-->
-
-        <dependency>
-            <groupId>de.tudarmstadt.ukp.similarity.algorithms</groupId>
-            <artifactId>
-                de.tudarmstadt.ukp.similarity.algorithms.api-asl
-            </artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
         <dependency>
             <groupId>de.tudarmstadt.ukp.similarity.algorithms</groupId>
             <artifactId>de.tudarmstadt.ukp.similarity.algorithms.api-asl</artifactId>
