@@ -58,6 +58,10 @@ public class App {
     }
 
     public static synchronized ConfigService getGlobalConfig() {
+        if (globalConfig == null) {
+            globalConfig = new ConfigService(new AppOptions());
+        }
+
         return globalConfig;
     }
 }
