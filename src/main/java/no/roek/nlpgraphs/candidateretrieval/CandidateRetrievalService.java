@@ -10,7 +10,10 @@ import no.roek.nlpgraphs.misc.DatabaseService;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.index.*;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.similar.MoreLikeThis;
 import org.apache.lucene.store.FSDirectory;
@@ -75,8 +78,6 @@ public class CandidateRetrievalService {
 		try {
 			writer.close();
             index.close();
-		} catch (CorruptIndexException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -96,7 +97,7 @@ public class CandidateRetrievalService {
 		StringBuilder sb = new StringBuilder();
 		for (Object temp : dbTokens) {
 			BasicDBObject dbToken = (BasicDBObject) temp;
-			sb.append(dbToken.getString("lemma")+" ");
+			sb.append(dbToken.getString("lemma")).append(" ");
 		}
 		
 		addSentence(filename, sentenceNumber, sb.toString());
@@ -138,8 +139,6 @@ public class CandidateRetrievalService {
 			Document sentence = getSentence(filename, sentenceNumber, lemmas);
 			try{
 				writer.addDocument(sentence);
-			} catch (CorruptIndexException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}			
@@ -168,8 +167,6 @@ public class CandidateRetrievalService {
 				Document doc = getSentence(nlpSentence);
 				try {
 					writer.addDocument(doc);
-				} catch (CorruptIndexException e) {
-					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -187,7 +184,8 @@ public class CandidateRetrievalService {
 		return doc;
 	}
 
-	public List<PlagiarismPassage> getSimilarSentences(String filename, int retrievalCount, DatabaseService db) throws CorruptIndexException, IOException {
+	public List<PlagiarismPassage> getSimilarSentences(String filename, int retrievalCount, DatabaseService db)
+            throws IOException {
 		/**
 		 * Retrieves the n most similar sentences for every sentence in a file.
 		 */
@@ -256,7 +254,7 @@ public class CandidateRetrievalService {
 	
 	//lage en metode som tar inn en streng og returnerer Idf verdi til strengen ved å bruke indexen
 	
-	public  double idfValueForString(String lemma) throws CorruptIndexException, IOException{
+	public static double idfValueForString(String lemma) throws IOException{
 		
 		double idf = 0;
 		
@@ -266,8 +264,13 @@ public class CandidateRetrievalService {
 		
 					
 		System.out.println("Preparing the index reader");
-		
-        IndexReader ir = IndexReader.open(index);	
+
+        ConfigService cs = App.getGlobalConfig();
+
+        File indexPath = new File(cs.getIndexDir(), cs.getSourceDir());
+        FSDirectory dir = FSDirectory.open(indexPath);
+
+        IndexReader ir = IndexReader.open(dir);
   
 		IndexSearcher is = new IndexSearcher(ir);
 		
@@ -278,6 +281,7 @@ public class CandidateRetrievalService {
 
         is.close();
         ir.close();
+        dir.close();
 		
 		return idf;
 		
@@ -285,9 +289,7 @@ public class CandidateRetrievalService {
 	
 	//lage en metode som tar inn to ArrayLister og returnerer en HashMap med idf verdiene til lemmaene. 
 	
-    public HashMap<String,Double> getIdfMap(ArrayList<String> list1, ArrayList<String> list2) throws CorruptIndexException, IOException{
-		
-			
+    public HashMap<String,Double> getIdfMap(ArrayList<String> list1, ArrayList<String> list2) throws IOException{
 		ArrayList<String> aggregatedArray= new ArrayList<String>();
 		aggregatedArray=list1;
 		

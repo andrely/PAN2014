@@ -1,31 +1,18 @@
 package no.roek.nlpgraphs.misc;
 
-import java.io.File;
-import java.net.UnknownHostException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.BlockingQueue;
-import java.util.regex.Pattern;
-
-import org.json.JSONObject;
-
+import com.mongodb.*;
 import no.roek.nlpgraphs.detailedanalysis.PlagiarismJob;
 import no.roek.nlpgraphs.document.NLPSentence;
 import no.roek.nlpgraphs.document.PlagiarismPassage;
 import no.roek.nlpgraphs.document.WordToken;
 
-import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.Mongo;
-import com.mongodb.WriteConcern;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.BlockingQueue;
+import java.util.regex.Pattern;
 
 public class DatabaseService {
 
@@ -36,10 +23,11 @@ public class DatabaseService {
 	private final String sourceDocsCollection = "source_documents";
 	private final String candidateCollection = "candidate_passages_150";
 	private DBCollection suspiciousColl, sourceColl;
-	
-	public DatabaseService(String dbname, String dblocation) {
+    private Mongo m = null;
+
+    public DatabaseService(String dbname, String dblocation) {
 		try {
-			Mongo m = new Mongo(dblocation);
+            m = new Mongo(dblocation);
 			m.setWriteConcern(WriteConcern.NORMAL);
 			db = m.getDB(dbname);
 			
@@ -91,7 +79,7 @@ public class DatabaseService {
 	public BasicDBObject getSentence(String filename, String sentenceNumber) {
 		DBCollection coll = getSentenceColl(filename);
 		BasicDBObject query = new BasicDBObject("id", filename+"-"+sentenceNumber);
-        
+
 		//System.out.println("File name, sentence number, collection name :" + filename + " "+ sentenceNumber +" "+ coll.getFullName());
 		//TODO: test if only one is returned
 		return (BasicDBObject)coll.findOne(query);
@@ -228,4 +216,8 @@ public class DatabaseService {
 		
 		return strings;
 	}
+
+    public void close() {
+        m.close();
+    }
 }
