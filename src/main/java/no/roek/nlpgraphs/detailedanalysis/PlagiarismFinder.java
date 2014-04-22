@@ -70,7 +70,7 @@ public class PlagiarismFinder {
      * Checks the given sentence pair for plagiarism with the graph edit distance and semantic distance algorithm
      */
     public PlagiarismReference getPlagiarism(String sourceFile, int sourceSentence, String suspiciousFile,
-                                             int suspiciousSentence, double plagiarismThreshold1) {
+                                             int suspiciousSentence, double plagTreshold) {
         String key = sourceFile + sourceSentence + suspiciousFile + suspiciousSentence;
 
         if (plagRefCache.containsKey(key)) {
@@ -78,7 +78,7 @@ public class PlagiarismFinder {
 
             PlagiarismReference plagRef = plagRefCache.get(key);
 
-            if(plagRef.getSimilarity() < plagiarismThreshold1) {
+            if(plagRef.getSimilarity() < plagTreshold) {
                 return plagRef;
             }else {
                 return null;
@@ -112,7 +112,7 @@ public class PlagiarismFinder {
 
                 plagRefCache.put(key, plagRef);
 
-                if(plagRef.getSimilarity() < plagiarismThreshold1) {
+                if(plagRef.getSimilarity() < plagTreshold) {
                     return plagRef;
                 }else {
                     return null;

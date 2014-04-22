@@ -2,7 +2,6 @@ package no.roek.nlpgraphs.detailedanalysis;
 
 import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
 import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
-import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.LexicalSemanticResourceException;
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.MCS06AggregateComparator;
@@ -12,7 +11,7 @@ import no.roek.nlpgraphs.misc.ConfigService;
 import no.roek.nlpgraphs.preprocessing.POSTagParser;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.index.TermEnum;
 import org.apache.lucene.store.FSDirectory;
 
 import java.io.BufferedReader;
@@ -21,62 +20,35 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 
 public class SemanticDistance{
 
-    public static FSDirectory index;
-    public static int frequency;
-
-    private static HashMap<String, Double> idfCache = new HashMap<>();
+    private static TextSimilarityMeasure measure;
 
     /**
      * Returns the semantic distance between two sentences
      */
     public static double getSemanticDistance(ArrayList<String> sentence1, ArrayList<String> sentence2){
-        HashMap<String, Double> hm = null;
+        if (measure == null) {
+            try {
+                LexicalSemanticResource semResource = App.getResource();
+                Entity root = semResource.getRoot();
+                ResnikComparator comp = new ResnikComparator(semResource,root);
+                measure = new MCS06AggregateComparator(comp, getIdfValueMap());
+            } catch (Exception e) {
+                App.getLogger().warning("Unable to initialize semantic distance measure");
+                e.printStackTrace();
 
-        try {
-            hm = getIdfMap(sentence1, sentence2);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+                System.exit(1);
+            }
         }
-
-        LexicalSemanticResource semResource = null;
-
-        try {
-            semResource = App.getResource() ;
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        Entity root = null;
-
-        try {
-            root = semResource.getRoot();
-        }
-        catch (LexicalSemanticResourceException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        TextSimilarityMeasure measure = null;
-
-        try {
-            measure = new ResnikComparator(semResource,root);
-        } catch (LexicalSemanticResourceException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        MCS06AggregateComparator aggregateComp = new MCS06AggregateComparator(measure, hm);
 
         double result = 0;
 
         try {
-            result = aggregateComp.getSimilarity(sentence1, sentence2);
+            result = measure.getSimilarity(sentence1, sentence2);
         }
         catch (SimilarityException e) {
             // TODO Auto-generated catch block
@@ -87,49 +59,36 @@ public class SemanticDistance{
         return 1-result;
     }
 
-    public static double idfValueForString(String lemma) throws IOException{
-        if (idfCache.containsKey(lemma)) {
-            return idfCache.get(lemma);
-        }
-
-        Term term1 = new Term("LEMMAS");
-        Term term2= term1.createTerm(lemma);
+    public static Map<String, Double> getIdfValueMap() throws IOException {
+        HashMap<String, Double> idfValueMap = new HashMap<>();
 
         ConfigService cs = App.getGlobalConfig();
         FSDirectory indexDir = FSDirectory.open(new File(cs.getIndexDir(), cs.getSourceDir()));
         IndexReader ir = IndexReader.open(indexDir);
-        IndexSearcher is = new IndexSearcher(ir);
 
         int numDocs = ir.numDocs();
-        int docFreq = ir.docFreq(term2);
 
-        double idf= 1+ (Math.log(numDocs/(1+docFreq)));
+        TermEnum termEnum = ir.terms();
 
-        is.close();
-        ir.close();
+        while (termEnum.next()) {
+            Term term = termEnum.term();
 
-        idfCache.put(lemma, idf);
-
-        return idf;
-    }
-
-    public static HashMap<String,Double> getIdfMap(ArrayList<String> list1, ArrayList<String> list2)
-            throws IOException {
-        ArrayList<String> termList = new ArrayList<>(list1);
-
-        for (String string:list2){
-            if(!termList.contains(string)){
-                termList.add(string);
+            if (!term.field().equals("LEMMAS")) {
+                continue;
             }
+
+            int docFreq = ir.docFreq(term);
+
+            double idf= 1+ (Math.log(numDocs/(1+docFreq)));
+
+            idfValueMap.put(term.text(), idf);
         }
 
-        HashMap<String,Double> map = new HashMap<>();
+        termEnum.close();
+        ir.close();
+        indexDir.close();
 
-        for (String string: termList){
-            map.put(string, idfValueForString(string));
-        }
-
-        return map;
+        return idfValueMap;
     }
 
     public static void main(String[] args) throws Exception {
