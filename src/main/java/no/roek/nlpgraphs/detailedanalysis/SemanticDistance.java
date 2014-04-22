@@ -115,18 +115,19 @@ public class SemanticDistance{
 
     public static HashMap<String,Double> getIdfMap(ArrayList<String> list1, ArrayList<String> list2)
             throws IOException {
+        ArrayList<String> termList = new ArrayList<>(list1);
+
         for (String string:list2){
-            if(!list1.contains(string)){
-                list1.add(string);
+            if(!termList.contains(string)){
+                termList.add(string);
             }
         }
 
         HashMap<String,Double> map = new HashMap<>();
 
-        for (String string: list1){
+        for (String string: termList){
             map.put(string, idfValueForString(string));
         }
-
 
         return map;
     }
