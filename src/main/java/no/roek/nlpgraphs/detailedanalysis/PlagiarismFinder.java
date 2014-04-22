@@ -6,19 +6,28 @@ import no.roek.nlpgraphs.graph.Graph;
 import no.roek.nlpgraphs.misc.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PlagiarismFinder {
 
+    private final double adjPlagTreshold;
     private double plagiarismThreshold;
+
     private DatabaseService db;
     private Map<String, Double> posEditWeights, deprelEditWeights;
+
+    private Map<String, PlagiarismReference> plagRefCache;
+
+    private long cacheHit;
+    private long uniqueHit;
 
     public PlagiarismFinder(DatabaseService db) {
         this.db = db;
         ConfigService cs = App.getGlobalConfig();
         plagiarismThreshold = cs.getPlagiarismThreshold();
+        adjPlagTreshold = 0.4;
         posEditWeights = EditWeightService.getPosEditWeights(cs.getPosSubFile(), cs.getPosInsdelFile());
         deprelEditWeights = EditWeightService.getDeprelEditWeights(cs.getDeprelSubFile(), cs.getDeprelInsdelFile());
     }
@@ -29,8 +38,14 @@ public class PlagiarismFinder {
 
         App.getLogger().info(String.format("Finding plagiarism in %s", job.getFilename()));
 
+        // create new cache
+        plagRefCache = new HashMap<>();
+        cacheHit = 0;
+        uniqueHit = 0;
+
         for (PlagiarismPassage passage : job.getTextPairs()) {
-           PlagiarismReference ref = getPlagiarism(passage.getTrainFile(), passage.getTrainSentence(), passage.getTestFile(), passage.getTestSentence()); //dette er ikke null
+            PlagiarismReference ref = getPlagiarism(passage.getTrainFile(), passage.getTrainSentence(),
+                    passage.getTestFile(), passage.getTestSentence(), plagiarismThreshold); //dette er ikke null
 
             if (ref != null) {
                 PlagiarismReference adj2 = getAdjacentPlagiarism(ref, passage.getTrainSentence(), passage.getTestSentence(), true);
@@ -46,6 +61,8 @@ public class PlagiarismFinder {
 
         }
 
+        App.getLogger().info(String.format("Cache usage %d / %d", cacheHit, uniqueHit));
+
         return plagReferences;
     }
 
@@ -53,46 +70,69 @@ public class PlagiarismFinder {
      * Checks the given sentence pair for plagiarism with the graph edit distance and semantic distance algorithm
      */
     public PlagiarismReference getPlagiarism(String sourceFile, int sourceSentence, String suspiciousFile,
-                                             int suspiciousSentence) {
-        // TODO possible duplicate work here, cache results?
-        try {
-            Graph source = GraphUtils.getGraph(db.getSentence(sourceFile, sourceSentence));
-            Graph suspicious = GraphUtils.getGraph(db.getSentence(suspiciousFile, suspiciousSentence));
+                                             int suspiciousSentence, double plagiarismThreshold1) {
+        String key = sourceFile + sourceSentence + suspiciousFile + suspiciousSentence;
 
-            ArrayList<String> source_sem = SentenceUtils.getSentence(db.getSentence(sourceFile, sourceSentence));
-            ArrayList<String> suspicious_sem = SentenceUtils.getSentence(db.getSentence(suspiciousFile, suspiciousSentence));
+        if (plagRefCache.containsKey(key)) {
+            cacheHit += 1;
 
-            if(source.getSize() > 80 || suspicious.getSize() > 80) {
-                return null;
-            }
+            PlagiarismReference plagRef = plagRefCache.get(key);
 
-            GraphEditDistance ged = new GraphEditDistance(suspicious, source, posEditWeights, deprelEditWeights);
-
-
-            double semantic_dist= SemanticDistance.getSemanticDistance(source_sem,suspicious_sem);
-
-            double ged_dist = ged.getNormalizedDistance();
-
-
-            double combined_dist = (semantic_dist+ged_dist)/2;
-
-            if(combined_dist < plagiarismThreshold) {
-                return XMLUtils.getPlagiarismReference(source, suspicious, combined_dist, true);
+            if(plagRef.getSimilarity() < plagiarismThreshold1) {
+                return plagRef;
             }else {
                 return null;
             }
         }
-        catch (NullPointerException e) {
-            // TODO Problem: Hides error loading resources etc.
-            return null;
+        else {
+            uniqueHit += 1;
+
+            try {
+                Graph source = GraphUtils.getGraph(db.getSentence(sourceFile, sourceSentence));
+                Graph suspicious = GraphUtils.getGraph(db.getSentence(suspiciousFile, suspiciousSentence));
+
+                ArrayList<String> source_sem = SentenceUtils.getSentence(db.getSentence(sourceFile, sourceSentence));
+                ArrayList<String> suspicious_sem = SentenceUtils.getSentence(db.getSentence(suspiciousFile, suspiciousSentence));
+
+                if(source.getSize() > 80 || suspicious.getSize() > 80) {
+                    return null;
+                }
+
+                GraphEditDistance ged = new GraphEditDistance(suspicious, source, posEditWeights, deprelEditWeights);
+
+
+                double semantic_dist= SemanticDistance.getSemanticDistance(source_sem,suspicious_sem);
+
+                double ged_dist = ged.getNormalizedDistance();
+
+
+                double combined_dist = (semantic_dist+ged_dist)/2;
+
+                PlagiarismReference plagRef = XMLUtils.getPlagiarismReference(source, suspicious, combined_dist, true);
+
+                plagRefCache.put(key, plagRef);
+
+                if(plagRef.getSimilarity() < plagiarismThreshold1) {
+                    return plagRef;
+                }else {
+                    return null;
+                }
+            }
+            catch (NullPointerException e) {
+                // TODO Problem: Hides error loading resources etc.
+                return null;
+            }
         }
+
+
     }
 
     public PlagiarismReference getAdjacentPlagiarism(PlagiarismReference ref, int sourceSentence,
                                                      int suspiciousSentence, boolean ascending) {
         int i= ascending ? 1 : -1;
 
-        PlagiarismReference adjRef = getPlagiarism(ref.getSourceReference(), sourceSentence+i, ref.getFilename(), suspiciousSentence+i);
+        PlagiarismReference adjRef = getPlagiarism(ref.getSourceReference(), sourceSentence+i, ref.getFilename(),
+                suspiciousSentence+i, adjPlagTreshold);
         if(adjRef != null) {
             ref.setOffset(adjRef.getOffset());
             ref.setLength(getNewLength(ref.getOffset(), ref.getLength(), adjRef.getOffset(), i));
