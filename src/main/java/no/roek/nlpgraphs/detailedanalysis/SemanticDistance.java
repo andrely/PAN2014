@@ -28,6 +28,8 @@ public class SemanticDistance{
     public static FSDirectory index;
     public static int frequency;
 
+    private static HashMap<String, Double> idfCache = new HashMap<>();
+
     /**
      * Returns the semantic distance between two sentences
      */
@@ -86,9 +88,11 @@ public class SemanticDistance{
     }
 
     public static double idfValueForString(String lemma) throws IOException{
-        double idf = 0;
+        if (idfCache.containsKey(lemma)) {
+            return idfCache.get(lemma);
+        }
 
-        Term term1 = new Term(lemma);
+        Term term1 = new Term("LEMMAS");
         Term term2= term1.createTerm(lemma);
 
         ConfigService cs = App.getGlobalConfig();
@@ -99,10 +103,12 @@ public class SemanticDistance{
         int numDocs = ir.numDocs();
         int docFreq = ir.docFreq(term2);
 
-        idf= 1+ (Math.log(numDocs/(1+docFreq)));
+        double idf= 1+ (Math.log(numDocs/(1+docFreq)));
 
         is.close();
         ir.close();
+
+        idfCache.put(lemma, idf);
 
         return idf;
     }
