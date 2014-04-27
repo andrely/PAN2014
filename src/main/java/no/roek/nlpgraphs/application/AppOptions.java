@@ -3,6 +3,9 @@ package no.roek.nlpgraphs.application;
 import org.kohsuke.args4j.Option;
 
 public class AppOptions {
+    @Option(name = "-scoretype")
+    private String scoreType;
+
     @Option(name = "-data-dir")
     private String dataDir;
 
@@ -50,5 +53,9 @@ public class AppOptions {
 
     public String getPairsFn() {
         return pairsFn;
+    }
+
+    public String getScoreType() {
+        return scoreType;
     }
 }

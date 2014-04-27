@@ -1,5 +1,7 @@
 package no.roek.nlpgraphs.detailedanalysis;
 
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 import no.roek.nlpgraphs.application.App;
 import no.roek.nlpgraphs.document.PlagiarismPassage;
 import no.roek.nlpgraphs.graph.Graph;
@@ -88,27 +90,30 @@ public class PlagiarismFinder {
             uniqueHit += 1;
 
             try {
-                Graph source = GraphUtils.getGraph(db.getSentence(sourceFile, sourceSentence));
-                Graph suspicious = GraphUtils.getGraph(db.getSentence(suspiciousFile, suspiciousSentence));
+                BasicDBObject srcSent = db.getSentence(sourceFile, sourceSentence);
+                BasicDBObject suspSent = db.getSentence(suspiciousFile, suspiciousSentence);
 
-                ArrayList<String> source_sem = SentenceUtils.getSentence(db.getSentence(sourceFile, sourceSentence));
-                ArrayList<String> suspicious_sem = SentenceUtils.getSentence(db.getSentence(suspiciousFile, suspiciousSentence));
-
-                if(source.getSize() > 80 || suspicious.getSize() > 80) {
+                if (((BasicDBList)srcSent.get("tokens")).size() > 80 ||
+                        ((BasicDBList)suspSent.get("tokens")).size() > 80) {
                     return null;
                 }
 
-                GraphEditDistance ged = new GraphEditDistance(suspicious, source, posEditWeights, deprelEditWeights);
+                double score;
 
+                switch (App.getGlobalConfig().getScoreType()) {
+                    case GED_BASELINE:
+                        score = getGEDSimilarity(srcSent, suspSent);
+                        break;
+                    case ALL:
+                        score = getAllSimilarity(srcSent, suspSent);
+                        break;
+                    default:
+                        throw new RuntimeException();
+                }
 
-                double semantic_dist= SemanticDistance.getSemanticDistance(source_sem,suspicious_sem);
-
-                double ged_dist = ged.getNormalizedDistance();
-
-
-                double combined_dist = (semantic_dist+ged_dist)/2;
-
-                PlagiarismReference plagRef = XMLUtils.getPlagiarismReference(source, suspicious, combined_dist, true);
+                PlagiarismReference plagRef =
+                        XMLUtils.getPlagiarismReference(GraphUtils.getGraph(srcSent), GraphUtils.getGraph(suspSent),
+                                score, true);
 
                 plagRefCache.put(key, plagRef);
 
@@ -191,5 +196,21 @@ public class PlagiarismFinder {
         }
 
         return plagReferences;
+    }
+
+    public double getGEDSimilarity(BasicDBObject srcSent, BasicDBObject suspSent) {
+        Graph source = GraphUtils.getGraph(srcSent);
+        Graph suspicious = GraphUtils.getGraph(suspSent);
+        GraphEditDistance ged = new GraphEditDistance(suspicious, source, posEditWeights, deprelEditWeights);
+        return ged.getNormalizedDistance();
+    }
+
+    public double getAllSimilarity(BasicDBObject srcSent, BasicDBObject suspSent) {
+        double ged_dist = getGEDSimilarity(srcSent, suspSent);
+
+        ArrayList<String> source_sem = SentenceUtils.getSentence(srcSent);
+        ArrayList<String> suspicious_sem = SentenceUtils.getSentence(suspSent);
+        double semantic_dist= SemanticDistance.getSemanticDistance(source_sem, suspicious_sem);
+        return (semantic_dist+ged_dist)/2;
     }
 }

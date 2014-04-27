@@ -2,59 +2,78 @@ package no.roek.nlpgraphs.detailedanalysis;
 
 import de.tudarmstadt.ukp.dkpro.lexsemresource.Entity;
 import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.LexicalSemanticResourceException;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.ResourceLoaderException;
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.MCS06AggregateComparator;
 import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.ResnikComparator;
 import no.roek.nlpgraphs.application.App;
 import no.roek.nlpgraphs.misc.ConfigService;
-import no.roek.nlpgraphs.preprocessing.POSTagParser;
+import no.roek.nlpgraphs.misc.DatabaseService;
+import no.roek.nlpgraphs.misc.SentenceUtils;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.TermEnum;
 import org.apache.lucene.store.FSDirectory;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class SemanticDistance{
+public class SemanticDistance implements Similarity {
 
-    private static TextSimilarityMeasure measure;
+    private TextSimilarityMeasure measure;
+    private DatabaseService dbSrv;
+
+    private static SemanticDistance instance;
+
+    public SemanticDistance(DatabaseService dbSrv) throws LexicalSemanticResourceException, IOException, ResourceLoaderException {
+        LexicalSemanticResource semResource = App.getResource();
+        Entity root = semResource.getRoot();
+        ResnikComparator comp = new ResnikComparator(semResource,root);
+        measure = new MCS06AggregateComparator(comp, getIdfValueMap());
+
+        this.dbSrv = dbSrv;
+    }
+
+    @Override
+    public double getSimilarity(String suspId, String srcId) throws SimilarityException {
+        ArrayList<String> sourceSent = SentenceUtils.getSentence(dbSrv.getSentence(srcId));
+        ArrayList<String> suspSent = SentenceUtils.getSentence(dbSrv.getSentence(suspId));
+
+        return getSimilarity(suspSent, sourceSent);
+    }
+
+    public double getSimilarity(ArrayList<String> sentence1, ArrayList<String> sentence2)
+            throws SimilarityException {
+        return measure.getSimilarity(sentence1, sentence2);
+    }
 
     /**
      * Returns the semantic distance between two sentences
      */
     public static double getSemanticDistance(ArrayList<String> sentence1, ArrayList<String> sentence2){
-        if (measure == null) {
-            try {
-                LexicalSemanticResource semResource = App.getResource();
-                Entity root = semResource.getRoot();
-                ResnikComparator comp = new ResnikComparator(semResource,root);
-                measure = new MCS06AggregateComparator(comp, getIdfValueMap());
-            } catch (Exception e) {
-                App.getLogger().warning("Unable to initialize semantic distance measure");
-                e.printStackTrace();
+        SemanticDistance sd;
 
-                System.exit(1);
-            }
+        try {
+            sd = getInstance();
+        } catch (IOException | ResourceLoaderException | LexicalSemanticResourceException e) {
+            throw new RuntimeException();
         }
 
         double result = 0;
 
         try {
-            result = measure.getSimilarity(sentence1, sentence2);
+            result = sd.getSimilarity(sentence1, sentence2);
         }
         catch (SimilarityException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
 
         return 1-result;
     }
@@ -91,56 +110,12 @@ public class SemanticDistance{
         return idfValueMap;
     }
 
-    public static void main(String[] args) throws Exception {
-        String[] texts = getInputTexts_Semantic(args);
-
-        String sentence1= texts[0];
-        String sentence2= texts[1];
-
-        POSTagParser postag = new POSTagParser();
-
-        String[] postaggedSentence1= postag.postagSentence(sentence1);
-        String[] postaggedSentence2= postag.postagSentence(sentence2);
-
-        ArrayList<String> tokens1 = new ArrayList<>();
-        ArrayList<String> tokens2 = new ArrayList<>();
-
-        for(String string: postaggedSentence1){
-            String[] temp= string.split("\\s+");
-            tokens1.add(temp[2]);
+    private static synchronized SemanticDistance getInstance()
+            throws IOException, ResourceLoaderException, LexicalSemanticResourceException {
+        if (instance == null) {
+            instance = new SemanticDistance(null);
         }
 
-        for(String string: postaggedSentence2){
-            String[] temp= string.split("\\s+");
-            tokens2.add(temp[2]);
-        }
-
-        double result = getSemanticDistance(tokens1, tokens2);
-
-        System.out.println("The result is: "+result);
-    }
-
-    public static String[] getInputTexts_Semantic(String[] args)  {
-        String text1="", text2="";
-        if(args.length!=2) {
-            InputStreamReader converter = new InputStreamReader(System.in);
-            BufferedReader in = new BufferedReader(converter);
-
-
-            try {
-                System.out.println("Enter the first sentence: ");
-                text1 = in.readLine();
-
-                System.out.println("Enter the second sentence: ");
-                text2 = in.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            return args;
-        }
-
-        return new String[] {text1, text2};
+        return instance;
     }
 }

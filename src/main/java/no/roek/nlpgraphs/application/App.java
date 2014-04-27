@@ -2,6 +2,7 @@ package no.roek.nlpgraphs.application;
 
 import de.tudarmstadt.ukp.dkpro.lexsemresource.LexicalSemanticResource;
 import de.tudarmstadt.ukp.dkpro.lexsemresource.core.ResourceFactory;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.ResourceLoaderException;
 import no.roek.nlpgraphs.misc.ConfigService;
 import org.kohsuke.args4j.CmdLineParser;
 
@@ -26,6 +27,7 @@ public class App {
 
         getLogger().info(String.format("Running with maximum %d MB heap space.",
                 Runtime.getRuntime().maxMemory() / (1024 * 1024)));
+        getLogger().info(String.format("Using score type %s", globalConfig.getScoreType()));
 
         PlagiarismSearch ps = new PlagiarismSearch();
 
@@ -46,7 +48,7 @@ public class App {
         return logger;
     }
 
-    public static synchronized LexicalSemanticResource getResource() throws Exception {
+    public static synchronized LexicalSemanticResource getResource() throws ResourceLoaderException {
         if (wordnetEn == null) {
             getLogger().info("Loading WordNet resource");
 

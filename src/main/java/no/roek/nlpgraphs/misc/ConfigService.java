@@ -11,6 +11,20 @@ import java.util.Properties;
 
 
 public class ConfigService {
+    public enum ScoreType {
+        ALL("all"), GED_BASELINE("ged-baseline");
+
+        private final String name;
+
+        ScoreType(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
 
 	private Properties configFile;
 	private InputStream is;
@@ -20,6 +34,8 @@ public class ConfigService {
     private String sourceDir;
     private String suspDir;
     private String pairsFn;
+
+    private ScoreType scoreType;
 
     public ConfigService(AppOptions options) {
         this.options = options;
@@ -79,9 +95,38 @@ public class ConfigService {
             App.getLogger().warning("No evaluationpairs file set. Using pairs.txt");
             pairsFn = "pairs.txt";
         }
+
+        String scoreTypeStr = null;
+
+        if (options.getScoreType() != null) {
+            scoreTypeStr = options.getScoreType();
+        }
+        else if (configFile.getProperty("SCORETYPE") != null) {
+            scoreTypeStr = configFile.getProperty("SCORETYPE");
+        }
+
+        if (scoreTypeStr == null) {
+            scoreType = ScoreType.ALL;
+        }
+        else {
+            switch (scoreTypeStr.toLowerCase()) {
+                case "ged-baseline":
+                    scoreType = ScoreType.GED_BASELINE;
+                    break;
+                case "all":
+                    // fallthrough
+                default:
+                    scoreType = ScoreType.ALL;
+                    break;
+            }
+        }
     }
 
-	public String getParsedFilesDir() {
+    public ScoreType getScoreType() {
+        return scoreType;
+    }
+
+    public String getParsedFilesDir() {
 		return configFile.getProperty("PARSED_DIR");
 	}
 
