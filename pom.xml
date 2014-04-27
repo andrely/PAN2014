@@ -207,6 +207,18 @@
             <version>2.0.26</version>
         </dependency>
 
+        <dependency>
+            <groupId>de.tudarmstadt.ukp.similarity.algorithms</groupId>
+            <artifactId>de.tudarmstadt.ukp.similarity.algorithms.structure-asl</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.tudarmstadt.ukp.similarity.algorithms</groupId>
+            <artifactId>de.tudarmstadt.ukp.similarity.algorithms.style-asl</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <repositories>
@@ -219,6 +231,16 @@
             <id>ukp-oss-snapshot</id>
             <name>DKPro snapshot repository (for 1.5.0 access)</name>
             <url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-snapshots</url>
+        </repository>
+
+        <repository>
+            <id>ukp-oss</id>
+            <url>https://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-ukp-releases-local/</url>
+        </repository>
+
+        <repository>
+            <id>ukp-oss-snapshot2</id>
+            <url>https://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/public-ukp-snapshots-local/</url>
         </repository>
     </repositories>
 </project>
