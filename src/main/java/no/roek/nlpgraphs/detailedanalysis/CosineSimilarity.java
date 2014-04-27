@@ -2,23 +2,28 @@ package no.roek.nlpgraphs.detailedanalysis;
 
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 import no.roek.nlpgraphs.misc.DatabaseService;
-import no.roek.nlpgraphs.misc.SentenceUtils;
 
-import java.util.List;
+import java.util.Collection;
 
-public class CosineSimilarity {
+public class CosineSimilarity extends TextSimilarityBase {
     private de.tudarmstadt.ukp.similarity.algorithms.lexical.string.CosineSimilarity measure;
     private DatabaseService dbSrv;
 
     public CosineSimilarity(DatabaseService dbSrv) {
+        super(dbSrv);
+
         measure = new de.tudarmstadt.ukp.similarity.algorithms.lexical.string.CosineSimilarity();
         this.dbSrv = dbSrv;
     }
 
-    public double getDistance(String suspId, String srcId) throws SimilarityException {
-        List<String> suspSent = SentenceUtils.getSentence(dbSrv.getSentence(suspId));
-        List<String> srcSent = SentenceUtils.getSentence(dbSrv.getSentence(srcId));
+    @Override
+    public double getSimilarity(Collection<String> suspSent, Collection<String> srcSent) {
+        try {
+            return measure.getSimilarity(suspSent, srcSent);
+        } catch (SimilarityException e) {
+            e.printStackTrace();
 
-        return measure.getSimilarity(suspSent, srcSent);
+            return 0.0;
+        }
     }
 }

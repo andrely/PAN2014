@@ -11,8 +11,17 @@ import java.util.Properties;
 
 
 public class ConfigService {
+
+    private String resultsDir;
+
     public enum ScoreType {
-        ALL("all"), GED_BASELINE("ged-baseline");
+        ALL("all"),
+        GED("ged"),
+        FAST("fast"),
+        FAST_GED("fast-ged"),
+        SD("sd"),
+        SD_GED("sd-ged"),
+        FAST_SD_GED("fast-sd-ged");
 
         private final String name;
 
@@ -63,6 +72,16 @@ public class ConfigService {
             App.getLogger().warning("Data directory is not set.");
         }
 
+        if (options.getResultsDir() != null) {
+            resultsDir = options.getResultsDir();
+        }
+        else if (configFile.getProperty("RESULTS_DIR") != null) {
+            resultsDir = configFile.getProperty("RESULTS_DIR");
+        }
+        else {
+            App.getLogger().warning("Result directory is not set.");
+        }
+
         if (options.getSourceDir() != null) {
             sourceDir = options.getSourceDir();
         }
@@ -111,7 +130,22 @@ public class ConfigService {
         else {
             switch (scoreTypeStr.toLowerCase()) {
                 case "ged-baseline":
-                    scoreType = ScoreType.GED_BASELINE;
+                    scoreType = ScoreType.GED;
+                    break;
+                case "fast":
+                    scoreType = ScoreType.FAST;
+                    break;
+                case "sd":
+                    scoreType = ScoreType.SD;
+                    break;
+                case "fast-ged":
+                    scoreType = ScoreType.FAST_GED;
+                    break;
+                case "sd-ged":
+                    scoreType = ScoreType.SD_GED;
+                    break;
+                case "fast-sd-ged":
+                    scoreType = ScoreType.FAST_SD_GED;
                     break;
                 case "all":
                     // fallthrough
@@ -156,7 +190,7 @@ public class ConfigService {
 	}
 
 	public String getResultsDir() {
-		return configFile.getProperty("RESULTS_DIR");
+        return resultsDir;
 	}
 
 	public int getDocumentRecall() {

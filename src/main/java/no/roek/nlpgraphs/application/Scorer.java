@@ -81,7 +81,7 @@ public class Scorer {
                 GraphEditDistance ged = new GraphEditDistance(suspGraph, srcGraph, posEditWeights, deprelEditWeights);
 
                 double gedDist = ged.getNormalizedDistance();
-                double cosDist = cosMeasure.getDistance(suspId, srcId);
+                double cosDist = cosMeasure.getSimilarity(suspId, srcId);
                 double semDist = semMeasure.getSimilarity(suspId, srcId);
 
                 double onGramSim = oneGram.getSimilarity(suspTokens, srcTokens);

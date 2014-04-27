@@ -41,7 +41,7 @@ public class PlagiarismWorker extends Thread {
 					break;
 				}
 				List<PlagiarismReference> plagReferences = plagFinder.findPlagiarism(job);
-				XMLUtils.writeResults(resultsDir+dir, job.getFile().getFileName().toString(), PassageMerger.mergePassages(plagReferences, mergeDist));
+				XMLUtils.writeResults(resultsDir, job.getFile().getFileName().toString(), PassageMerger.mergePassages(plagReferences, mergeDist));
 				concurrencyService.plagJobDone(this, "queue: "+queue.size());
 			} catch (InterruptedException e) {
 				e.printStackTrace();

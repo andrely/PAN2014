@@ -9,6 +9,9 @@ public class AppOptions {
     @Option(name = "-data-dir")
     private String dataDir;
 
+    @Option(name = "-result-dir")
+    private String resultsDir;
+
     @Option(name = "-source-dir")
     private String sourceDir;
 
@@ -41,6 +44,10 @@ public class AppOptions {
 
     public String getDataDir() {
         return dataDir;
+    }
+
+    public String getResultsDir() {
+        return resultsDir;
     }
 
     public String getSourceDir() {

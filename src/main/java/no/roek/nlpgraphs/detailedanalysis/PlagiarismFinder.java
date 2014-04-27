@@ -25,6 +25,21 @@ public class PlagiarismFinder {
     private long cacheHit;
     private long uniqueHit;
 
+    private CosineSimilarity cosMeasure;
+    private NGramSimilarity oneGramMeasure;
+    private NGramSimilarity twoGramMeasure;
+    private NGramSimilarity threeGramMeasure;
+    private NGramSimilarity oneGramJacMeasure;
+    private NGramSimilarity twoGramJacMeasure;
+    private NGramSimilarity threeGramJacMeasure;
+    private StringTilingSimilarity tilingOneMeasure;
+    private StringTilingSimilarity tilingTwoMeasure;
+    private StringTilingSimilarity tilingThreeMeasure;
+    private CommonSubseqSimilarity commonSubseqMeasure;
+    private PairDistSimilarity pairDistMeasure;
+    private OrderingSimilarity orderDistMeasure;
+
+
     public PlagiarismFinder(DatabaseService db) {
         this.db = db;
         ConfigService cs = App.getGlobalConfig();
@@ -32,6 +47,28 @@ public class PlagiarismFinder {
         adjPlagTreshold = 0.4;
         posEditWeights = EditWeightService.getPosEditWeights(cs.getPosSubFile(), cs.getPosInsdelFile());
         deprelEditWeights = EditWeightService.getDeprelEditWeights(cs.getDeprelSubFile(), cs.getDeprelInsdelFile());
+
+        if (cs.getScoreType() == ConfigService.ScoreType.ALL ||
+                cs.getScoreType() == ConfigService.ScoreType.FAST ||
+                cs.getScoreType() == ConfigService.ScoreType.FAST_GED ||
+                cs.getScoreType() == ConfigService.ScoreType.FAST_SD_GED) {
+            cosMeasure = new CosineSimilarity(db);
+            oneGramMeasure = new NGramSimilarity(db, 1, false);
+            twoGramMeasure = new NGramSimilarity(db, 2, false);
+            threeGramMeasure = new NGramSimilarity(db, 3, false);
+
+            oneGramJacMeasure = new NGramSimilarity(db, 1, true);
+            twoGramJacMeasure = new NGramSimilarity(db, 2, true);
+            threeGramJacMeasure = new NGramSimilarity(db, 3, true);
+
+            tilingOneMeasure = new StringTilingSimilarity(db, 1);
+            tilingTwoMeasure = new StringTilingSimilarity(db, 2);
+            tilingThreeMeasure = new StringTilingSimilarity(db, 3);
+
+            commonSubseqMeasure = new CommonSubseqSimilarity(db);
+            pairDistMeasure = new PairDistSimilarity(db);
+            orderDistMeasure = new OrderingSimilarity(db);
+        }
     }
 
 
@@ -101,11 +138,27 @@ public class PlagiarismFinder {
                 double score;
 
                 switch (App.getGlobalConfig().getScoreType()) {
-                    case GED_BASELINE:
+                    case GED:
                         score = getGEDSimilarity(srcSent, suspSent);
                         break;
+                    case SD:
+                        score = getSDSimilarity(srcSent, suspSent);
+                        break;
+                    case FAST:
+                        score = getFastSimilarity(srcSent, suspSent);
+                        break;
+                    case FAST_GED:
+                        score = (getFastSimilarity(srcSent, suspSent) + getGEDSimilarity(srcSent, suspSent)) / 2;
+                        break;
+                    case SD_GED:
+                        score = (getSDSimilarity(srcSent, suspSent) + getGEDSimilarity(srcSent, suspSent)) / 2;
+                        break;
+                    case FAST_SD_GED:
                     case ALL:
-                        score = getAllSimilarity(srcSent, suspSent);
+                        score = (getFastSimilarity(srcSent, suspSent)
+                                + getSDSimilarity(srcSent, suspSent)
+                                + getGEDSimilarity(srcSent, suspSent))
+                                / 3;
                         break;
                     default:
                         throw new RuntimeException();
@@ -205,12 +258,32 @@ public class PlagiarismFinder {
         return ged.getNormalizedDistance();
     }
 
-    public double getAllSimilarity(BasicDBObject srcSent, BasicDBObject suspSent) {
-        double ged_dist = getGEDSimilarity(srcSent, suspSent);
-
+    public double getSDSimilarity(BasicDBObject srcSent, BasicDBObject suspSent) {
         ArrayList<String> source_sem = SentenceUtils.getSentence(srcSent);
         ArrayList<String> suspicious_sem = SentenceUtils.getSentence(suspSent);
-        double semantic_dist= SemanticDistance.getSemanticDistance(source_sem, suspicious_sem);
-        return (semantic_dist+ged_dist)/2;
+
+        return SemanticDistance.getSemanticDistance(source_sem, suspicious_sem);
+    }
+
+    public double getFastSimilarity(BasicDBObject srcSent, BasicDBObject suspSent) {
+        List<String> suspTokens = SentenceUtils.getSentence(suspSent);
+        List<String> srcTokens = SentenceUtils.getSentence(srcSent);
+
+        double cosDist = cosMeasure.getSimilarity(suspTokens, srcTokens);
+        double oneGramSim = oneGramMeasure.getSimilarity(suspTokens, srcTokens);
+        double twoGramSim = twoGramMeasure.getSimilarity(suspTokens, srcTokens);
+        double threeGramSim = threeGramMeasure.getSimilarity(suspTokens, srcTokens);
+        double oneGramJacSim = oneGramJacMeasure.getSimilarity(suspTokens, srcTokens);
+        double twoGramJacSim = twoGramJacMeasure.getSimilarity(suspTokens, srcTokens);
+        double threeGramJacSim = threeGramJacMeasure.getSimilarity(suspTokens, srcTokens);
+        double tilingOneSim = tilingOneMeasure.getSimilarity(suspTokens, srcTokens);
+        double tilingTwoSim = tilingTwoMeasure.getSimilarity(suspTokens, srcTokens);
+        double tilingThreeSim = tilingThreeMeasure.getSimilarity(suspTokens, srcTokens);
+        double commonSubseqSim = commonSubseqMeasure.getSimilarity(suspTokens, srcTokens);
+        double pairdistSim = pairDistMeasure.getSimilarity(suspTokens, srcTokens);
+        double orderDistSim = orderDistMeasure.getSimilarity(suspTokens, srcTokens);
+
+        return (cosDist + oneGramSim + twoGramSim + threeGramSim + oneGramJacSim + twoGramJacSim + threeGramJacSim +
+                tilingOneSim + tilingTwoSim + tilingThreeSim + commonSubseqSim + pairdistSim + orderDistSim) / 13;
     }
 }
