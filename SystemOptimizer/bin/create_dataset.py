@@ -10,7 +10,7 @@ from pymongo import MongoClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from system_optimizer.extract_plagiarism import parse_truth_fn, get_plagiarism
+from system_optimizer.extract_plagiarism import parse_truth_fn, get_plagiarism, parse_subcorpora_dir
 
 
 if __name__ == '__main__':
@@ -32,6 +32,11 @@ if __name__ == '__main__':
             if not os.path.isdir(dir):
                 continue
 
+            subcorpora = parse_subcorpora_dir(os.path.basename(os.path.normpath(dir)))
+
+            if not subcorpora:
+                continue
+
             for fn in glob(os.path.join(dir, '*.xml')):
                 try:
                     susp_fn, src_fn = parse_truth_fn(fn)
@@ -48,7 +53,7 @@ if __name__ == '__main__':
                     susp_fn, src_fn, plag_sents = plag
 
                     for susp_id, src_id in plag_sents:
-                        sys.stdout.write("%s\t%s\tT\n" % (susp_id, src_id))
+                        sys.stdout.write("%s\t%s\t%s\n" % (susp_id, src_id, subcorpora))
 
                         plag_sent_count += 1
 
@@ -80,4 +85,4 @@ if __name__ == '__main__':
                     break
 
         for susp_id, src_id in zip(susp_sents, src_sents):
-            sys.stdout.write("%s\t%s\tF\n" % (susp_id, src_id))
+            sys.stdout.write("%s\t%s\t%s\n" % (susp_id, src_id, 'no-plagiarism'))

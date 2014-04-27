@@ -1,4 +1,5 @@
 import os
+import re
 
 from lxml import etree
 
@@ -57,7 +58,6 @@ def align_sents(susp_sents, src_sents, db):
             return zip(susp_sents[0:-diff], src_sents)
 
 
-
 def get_plagiarism_sents(susp_fn, feature, db):
     src_coll = db['source_sentences']
     susp_coll = db['suspicious_sentences']
@@ -79,3 +79,12 @@ def get_plagiarism(truth_fn, db):
         return None
     else:
         return [(susp_fn, src_fn, get_plagiarism_sents(susp_fn, feat, db)) for feat in features]
+
+
+def parse_subcorpora_dir(dir):
+    m = re.search("^\d\d-(.+)", dir)
+
+    if m:
+        return m.group(1)
+    else:
+        return None
