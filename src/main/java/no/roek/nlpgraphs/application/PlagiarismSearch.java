@@ -263,7 +263,7 @@ public class PlagiarismSearch {
 
 	//lagt til  E. TESTET.POSITIV
 	private void getSentencesFromPairs(BlockingQueue<PlagiarismJob> queue){
-        String pairsFile = "pairs.txt";
+        String pairsFile = App.getGlobalConfig().getPairsFile();
         App.getLogger().info(String.format("Reading evaluation document pairs from %s", pairsFile));
 
         ArrayList<String> pairs = PairReader.getPairs(pairsFile);

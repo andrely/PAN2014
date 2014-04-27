@@ -147,7 +147,7 @@ public class ConfigService {
 		return configFile.getProperty("TRAIN_DIR");
 	}
 
-    public String getPairsDir(){
+    public String getPairsFile(){
         return pairsFn;
     }
 
