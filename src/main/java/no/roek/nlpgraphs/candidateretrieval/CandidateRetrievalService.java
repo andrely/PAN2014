@@ -25,8 +25,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,7 +38,7 @@ public class CandidateRetrievalService {
 	private ConfigService cs;
 
 
-	public CandidateRetrievalService(Path dir)  {
+	public CandidateRetrievalService()  {
 		
 		cs = App.getGlobalConfig();
 		INDEX_DIR = cs.getIndexDir();
@@ -48,13 +46,13 @@ public class CandidateRetrievalService {
         App.getLogger().info(String.format("Opening/creating Lucene index in %s", INDEX_DIR));
 
 		indexWriterConfig = new IndexWriterConfig(Version.LUCENE_36, new StandardAnalyzer(Version.LUCENE_36));
-		File indexDir = new File(INDEX_DIR+dir.getFileName().toString());
+		File indexDir = new File(INDEX_DIR);
 
 		try {
 			if(indexDir.exists()) {
 				index = FSDirectory.open(indexDir);
 			}else {
-				index = createIndex(dir);
+				index = createIndex();
 			}
 
             writer = new IndexWriter(index, indexWriterConfig);
@@ -68,8 +66,8 @@ public class CandidateRetrievalService {
         }
 	}
 
-	private  FSDirectory createIndex(Path dir) throws IOException {
-		Path temp = Paths.get(INDEX_DIR+dir.getFileName().toString());
+	private  FSDirectory createIndex() throws IOException {
+		Path temp = Paths.get(INDEX_DIR);
 		return new NIOFSDirectory(temp.toFile());
 	}
 
@@ -251,62 +249,4 @@ public class CandidateRetrievalService {
 		}
 		return 0;
 	}
-	
-	//lage en metode som tar inn en streng og returnerer Idf verdi til strengen ved å bruke indexen
-	
-	public static double idfValueForString(String lemma) throws IOException{
-		
-		double idf = 0;
-		
-		Term term1 = new Term(lemma);
-		Term term2= term1.createTerm(lemma);
-		String isitterm= term2.getClass().toString();
-		
-					
-		System.out.println("Preparing the index reader");
-
-        ConfigService cs = App.getGlobalConfig();
-
-        File indexPath = new File(cs.getIndexDir(), cs.getSourceDir());
-        FSDirectory dir = FSDirectory.open(indexPath);
-
-        IndexReader ir = IndexReader.open(dir);
-  
-		IndexSearcher is = new IndexSearcher(ir);
-		
-		int numDocs = ir.numDocs();
-		int docFreq = ir.docFreq(term2);
-		
-		idf= 1+ (Math.log(numDocs/(1+docFreq)));
-
-        is.close();
-        ir.close();
-        dir.close();
-		
-		return idf;
-		
-	}
-	
-	//lage en metode som tar inn to ArrayLister og returnerer en HashMap med idf verdiene til lemmaene. 
-	
-    public HashMap<String,Double> getIdfMap(ArrayList<String> list1, ArrayList<String> list2) throws IOException{
-		ArrayList<String> aggregatedArray= new ArrayList<String>();
-		aggregatedArray=list1;
-		
-		for(String string:list2){
-			if(!aggregatedArray.contains(string)){
-				aggregatedArray.add(string);
-			}
-		}
-				
-		HashMap<String,Double> map= new HashMap<String,Double>();	
-		
-		for(String string:aggregatedArray){
-            map.put(string, idfValueForString(string));
-		}
-		
-				
-		return map;
-	}
-	
 }

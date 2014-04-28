@@ -18,7 +18,6 @@ import no.roek.nlpgraphs.preprocessing.ParseJob;
 import no.roek.nlpgraphs.preprocessing.PosTagWorker;
 
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -138,7 +137,7 @@ public class PlagiarismSearch {
 
         progressPrinter = new ProgressPrinter(cursor.count());
 
-        crs = new CandidateRetrievalService(Paths.get(App.getGlobalConfig().getSourceDir()));
+        crs = new CandidateRetrievalService();
 
         App.getLogger().info("Queuing source documents for indexing");
 
@@ -211,7 +210,7 @@ public class PlagiarismSearch {
 		}
 		progressPrinter = new ProgressPrinter(retrievalQueue.size());
 
-		CandidateRetrievalService crs = new CandidateRetrievalService(Paths.get(trainDir));
+		CandidateRetrievalService crs = new CandidateRetrievalService();
 		
 		candretThreads = new SentenceRetrievalWorker[cs.getSentenceRetrievalThreads()];
 		for (int i = 0; i < cs.getSentenceRetrievalThreads() ; i++) {

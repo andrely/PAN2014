@@ -15,6 +15,7 @@ import java.util.Map;
 public class PlagiarismFinder {
 
     private final double adjPlagTreshold;
+    private final int cutoff = 0;
     private double plagiarismThreshold;
 
     private DatabaseService db;
@@ -84,7 +85,7 @@ public class PlagiarismFinder {
 
         for (PlagiarismPassage passage : job.getTextPairs()) {
             PlagiarismReference ref = getPlagiarism(passage.getTrainFile(), passage.getTrainSentence(),
-                    passage.getTestFile(), passage.getTestSentence(), plagiarismThreshold); //dette er ikke null
+                    passage.getTestFile(), passage.getTestSentence(), plagiarismThreshold, cutoff); //dette er ikke null
 
             if (ref != null) {
                 PlagiarismReference adj2 = getAdjacentPlagiarism(ref, passage.getTrainSentence(), passage.getTestSentence(), true);
@@ -109,7 +110,7 @@ public class PlagiarismFinder {
      * Checks the given sentence pair for plagiarism with the graph edit distance and semantic distance algorithm
      */
     public PlagiarismReference getPlagiarism(String sourceFile, int sourceSentence, String suspiciousFile,
-                                             int suspiciousSentence, double plagTreshold) {
+                                             int suspiciousSentence, double plagTreshold, int cutoff) {
         String key = sourceFile + sourceSentence + suspiciousFile + suspiciousSentence;
 
         if (plagRefCache.containsKey(key)) {
@@ -130,9 +131,11 @@ public class PlagiarismFinder {
                 BasicDBObject srcSent = db.getSentence(sourceFile, sourceSentence);
                 BasicDBObject suspSent = db.getSentence(suspiciousFile, suspiciousSentence);
 
-                if (((BasicDBList)srcSent.get("tokens")).size() > 80 ||
-                        ((BasicDBList)suspSent.get("tokens")).size() > 80) {
-                    return null;
+                if (cutoff > 0) {
+                    if (((BasicDBList)srcSent.get("tokens")).size() > cutoff ||
+                            ((BasicDBList)suspSent.get("tokens")).size() > cutoff) {
+                        return null;
+                    }
                 }
 
                 double score;
@@ -190,7 +193,7 @@ public class PlagiarismFinder {
         int i= ascending ? 1 : -1;
 
         PlagiarismReference adjRef = getPlagiarism(ref.getSourceReference(), sourceSentence+i, ref.getFilename(),
-                suspiciousSentence+i, adjPlagTreshold);
+                suspiciousSentence+i, adjPlagTreshold, cutoff);
         if(adjRef != null) {
             ref.setOffset(adjRef.getOffset());
             ref.setLength(getNewLength(ref.getOffset(), ref.getLength(), adjRef.getOffset(), i));

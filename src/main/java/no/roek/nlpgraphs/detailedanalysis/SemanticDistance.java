@@ -6,7 +6,6 @@ import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.LexicalSemanticResource
 import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.ResourceLoaderException;
 import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
-import de.tudarmstadt.ukp.similarity.algorithms.lsr.aggregate.MCS06AggregateComparator;
 import de.tudarmstadt.ukp.similarity.algorithms.lsr.path.ResnikComparator;
 import no.roek.nlpgraphs.application.App;
 import no.roek.nlpgraphs.misc.ConfigService;
@@ -35,7 +34,7 @@ public class SemanticDistance implements Similarity {
         LexicalSemanticResource semResource = App.getResource();
         Entity root = semResource.getRoot();
         ResnikComparator comp = new ResnikComparator(semResource,root);
-        measure = new MCS06AggregateComparator(comp, getIdfValueMap());
+        measure = new FastAggregateComparator(comp, getIdfValueMap());
 
         this.dbSrv = dbSrv;
     }
@@ -82,10 +81,10 @@ public class SemanticDistance implements Similarity {
         HashMap<String, Double> idfValueMap = new HashMap<>();
 
         ConfigService cs = App.getGlobalConfig();
-        FSDirectory indexDir = FSDirectory.open(new File(cs.getIndexDir(), cs.getSourceDir()));
+        FSDirectory indexDir = FSDirectory.open(new File(cs.getIndexDir()));
         IndexReader ir = IndexReader.open(indexDir);
 
-        int numDocs = ir.numDocs();
+        double numDocs = ir.numDocs();
 
         TermEnum termEnum = ir.terms();
 
@@ -96,9 +95,9 @@ public class SemanticDistance implements Similarity {
                 continue;
             }
 
-            int docFreq = ir.docFreq(term);
+            double docFreq = ir.docFreq(term);
 
-            double idf= 1+ (Math.log(numDocs/(1+docFreq)));
+            double idf = Math.log(numDocs / docFreq);
 
             idfValueMap.put(term.text(), idf);
         }
