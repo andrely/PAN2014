@@ -101,7 +101,7 @@ public class XMLUtils {
 
 		FileWriter writer = null;
 		try {
-			writer = new FileWriter(dir + File.pathSeparator + Fileutils.replaceFileExtention(file, "xml"));
+			writer = new FileWriter(dir + File.separator + Fileutils.replaceFileExtention(file, "xml"));
 			outputter.output(doc, writer);
 		} catch (IOException e) {
 			e.printStackTrace();
