@@ -20,11 +20,11 @@ public class IdfTool {
         CmdLineParser parser = new CmdLineParser(options);
         parser.parseArgument(args);
 
-        ConfigService globalConfig = new ConfigService(options);
+        App.setGlobalConfig(new ConfigService(options));
 
         App.getLogger().info(String.format("Running with maximum %d MB heap space.",
                 Runtime.getRuntime().maxMemory() / (1024 * 1024)));
-        App.getLogger().info(String.format("Using index location %s", globalConfig.getIndexDir()));
+        App.getLogger().info(String.format("Using index location %s", App.getGlobalConfig().getIndexDir()));
 
         Map<String, Double> idfValues = SemanticDistance.getIdfValueMap();
 

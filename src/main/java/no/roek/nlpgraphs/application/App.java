@@ -66,4 +66,8 @@ public class App {
 
         return globalConfig;
     }
+
+    public static synchronized void setGlobalConfig(ConfigService globalConfig) {
+        App.globalConfig = globalConfig;
+    }
 }
