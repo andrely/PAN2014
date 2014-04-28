@@ -18,7 +18,8 @@ public class FastAggregateComparator extends TextSimilarityMeasureBase {
     private Cache<Set<String>,Double> cache;
 
     public FastAggregateComparator(TextSimilarityMeasure measure, Map<String, Double> idfValues) {
-        this.measure = measure;
+        initialize(measure);
+
         this.idfValues = idfValues;
         this.idfCutoff = Double.NEGATIVE_INFINITY;
     }
@@ -142,7 +143,12 @@ public class FastAggregateComparator extends TextSimilarityMeasureBase {
             }
         }
 
-        return weightedSum / idfSum;
+        if (weightedSum > 0) {
+            return weightedSum / idfSum;
+        }
+        else {
+            return 0.0;
+        }
     }
 
     @Override
