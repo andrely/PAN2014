@@ -18,6 +18,9 @@ public class AppOptions {
     @Option(name = "-susp-dir")
     private String suspDir;
 
+    @Option(name = "-index-dir")
+    private String indexDir;
+
     @Option(name = "-pairs-fn")
     private String pairsFn;
 
@@ -56,6 +59,10 @@ public class AppOptions {
 
     public String getSuspDir() {
         return suspDir;
+    }
+
+    public String getIndexDir() {
+        return indexDir;
     }
 
     public String getPairsFn() {

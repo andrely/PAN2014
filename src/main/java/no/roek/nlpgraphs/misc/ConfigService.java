@@ -12,8 +12,6 @@ import java.util.Properties;
 
 public class ConfigService {
 
-    private String resultsDir;
-
     public enum ScoreType {
         ALL("all"),
         GED("ged"),
@@ -42,6 +40,8 @@ public class ConfigService {
     private String dataDir;
     private String sourceDir;
     private String suspDir;
+    private String resultsDir;
+    private String indexDir;
     private String pairsFn;
 
     private ScoreType scoreType;
@@ -113,6 +113,17 @@ public class ConfigService {
         else {
             App.getLogger().warning("No evaluationpairs file set. Using pairs.txt");
             pairsFn = "pairs.txt";
+        }
+
+        if (options.getIndexDir() != null) {
+            indexDir = options.getIndexDir();
+        }
+        else if (configFile.getProperty("INDEX_DIR") != null) {
+            indexDir = configFile.getProperty("INDEX_DIR");
+        }
+        else {
+            App.getLogger().warning("No index directory set. Using \"lucene_index\".");
+            indexDir = "lucene_index";
         }
 
         String scoreTypeStr = null;
@@ -234,7 +245,7 @@ public class ConfigService {
 	}
 	
 	public String getIndexDir() {
-		return configFile.getProperty("INDEX_DIR");
+		return indexDir;
 	}
 	
 	public String getWordNetDir() {
