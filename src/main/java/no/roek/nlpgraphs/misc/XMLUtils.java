@@ -1,13 +1,6 @@
 package no.roek.nlpgraphs.misc;
 
 
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import no.roek.nlpgraphs.detailedanalysis.PlagiarismReference;
 import no.roek.nlpgraphs.graph.Graph;
 import org.apache.commons.io.IOUtils;
@@ -16,6 +9,10 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class XMLUtils {
@@ -104,7 +101,7 @@ public class XMLUtils {
 
 		FileWriter writer = null;
 		try {
-			writer = new FileWriter(dir+Fileutils.replaceFileExtention(file, "xml"));
+			writer = new FileWriter(dir + File.pathSeparator + Fileutils.replaceFileExtention(file, "xml"));
 			outputter.output(doc, writer);
 		} catch (IOException e) {
 			e.printStackTrace();
