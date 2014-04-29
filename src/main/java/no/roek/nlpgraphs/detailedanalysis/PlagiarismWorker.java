@@ -16,8 +16,8 @@ public class PlagiarismWorker extends Thread {
 	private BlockingQueue<PlagiarismJob> queue;
 	private PlagiarismFinder plagFinder;
 	private PlagiarismSearch concurrencyService;
-	private String resultsDir, dir;
-	private boolean running;
+	private String resultsDir;
+    private boolean running;
 	private int mergeDist;
 
 	public PlagiarismWorker(BlockingQueue<PlagiarismJob> queue, PlagiarismSearch concurrencyService, DatabaseService db) {
@@ -27,7 +27,6 @@ public class PlagiarismWorker extends Thread {
 		ConfigService cs = App.getGlobalConfig();
         this.resultsDir = cs.getResultsDir();
 		this.mergeDist = cs.getMergeDist();
-		this.dir = "plagthreshold_"+cs.getPlagiarismThreshold()+"/";
 	}
 
 	@Override

@@ -61,6 +61,7 @@ public class SemanticDistance implements Similarity {
         try {
             sd = getInstance();
         } catch (IOException | ResourceLoaderException | LexicalSemanticResourceException e) {
+            e.printStackTrace();
             throw new RuntimeException();
         }
 
