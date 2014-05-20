@@ -19,11 +19,16 @@ public class PairDistSimilarity extends TextSimilarityBase {
     @Override
     public double getSimilarity(Collection<String> suspSent, Collection<String> srcSent) {
         try {
-            return measure.getSimilarity(suspSent, srcSent);
+            return 1 - measure.getSimilarity(suspSent, srcSent);
         } catch (SimilarityException e) {
             e.printStackTrace();
 
-            return 0.0;
+            return 1.0;
         }
+    }
+
+    @Override
+    public String getId() {
+        return "pairdist";
     }
 }

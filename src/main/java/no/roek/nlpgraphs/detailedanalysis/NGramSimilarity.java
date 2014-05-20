@@ -11,9 +11,12 @@ import java.util.Collection;
 public class NGramSimilarity extends TextSimilarityBase {
 
     private final TextSimilarityMeasure measure;
+    private String id;
 
     public NGramSimilarity(DatabaseService dbSrv, int order, boolean jaccard) {
         super(dbSrv);
+
+        this.id = "ngram" + order + (jaccard ? "jacc" : "");
 
         if (jaccard) {
             measure = new WordNGramJaccardMeasure(order);
@@ -26,11 +29,16 @@ public class NGramSimilarity extends TextSimilarityBase {
     @Override
     public double getSimilarity(Collection<String> suspSent, Collection<String> srcSent) {
         try {
-            return measure.getSimilarity(suspSent, srcSent);
+            return 1 - measure.getSimilarity(suspSent, srcSent);
         } catch (SimilarityException e) {
             e.printStackTrace();
 
-            return 0.0;
+            return 1.0;
         }
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 }

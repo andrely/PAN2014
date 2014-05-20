@@ -19,11 +19,22 @@ public class OrderingSimilarity extends TextSimilarityBase {
     @Override
     public double getSimilarity(Collection<String> suspSent, Collection<String> srcSent) {
         try {
-            return measure.getSimilarity(suspSent, srcSent);
+            double sim = measure.getSimilarity(suspSent, srcSent);
+
+            if (Double.isNaN(sim)) {
+                return 1.0;
+            }
+
+            return sim;
         } catch (SimilarityException e) {
             e.printStackTrace();
 
             return 0.0;
         }
+    }
+
+    @Override
+    public String getId() {
+        return "ordering";
     }
 }

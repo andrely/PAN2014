@@ -1,6 +1,8 @@
 package no.roek.nlpgraphs.application;
 
 import com.mongodb.DBCursor;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.LexicalSemanticResourceException;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.ResourceLoaderException;
 import no.roek.nlpgraphs.candidateretrieval.CandidateRetrievalService;
 import no.roek.nlpgraphs.candidateretrieval.IndexBuilder;
 import no.roek.nlpgraphs.candidateretrieval.PairReader;
@@ -18,6 +20,7 @@ import no.roek.nlpgraphs.preprocessing.ParseJob;
 import no.roek.nlpgraphs.preprocessing.PosTagWorker;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -306,14 +309,14 @@ public class PlagiarismSearch {
 	}
 
 	
-	public void startPlagiarismSearchWithoutCandret() {
+	public void startPlagiarismSearchWithoutCandret()
+            throws LexicalSemanticResourceException, ResourceLoaderException, IOException {
 		App.getLogger().info("Starting plagiarism detection on evaluation documents.");
 
         BlockingQueue<PlagiarismJob> plagQueue = new LinkedBlockingQueue<>();
 
-        String dir = "plagthreshold_"+cs.getPlagiarismThreshold()+"/";
-		new File(cs.getResultsDir()+dir).mkdirs();
-		Set<String> filesDone = Fileutils.getFileNames(cs.getResultsDir()+dir, "txt");
+        new File(cs.getResultsDir()).mkdirs();
+		Set<String> filesDone = Fileutils.getFileNames(cs.getResultsDir(), "txt");
 
         App.getLogger().info(String.format("%d result files already generated.", filesDone.size()));
 
@@ -324,7 +327,8 @@ public class PlagiarismSearch {
 		startPlagiarismSearch(plagQueue);
 	}
 
-	private void startPlagiarismSearch(BlockingQueue<PlagiarismJob> plagQueue) {
+	private void startPlagiarismSearch(BlockingQueue<PlagiarismJob> plagQueue)
+            throws IOException, ResourceLoaderException, LexicalSemanticResourceException {
 		plagThreadCount = cs.getPlagiarismThreads();
 		new File(cs.getResultsDir()).mkdirs();
 
@@ -343,6 +347,8 @@ public class PlagiarismSearch {
 		progressPrinter.printProgressbar(text);
 		if(progressPrinter.isDone()) {
 			for(PlagiarismWorker plagWorker : plagThreads) {
+                plagWorker.plagFinder.saveCaches();
+                System.gc();
 				plagWorker.kill();
 			}
 

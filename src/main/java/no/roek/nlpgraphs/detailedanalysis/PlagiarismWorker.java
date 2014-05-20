@@ -1,12 +1,15 @@
 package no.roek.nlpgraphs.detailedanalysis;
 
 
+import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.LexicalSemanticResourceException;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.ResourceLoaderException;
 import no.roek.nlpgraphs.application.App;
 import no.roek.nlpgraphs.application.PlagiarismSearch;
 import no.roek.nlpgraphs.misc.ConfigService;
 import no.roek.nlpgraphs.misc.DatabaseService;
 import no.roek.nlpgraphs.misc.XMLUtils;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
@@ -14,13 +17,14 @@ import java.util.concurrent.BlockingQueue;
 public class PlagiarismWorker extends Thread {
 
 	private BlockingQueue<PlagiarismJob> queue;
-	private PlagiarismFinder plagFinder;
+	public PlagiarismFinder plagFinder;
 	private PlagiarismSearch concurrencyService;
 	private String resultsDir;
     private boolean running;
 	private int mergeDist;
 
-	public PlagiarismWorker(BlockingQueue<PlagiarismJob> queue, PlagiarismSearch concurrencyService, DatabaseService db) {
+	public PlagiarismWorker(BlockingQueue<PlagiarismJob> queue, PlagiarismSearch concurrencyService, DatabaseService db)
+            throws LexicalSemanticResourceException, ResourceLoaderException, IOException {
 		this.queue = queue;
 		this.plagFinder = new PlagiarismFinder(db);
 		this.concurrencyService = concurrencyService;

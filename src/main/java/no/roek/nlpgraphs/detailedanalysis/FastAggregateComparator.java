@@ -4,6 +4,7 @@ import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasure;
 import de.tudarmstadt.ukp.similarity.algorithms.api.TextSimilarityMeasureBase;
 import de.tudarmstadt.ukp.similarity.algorithms.util.Cache;
+import no.roek.nlpgraphs.application.App;
 
 import java.util.*;
 
@@ -29,6 +30,7 @@ public class FastAggregateComparator extends TextSimilarityMeasureBase {
         initialize(measure);
 
         this.idfValues = idfValues;
+        App.getLogger().info(String.format("Using IDF cutoff %.1f", idfCutoff));
         this.idfCutoff = idfCutoff;
     }
 

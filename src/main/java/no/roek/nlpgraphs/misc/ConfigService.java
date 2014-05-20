@@ -4,6 +4,7 @@ import no.roek.nlpgraphs.application.App;
 import no.roek.nlpgraphs.application.AppOptions;
 import org.apache.commons.io.IOUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,8 +19,10 @@ public class ConfigService {
         FAST("fast"),
         FAST_GED("fast-ged"),
         SD("sd"),
+        COS("cos"),
         SD_GED("sd-ged"),
-        FAST_SD_GED("fast-sd-ged");
+        FAST_SD_GED("fast-sd-ged"),
+        ALL_LOGISTIC("all-logistic");
 
         private final String name;
 
@@ -45,6 +48,7 @@ public class ConfigService {
     private String pairsFn;
 
     private ScoreType scoreType;
+    private double[] logisticWeights;
 
     public ConfigService(AppOptions options) {
         this.options = options;
@@ -111,8 +115,8 @@ public class ConfigService {
             pairsFn = configFile.getProperty("PAIRS");
         }
         else {
-            App.getLogger().warning("No evaluationpairs file set. Using pairs.txt");
-            pairsFn = "pairs.txt";
+            App.getLogger().warning("No evaluationpairs file set. Using corpus pairs");
+            pairsFn = dataDir + File.separator + "pairs";
         }
 
         if (options.getIndexDir() != null) {
@@ -140,7 +144,7 @@ public class ConfigService {
         }
         else {
             switch (scoreTypeStr.toLowerCase()) {
-                case "ged-baseline":
+                case "ged":
                     scoreType = ScoreType.GED;
                     break;
                 case "fast":
@@ -148,6 +152,9 @@ public class ConfigService {
                     break;
                 case "sd":
                     scoreType = ScoreType.SD;
+                    break;
+                case "cos":
+                    scoreType = ScoreType.COS;
                     break;
                 case "fast-ged":
                     scoreType = ScoreType.FAST_GED;
@@ -157,6 +164,9 @@ public class ConfigService {
                     break;
                 case "fast-sd-ged":
                     scoreType = ScoreType.FAST_SD_GED;
+                    break;
+                case "all-logistic":
+                    scoreType = ScoreType.ALL_LOGISTIC;
                     break;
                 case "all":
                     // fallthrough
@@ -183,6 +193,7 @@ public class ConfigService {
         return suspDir;
     }
 
+    public String getLemmaFreqFile() { return configFile.getProperty("LEMMA_FREQ_FILE"); }
 
     public String getTestDir() {
 		return configFile.getProperty("TEST_DIR");
@@ -191,6 +202,10 @@ public class ConfigService {
 	public String getTrainDir() {
 		return configFile.getProperty("TRAIN_DIR");
 	}
+
+    public String getCacheDir() {
+        return configFile.getProperty("SCORE_CACHE_DIR");
+    }
 
     public String getPairsFile(){
         return pairsFn;
@@ -301,4 +316,79 @@ public class ConfigService {
         return sourceDir;
     }
 
+    public double getSDIdfCutoff() {
+        try {
+            String valStr = configFile.getProperty("SD_IDF_CUTOFF");
+
+            if (valStr == null) {
+                App.getLogger().info("SD Idf cutoff not configured, using -inf.");
+                return Double.NEGATIVE_INFINITY;
+            }
+
+            return Double.parseDouble(valStr);
+        }
+        catch (NumberFormatException e) {
+            App.getLogger().info("Could not parse SD Idf cutoff, using -inf.");
+            return Double.NEGATIVE_INFINITY;
+        }
+    }
+
+
+    public double[] getLogisticWeights() {
+        if (logisticWeights == null) {
+            String wStr = configFile.getProperty("LOGISTIC_WEIGHTS");
+
+            if (wStr == null) {
+                App.getLogger().warning("Logistic weights not configured.");
+                throw new RuntimeException();
+            }
+
+            String[] wStrSplit = wStr.split(" ");
+            logisticWeights = new double[wStrSplit.length];
+
+            for (int i = 0; i < wStrSplit.length; i++) {
+                try {
+                    logisticWeights[i] = Double.parseDouble(wStrSplit[i]);
+                }
+                catch (NumberFormatException e) {
+                    App.getLogger().warning("Failed to parse Logistic weights.");
+                    throw new RuntimeException();
+                }
+            }
+        }
+
+        return logisticWeights;
+    }
+
+
+    public double adjPlagiarismTreshold() {
+        if (configFile.getProperty("ADJ_PLAGIARISM_TRESHOLD") != null) {
+             try {
+                 return Double.parseDouble(configFile.getProperty("ADJ_PLAGIARISM_TRESHOLD"));
+             }
+             catch (NumberFormatException e) {
+                 App.getLogger().warning("Failed to parse adjacent plagiarism treshold.");
+                 throw new RuntimeException();
+             }
+        }
+        else {
+            return 0.1;
+        }
+    }
+
+
+    public int getCutoff() {
+        if (configFile.getProperty("SENT_CUTOFF") != null) {
+            try {
+                return Integer.parseInt(configFile.getProperty("SENT_CUTOFF"));
+            }
+            catch (NumberFormatException e) {
+                App.getLogger().warning("Failed to parse sentence cutoff.");
+                throw new RuntimeException();
+            }
+        }
+        else {
+            return 100;
+        }
+    }
 }

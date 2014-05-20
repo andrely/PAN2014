@@ -1,6 +1,5 @@
 package no.roek.nlpgraphs.application;
 
-import no.roek.nlpgraphs.detailedanalysis.SemanticDistance;
 import no.roek.nlpgraphs.misc.ConfigService;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -26,7 +25,7 @@ public class IdfTool {
                 Runtime.getRuntime().maxMemory() / (1024 * 1024)));
         App.getLogger().info(String.format("Using index location %s", App.getGlobalConfig().getIndexDir()));
 
-        Map<String, Double> idfValues = SemanticDistance.getIdfValueMap();
+        Map<String, Double> idfValues = App.getIdfValueMap();
 
         List<Double> sortedValues = new ArrayList<>(idfValues.values());
         Collections.sort(sortedValues);

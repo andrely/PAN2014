@@ -2,11 +2,15 @@ package no.roek.nlpgraphs.detailedanalysis;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.LexicalSemanticResourceException;
+import de.tudarmstadt.ukp.dkpro.lexsemresource.exception.ResourceLoaderException;
+import de.tudarmstadt.ukp.similarity.algorithms.api.SimilarityException;
 import no.roek.nlpgraphs.application.App;
 import no.roek.nlpgraphs.document.PlagiarismPassage;
 import no.roek.nlpgraphs.graph.Graph;
 import no.roek.nlpgraphs.misc.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +19,8 @@ import java.util.Map;
 public class PlagiarismFinder {
 
     private final double adjPlagTreshold;
-    private final int cutoff = 0;
+    private final int cutoff;
+    private Similarity ged;
     private double plagiarismThreshold;
 
     private DatabaseService db;
@@ -25,6 +30,8 @@ public class PlagiarismFinder {
 
     private long cacheHit;
     private long uniqueHit;
+
+    private Similarity sd;
 
     private CosineSimilarity cosMeasure;
     private NGramSimilarity oneGramMeasure;
@@ -38,18 +45,19 @@ public class PlagiarismFinder {
     private StringTilingSimilarity tilingThreeMeasure;
     private CommonSubseqSimilarity commonSubseqMeasure;
     private PairDistSimilarity pairDistMeasure;
-    private OrderingSimilarity orderDistMeasure;
 
-
-    public PlagiarismFinder(DatabaseService db) {
+    public PlagiarismFinder(DatabaseService db)
+            throws LexicalSemanticResourceException, ResourceLoaderException, IOException {
         this.db = db;
         ConfigService cs = App.getGlobalConfig();
         plagiarismThreshold = cs.getPlagiarismThreshold();
-        adjPlagTreshold = 0.4;
-        posEditWeights = EditWeightService.getPosEditWeights(cs.getPosSubFile(), cs.getPosInsdelFile());
-        deprelEditWeights = EditWeightService.getDeprelEditWeights(cs.getDeprelSubFile(), cs.getDeprelInsdelFile());
+        adjPlagTreshold = plagiarismThreshold + cs.adjPlagiarismTreshold();
+
+        cutoff = cs.getCutoff();
 
         if (cs.getScoreType() == ConfigService.ScoreType.ALL ||
+                cs.getScoreType() == ConfigService.ScoreType.COS ||
+                cs.getScoreType() == ConfigService.ScoreType.ALL_LOGISTIC ||
                 cs.getScoreType() == ConfigService.ScoreType.FAST ||
                 cs.getScoreType() == ConfigService.ScoreType.FAST_GED ||
                 cs.getScoreType() == ConfigService.ScoreType.FAST_SD_GED) {
@@ -68,7 +76,20 @@ public class PlagiarismFinder {
 
             commonSubseqMeasure = new CommonSubseqSimilarity(db);
             pairDistMeasure = new PairDistSimilarity(db);
-            orderDistMeasure = new OrderingSimilarity(db);
+        }
+
+        if (cs.getScoreType() == ConfigService.ScoreType.ALL ||
+                cs.getScoreType() == ConfigService.ScoreType.SD ||
+                cs.getScoreType() == ConfigService.ScoreType.SD_GED ||
+                cs.getScoreType() == ConfigService.ScoreType.FAST_SD_GED) {
+            sd = new CachedSimilarity(new SemanticDistance(db));
+        }
+
+        if (cs.getScoreType() == ConfigService.ScoreType.ALL ||
+                cs.getScoreType() == ConfigService.ScoreType.GED ||
+                cs.getScoreType() == ConfigService.ScoreType.SD_GED ||
+                cs.getScoreType() == ConfigService.ScoreType.FAST_SD_GED) {
+            ged = new CachedSimilarity(new GEDSimilarity(db));
         }
     }
 
@@ -84,8 +105,14 @@ public class PlagiarismFinder {
         uniqueHit = 0;
 
         for (PlagiarismPassage passage : job.getTextPairs()) {
-            PlagiarismReference ref = getPlagiarism(passage.getTrainFile(), passage.getTrainSentence(),
-                    passage.getTestFile(), passage.getTestSentence(), plagiarismThreshold, cutoff); //dette er ikke null
+            PlagiarismReference ref = null; //dette er ikke null
+            try {
+                ref = getPlagiarism(passage.getTrainFile(), passage.getTrainSentence(),
+                        passage.getTestFile(), passage.getTestSentence(), plagiarismThreshold, cutoff);
+            } catch (SimilarityException e) {
+                e.printStackTrace();
+                continue;
+            }
 
             if (ref != null) {
                 PlagiarismReference adj2 = getAdjacentPlagiarism(ref, passage.getTrainSentence(), passage.getTestSentence(), true);
@@ -110,8 +137,11 @@ public class PlagiarismFinder {
      * Checks the given sentence pair for plagiarism with the graph edit distance and semantic distance algorithm
      */
     public PlagiarismReference getPlagiarism(String sourceFile, int sourceSentence, String suspiciousFile,
-                                             int suspiciousSentence, double plagTreshold, int cutoff) {
+                                             int suspiciousSentence, double plagTreshold, int cutoff) throws SimilarityException {
         String key = sourceFile + sourceSentence + suspiciousFile + suspiciousSentence;
+
+        String suspId = suspiciousFile + "-" + suspiciousSentence;
+        String srcId = sourceFile + "-" + sourceSentence;
 
         if (plagRefCache.containsKey(key)) {
             cacheHit += 1;
@@ -142,25 +172,34 @@ public class PlagiarismFinder {
 
                 switch (App.getGlobalConfig().getScoreType()) {
                     case GED:
-                        score = getGEDSimilarity(srcSent, suspSent);
+                        score = ged.getSimilarity(suspId, srcId);
                         break;
                     case SD:
-                        score = getSDSimilarity(srcSent, suspSent);
+                        score = sd.getSimilarity(suspId, srcId);
+                        break;
+                    case COS:
+                        List<String> suspTokens = SentenceUtils.getSentence(suspSent);
+                        List<String> srcTokens = SentenceUtils.getSentence(srcSent);
+
+                        score = cosMeasure.getSimilarity(srcTokens, suspTokens);
                         break;
                     case FAST:
                         score = getFastSimilarity(srcSent, suspSent);
                         break;
                     case FAST_GED:
-                        score = (getFastSimilarity(srcSent, suspSent) + getGEDSimilarity(srcSent, suspSent)) / 2;
+                        score = (getFastSimilarity(srcSent, suspSent) + ged.getSimilarity(suspId, srcId)) / 2;
                         break;
                     case SD_GED:
-                        score = (getSDSimilarity(srcSent, suspSent) + getGEDSimilarity(srcSent, suspSent)) / 2;
+                        score = (sd.getSimilarity(suspId, srcId) + ged.getSimilarity(suspId, srcId)) / 2;
+                        break;
+                    case ALL_LOGISTIC:
+                        score = getAllLogisticProb(srcSent, suspSent);
                         break;
                     case FAST_SD_GED:
                     case ALL:
                         score = (getFastSimilarity(srcSent, suspSent)
-                                + getSDSimilarity(srcSent, suspSent)
-                                + getGEDSimilarity(srcSent, suspSent))
+                                + sd.getSimilarity(suspId, srcId)
+                                + ged.getSimilarity(suspId, srcId))
                                 / 3;
                         break;
                     default:
@@ -192,8 +231,15 @@ public class PlagiarismFinder {
                                                      int suspiciousSentence, boolean ascending) {
         int i= ascending ? 1 : -1;
 
-        PlagiarismReference adjRef = getPlagiarism(ref.getSourceReference(), sourceSentence+i, ref.getFilename(),
-                suspiciousSentence+i, adjPlagTreshold, cutoff);
+        PlagiarismReference adjRef = null;
+        try {
+            adjRef = getPlagiarism(ref.getSourceReference(), sourceSentence+i, ref.getFilename(),
+                    suspiciousSentence+i, adjPlagTreshold, cutoff);
+        } catch (SimilarityException e) {
+            e.printStackTrace();
+
+            return null;
+        }
         if(adjRef != null) {
             ref.setOffset(adjRef.getOffset());
             ref.setLength(getNewLength(ref.getOffset(), ref.getLength(), adjRef.getOffset(), i));
@@ -268,7 +314,7 @@ public class PlagiarismFinder {
         return SemanticDistance.getSemanticDistance(source_sem, suspicious_sem);
     }
 
-    public double getFastSimilarity(BasicDBObject srcSent, BasicDBObject suspSent) {
+    public double[] getFastSimilarityVector(BasicDBObject srcSent, BasicDBObject suspSent) {
         List<String> suspTokens = SentenceUtils.getSentence(suspSent);
         List<String> srcTokens = SentenceUtils.getSentence(srcSent);
 
@@ -284,9 +330,70 @@ public class PlagiarismFinder {
         double tilingThreeSim = tilingThreeMeasure.getSimilarity(suspTokens, srcTokens);
         double commonSubseqSim = commonSubseqMeasure.getSimilarity(suspTokens, srcTokens);
         double pairdistSim = pairDistMeasure.getSimilarity(suspTokens, srcTokens);
-        double orderDistSim = orderDistMeasure.getSimilarity(suspTokens, srcTokens);
 
-        return (cosDist + oneGramSim + twoGramSim + threeGramSim + oneGramJacSim + twoGramJacSim + threeGramJacSim +
-                tilingOneSim + tilingTwoSim + tilingThreeSim + commonSubseqSim + pairdistSim + orderDistSim) / 13;
+        return new double[]{ cosDist, oneGramSim, twoGramSim, threeGramSim, oneGramJacSim, twoGramJacSim,
+                threeGramJacSim, tilingOneSim, tilingTwoSim, tilingThreeSim, commonSubseqSim, pairdistSim
+        };
+    }
+
+    public double getFastSimilarity(BasicDBObject srcSent, BasicDBObject suspSent) {
+        double[] fastSimVec = getFastSimilarityVector(srcSent, suspSent);
+
+        double sim = 0.0;
+
+        for (double s: fastSimVec) {
+            sim += s;
+        }
+
+        return sim / fastSimVec.length;
+    }
+
+    public double getAllLogisticProb(BasicDBObject srcSent, BasicDBObject suspSent) {
+        double gedSim = getGEDSimilarity(srcSent, suspSent);
+        double sdDim = getSDSimilarity(srcSent, suspSent);
+        double[] fastSimVec = getFastSimilarityVector(srcSent, suspSent);
+
+        double[] f = new double[fastSimVec.length + 2];
+        f[0] = gedSim;
+        f[1] = sdDim;
+
+        for (int i = 2; i < f.length; i++) {
+            f[i] = fastSimVec[i-2];
+        }
+
+        double[] w = App.getGlobalConfig().getLogisticWeights();
+
+        if (w.length != f.length + 1) {
+            App.getLogger().warning("Inconsistent feature/weight vectors.");
+            throw new RuntimeException();
+        }
+
+        double dot = w[f.length];
+
+        for (int i = 0; i < f.length; i++) {
+            dot += w[i]*f[i];
+        }
+
+        return 1 - (1 / (1 + Math.exp(-dot)));
+    }
+
+    public void saveCaches() {
+        if ((ged != null) && (ged.getClass() == CachedSimilarity.class)) {
+            CachedSimilarity cachedSim = (CachedSimilarity) ged;
+            try {
+                cachedSim.saveIfInvalidated();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if ((sd != null) && (sd.getClass() == CachedSimilarity.class)) {
+            CachedSimilarity cachedSim = (CachedSimilarity) sd;
+            try {
+                cachedSim.saveIfInvalidated();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
